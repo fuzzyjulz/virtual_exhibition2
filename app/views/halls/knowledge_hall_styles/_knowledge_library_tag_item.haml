@@ -1,0 +1,6 @@
+%a.knowledgevideo.tagItem{href: content_list_hall_path(@hall.id, type: :tagged_content, tags: tag.id)}
+  .contentThumbnail{style: "position: absolute;"}
+    =render partial: '/_shared/control/constrained_image', locals: {image: tag.thumbnail_image, width: 320, height: 180, alt_tag: tag.name}
+  .titleArea
+    %h3.heading
+      =tag.name

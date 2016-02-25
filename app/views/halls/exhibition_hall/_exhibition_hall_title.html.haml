@@ -1,0 +1,14 @@
+.exhibitionHallTitlePanel
+  .titlePane
+    .navigationIcon
+      - if @prev_hall
+        .previous{'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => @prev_hall.name }
+          = link_to fa_icon("arrow-circle-o-left"), hall_visit_path(@prev_hall)
+    %h1.title
+      = @hall.name
+    .navigationIcon
+      - if @next_hall
+        .next{'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => @next_hall.name}
+          = link_to fa_icon("arrow-circle-o-right"), hall_visit_path(@next_hall)
+  %h2.description
+    = @hall.title

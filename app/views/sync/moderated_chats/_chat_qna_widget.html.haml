@@ -1,0 +1,12 @@
+%li.clearfix.left
+  %span.chat-img.pull-left
+    - from_user_avatar = moderated_chat.from_user.avatar_url if moderated_chat.from_user
+    %img.img-circle{src: from_user_avatar, width: 50}
+  .chat-body.clearfix
+    .header
+      %strong.primary-font
+        = moderated_chat.from_user.name if moderated_chat.from_user
+      %small.text-muted.pull-right
+        %span.glyphicon.glyphicon-time
+        = "#{moderated_chat.created_at}"
+    %p= moderated_chat.message

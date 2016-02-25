@@ -1,0 +1,16 @@
+-message = @job_run_status.message || ""
+-message = message.gsub("\r\n"," ").gsub("\n"," ").gsub("'","\\'")
+-if @job_run_status.completed?
+  -messageType = "success"
+-elsif ["error", "failed"].include?(@job_run_status.status)
+  -messageType = "danger"
+-else
+  -messageType = "info"
+ 
+$.bootstrapGrowl('Job status: #{@job_run_status.status} - #{@job_run_status.pct_complete}% complete, #{message}'
+,  {type: '#{messageType}', align: 'center', width: 'auto' });
+$("#previouslyexportedfile .body").html("");
+-if ["error", "failed", "completed"].include? @job_run_status.status
+  setTimeout(function(){location.reload();},2000);
+-else
+  setTimeout(function(){$.getScript("#{update_job_status_path}");},5000);

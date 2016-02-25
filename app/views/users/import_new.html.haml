@@ -1,0 +1,20 @@
+.row
+  - box 6, "Bulk User Import" do
+    %p The imported file should be entered with a header row eg:
+    %p events, roles, email, password, confirmed_at, first_name, last_name
+    %br
+    %p 
+      %b Columns include: 
+    %p events, roles, email, title, first_name, last_name, position, work_phone, company, provider, state, industry, mobile, origin, booth_closed_message, interested_topic
+    %br
+    %p Rows should be csv values:
+    %p LG 2.0, admin, testing@commstrat.com, password, 2013-10-29 23:55:27, Testing, User
+  
+    =form_tag({action: :import_process}, multipart: true) do
+      %p
+        %input{type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token} 
+      %p
+        %input{type: "file", name: "importFile"}
+      %br
+      %p
+        %input.btn.btn.btn-primary{type: "submit", value:"Import Users"}

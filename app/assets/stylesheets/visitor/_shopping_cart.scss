@@ -1,0 +1,69 @@
+.controller-shopping_carts.action-visit {
+  background: #000;
+  #shoppingCart {
+    @include center-align-block();
+    max-width: 1000px;
+    padding: 20px;
+    .panel {
+      color: white;
+      width: 100%;
+      background: #666;
+      border-color: #999;
+      .panel-heading { 
+        background: #0ad;
+        border-color: #333;
+        .panel-title {
+          color: white;
+          text-shadow: none;
+        }
+      }
+      .redeem.generalButton {
+        margin-top: 30px;
+      }
+      .cart_table {
+        margin: 20px 0 20px 0;
+        color: white;
+        width: 100%;
+        .headerRow {
+          border-bottom: 1px solid white;
+        }
+        td, th {
+          padding: 0 10px;
+        }
+        th {
+          padding-bottom: 5px;
+        }
+        .promoCode {
+          border: 1px dashed #bbb;
+          background: rgba(#fff, 0.3);
+          text-align: center;
+        }
+      }
+    }
+    .removeBtn {
+      margin-top: 5px;
+      a {
+        
+        color: black;
+        background: white;
+        @include border-radius("50%");
+        color: #666;
+        background: white;
+        @include border-radius("50%");
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        font-size: 15px;
+        &:hover {
+          box-shadow: 2px 2px 3px #333;
+          color: black;
+        }
+        .fa {
+          position: absolute;
+          margin-top: 1px;
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}

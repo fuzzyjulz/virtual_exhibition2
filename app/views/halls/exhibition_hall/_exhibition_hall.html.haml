@@ -1,0 +1,8 @@
+#exhibitionHall
+  = render partial: "halls/exhibition_hall/exhibition_hall_title", locals: { :hall => hall }
+  #booths
+    -allBooths = hall.published_booths.includes(:company_logo).includes(template: :thumbnail_image).order(:name)
+    
+    -if allBooths.present?
+      -allBooths.each do |booth|
+        = render partial: "halls/exhibition_hall/booths_booth", locals: { :booth => booth }

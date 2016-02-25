@@ -1,0 +1,57 @@
+- box 12, "Select from list of available events" do
+  %table.table.table-striped.table-bordered.dataTable2
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td
+            - if event.event_favicon.present?
+              .thumbnail
+                =paperclip_image_tag event.event_favicon, :width => "64px", :height => "64px"
+            - elsif event.get_event_logo
+              .thumbnail
+                =paperclip_image_tag event.get_event_logo, :width => "100px", :height => "100px"
+            %br
+            %br
+            = fa_icon 'eye' if event.public_scope?
+            = fa_icon 'eye-slash' if event.private_scope?
+            = event.privacy_label
+          %td 
+            .panel{ :class => event.live? ? "panel-success" : "panel-info" }
+              .panel-heading
+                = link_to event.name, event_path(event)
+                %small
+                  %strong= "(Id: #{event.id})"
+                %span.pull-right
+                  -if event.live?
+                    Live
+                    = fa_icon 'thumbs-o-up'
+                    = fa_icon 'eye' if event.public_scope?
+                    = fa_icon 'eye-slash' if event.private_scope?
+
+              .panel-body
+                %ul
+                  %li
+                    -if event.live?
+                      %strong{style:"color: green;"}
+                        Live
+                    -else
+                      Closed
+                    -if !event.start.present?
+                      ="- no start date"
+                    -elsif event.start.present? and event.start < Time.now
+                      -if event.finish.present? and event.finish >= Time.now
+                        until: 
+                        %strong= event.finish
+                      -else
+                        since:
+                        %strong= event.finish
+                    -else
+                      until:
+                      %strong= event.start
+                  %li 
+                    URL: 
+                    %strong= link_to (event.event_url.blank? ? "none" : event.event_url), event_visit_path(event)
+  -if can? :new, Event
+    .row
+      .col-md-offset-9.col-md-3
+        = link_to 'Create new Event', new_event_path, :class => "btn btn-primary btn-block"

@@ -1,0 +1,17 @@
+- box 6, "Select from list of available events" do
+  %table.table.table-striped.table-bordered.dataTable
+    %thead
+      %tr
+        %th Event name
+        %th Start
+        %th Finish
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td
+            -if event.live? or can?(:_basic_admin, event)
+              = link_to event.name, event.event_url.present? && event.live? ? event.event_url : event_path(event)
+            -else
+              = event.name
+          %td= event.start
+          %td= event.finish

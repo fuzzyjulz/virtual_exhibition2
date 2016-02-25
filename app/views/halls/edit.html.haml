@@ -1,0 +1,7 @@
+.row
+	- box 6, "Edit a hall", { 'Show' => hall_path(@hall), 'Back' => event_halls_path(@hall.event) } do
+		= render partial: 'form', locals: {url: hall_path(@hall)}
+
+	- box 6, "Current template", { 'Templates' => templates_path }, 'inverse' do
+		#template
+			= image_tag @hall.template.uploaded_file.assets, :width => '100%' if @hall.template and @hall.template.uploaded_file

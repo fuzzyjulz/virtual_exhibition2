@@ -1,0 +1,8 @@
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: virtual_test
+  pool: 5
+  host: localhost
+  username: postgres
+  password: 

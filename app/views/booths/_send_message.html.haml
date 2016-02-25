@@ -1,0 +1,10 @@
+#send-message-widget{:title => "Send a message to the booth owner", :style => "display:none;"}
+  .panel
+    .panel-body
+      .alert.alert-info Your contact information will be included from your profile
+      = simple_form_for(@booth, url: booth_send_message_path, method: :post, remote: true) do |f|
+        .form-group
+          %textarea#message.form-control{name: "user[message]", placeholder: "Type your message here..."}
+        %input{type: "hidden", name: "user[id]", value: "#{current_user.id}"}
+        %button.btn.btn-warning.btn-sm{:type => 'submit'} Send
+        = f.error_notification

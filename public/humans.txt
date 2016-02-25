@@ -1,0 +1,17 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+
+/* TEAM */
+  Senior Web Developer: Julian West
+  Site: Commstrat Virtual Conferences
+  Twitter:
+  Location: 574 St Kilda Road, Melbourne, Australia
+
+/* THANKS */
+  Jae Choi & To everyone
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: jQuery
+  Software: Ruby on Rails

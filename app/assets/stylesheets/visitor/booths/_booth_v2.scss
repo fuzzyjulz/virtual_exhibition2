@@ -1,0 +1,298 @@
+body.controller-booths.action-visit.style-booth_v2 {
+  #inner {
+    background: no-repeat center top fixed black;
+  }
+}
+#booth.booth_v2 {
+  color: white;
+  h1 {
+    color: #0cf;
+  }
+  .header {
+    font-size: 24px;
+    margin-top: 0px;
+  }
+  .subheader {
+    font-size: 20px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid white;
+    width: 200px;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+  
+  //Next Previous buttons
+  @mixin arrow {
+    border: 3px solid white;
+    @include border-radius("50%");
+    width: 40px;
+    height: 40px;
+    padding:4px;
+    padding-left:6px;
+    
+    .fa {
+      color: white;
+      font-size: 25px;
+    }
+  }
+  .sponsorNavBtn{
+    display:table-cell;
+    vertical-align: middle;
+    width: 40px;
+    padding: 20px;
+    #arrow{
+      @include arrow;
+    }
+  }
+  #sponsorNext{
+    #arrow{
+      padding-left:7px;
+    }
+  }
+  
+  
+  .titlePanel {
+    background: rgba(#333, .8);
+    .titlePane {
+      @include center-align-block();
+      padding-top: 10px;
+      .title {
+        background: rgba(#000, .6);
+        @include border-radius("5px");
+        color: white;
+        text-align: center;
+        padding: 4px 50px;
+        display: inline-block;
+        letter-spacing: 2px;
+        font-size: 25px;
+      }
+    }
+    .description {
+      color: #0ad;
+      font-size: 20px;
+      text-align: center;
+      padding-bottom: 10px;
+      letter-spacing: 3px;
+      margin-bottom: 0px;
+      margin-top: 30px;
+    }
+  }
+  #boothContainer {
+    @include center-align-block();
+    background: rgba(#000, .8);
+    width: 800px;
+    padding: 45px;
+    @media screen and (max-width: 900px) {
+      width: 90vw;
+    }
+    @media screen and (max-width: 620px) {
+      padding: 20px;
+    }
+    
+    .interBoothNav {
+      @include center-align-block();
+      margin-top: 20px;
+      #otherBooths {
+        height: 160px*3/4 + 2px*2 + 20px;
+        width: 350px;
+        display: table-cell;
+        .boothHolder {
+          background: #666;
+          border: 1px solid #333;
+          @include border-radius("0 0 5px 5px");
+          text-align: center;
+          font-size: 12px;
+          @include transition("background .3s ease-in");
+          &.ui-state-active:hover {
+            background: #08b;
+          }
+          a {
+            color: white;
+            text-decoration: none;
+          }
+          .boothLogo {
+            @include center-align-block();
+            background: white;
+          }
+          .boothText {
+            padding: 3px;
+          }
+        }
+      }
+    }
+    #sponsorBanner {
+      margin-bottom: 50px;
+      .innerBanner {
+        width: 100%;
+        background: white;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        display: table;
+        #sponsorContent {
+          #logoPanel {
+            @media screen and (min-width: 865px) {
+              float: left;
+            }
+            vertical-align: top;
+            #sponsorLogo {
+              height: 250px;
+              width: 250px;
+              padding: 32px 10px 70px 32px;
+              background: white;
+              vertical-align: middle;
+              text-align: center;
+              display: table-cell;
+              .company_logo {
+                max-width: 250px;
+                max-height: 250px;
+              }
+            }
+          }
+          .cartMessage {
+            text-align: center;
+            color: black;
+          }
+          .stockLevel {
+            text-align: center;
+            font-style: italic;
+            color: black;
+            &.alert {
+              color: red; font-weight: bold;
+            }
+          }
+        }
+      }
+      #sponsorAbout {
+        .readMore {
+          display: none;
+          &.collapsed {
+            display: inline;
+          }
+        }
+      }
+    }
+    #aboutUs {
+      padding: 20px 5%;
+      background: #333;
+      h2 {
+        margin-top: 0;
+      }
+      .hideAboutUs {
+        width: 100px;
+      }
+      .aboutUsBanner {
+        @include center-align-block();
+        max-width: 100%;
+      }
+    }
+    #contentArea {
+      margin-top: 40px;
+      text-align: center;
+    }
+    #contentFooter {
+      margin-bottom: 40px;
+      .header {
+        margin-left: 10px;
+        color: #0ad;
+      }
+    }
+  }
+  .buttonGroup {
+    display: table;
+    width: 100%;
+  }
+  .iconGroup {
+    padding: 0 0 20px 22px;
+    position: absolute;
+    margin-top: -66px;
+    @media screen and (max-width: 864px) {
+      margin-top: -430px;
+    }
+    a {
+      color: #999;
+      padding: 0px 10px;
+      text-decoration: none;
+      @include transition("color .4s ease-in");
+      .fa {
+        font-size: 25px;
+      }
+    }
+    a:hover {
+      color: #333;
+    }
+    
+    
+    .tabButton {
+      display: table-cell;
+      background: #555;
+      border-radius: 0 0 10px 10px;
+      padding: 5px 20px;
+      color: white;
+      border: 1px solid #444;
+      border-top: 1px solid #222;
+      @include transition("background-color .4s ease-in");
+      .fa {
+        padding-right: 3px;
+      }
+    }
+  }
+
+  #contentArea {
+    text-align: center;
+    #videoContainer {
+      text-align: inherit;
+      vertical-align: middle;
+      .contentMediaDisplay {
+        margin: 11px;
+      }
+    }
+  }
+  #promotionContainer {
+    @media screen and (min-width: 865px) {
+      float: right;
+    }
+    .content {
+      padding: 30px;
+      img {
+      }
+    }
+    .tickMark {
+      color: darkseagreen;
+      font-size: 25px;
+      display: inline-block;
+      padding-right: 5px;
+    }
+  }
+  #tv-advertisement-video > img {
+    @include center-align-block();
+  }
+  
+  .contentHeader {
+    .subheader {
+      color: #0cf;
+      margin-left: 11px;
+    }
+  }
+  .contentDescription {
+    margin-left: 11px;
+  }
+  
+  #tv-advertisement-video{
+    $aspect: 9.0/16.0;
+    @include content-control();
+    @include content-control-right();
+    @include content-control-content-size(560px, 700px, $aspect);
+    
+    @media screen and (max-width: 900px) {
+      @include content-control-content-size(700px, 700px, $aspect);
+      .content_control .carousel .carousel-indicators .itemThumbnail {
+        display: inline-block;
+      }
+    }
+    @media screen and (max-width: 880px) {
+      @include content-control-content-size(80vw, 80vw, $aspect);
+    }
+  }
+}

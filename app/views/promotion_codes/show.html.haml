@@ -1,0 +1,23 @@
+.row
+  - box 7, "View Promotion Code", {'Edit' => edit_promotion_code_path(@promotion_code), 'Back' => promotion_promotion_codes_path(@promotion_code.promotion)} do
+    %p
+      -if @promotion_code.assigned?
+        %span.labelObjectTag Assigned
+      -if @promotion_code.reserved?
+        %span.labelObjectTag Reserved
+    %p
+      %b Promotion
+      %a.labelObjectTag{href: promotion_path(@promotion_code.promotion)}
+        =@promotion_code.promotion.name
+    %p
+      %b Code
+      =@promotion_code.code
+      
+    %p
+      %b Assigned To
+      -if @promotion_code.assigned_to_user.present?
+        %a.labelObjectTag{href: user_path(@promotion_code.assigned_to_user)}
+          =@promotion_code.assigned_to_user.name_and_email
+    %p
+      %b Reserved Until
+      =@promotion_code.reserved_until

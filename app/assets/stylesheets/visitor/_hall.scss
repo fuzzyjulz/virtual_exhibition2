@@ -1,0 +1,22 @@
+/* Hall
+-------------------------------------------*/
+#hall{
+  display: flex;
+  min-height: 800px;
+
+  .webcasts-box{
+    position: absolute;
+    top: 50px;
+    left: 150px;
+    width: 900px;
+    h3{ color: #333; }
+    li{
+      background: #fff;
+      padding: 5px;
+      margin: 5px 0;
+    }
+    .pagination li{
+      background: transparent;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+.row
+  -if current_user.present? and can? :_event_dashboard, Event
+    = render partial: "event_dashboard", locals: { events: @events } if @events.present?
+  -else
+    = render partial: "events", locals: { events: @events }
+    = render partial: "calendar"

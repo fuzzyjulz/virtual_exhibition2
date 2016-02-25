@@ -1,0 +1,89 @@
+.row
+  -links = {'Edit' => edit_event_path(@event), 'Back' => events_dashboard_path}
+  -links['Visit'] = event_landing_path(@event) if @event.present? and @event.landing_hall.present?
+  - box 8, "Event details", links do
+    %p
+      %b Name:
+      = @event.name
+    %p
+      %b Start:
+      -if @event.start
+        = @event.start.utc
+        UTC
+    %p
+      %b Finish:
+      -if @event.finish
+        = @event.finish.utc 
+        UTC
+    %p
+      %b Event url:
+      = @event.event_url
+    %p
+      %b Landing Hall
+      -if @event.landing_hall.present?
+        %a.labelObjectTag{href: hall_path(@event.landing_hall)}
+          =@event.landing_hall.name
+    %p
+      %b Event Heading:
+      = @event.event_welcome_heading
+    %p
+      %b Event Text:
+      .adminRawText
+        =raw @event.event_welcome_text
+    %p
+      %b Main Tagline:
+      =raw @event.main_tagline
+    %p
+      %b Additional Info:
+      .adminRawText
+        =raw @event.additional_info
+    %p
+      %b Logo:
+      = paperclip_image_tag @event.event_logo
+    %p
+      %b Favicon / Site Icon:
+      = paperclip_image_tag @event.event_favicon
+
+    %p
+      %b Main Sponsor Logo:
+      = paperclip_image_tag @event.main_sponsor_logo
+    %p
+      %b Sign In Image:
+      = paperclip_image_tag @event.event_image
+    %p
+      %b Main Sponsor Link URL:
+      = @event.main_sponsor_url
+    %p
+      %b Main Sponsor Tagline:
+      = @event.sponsor_tagline
+    %p
+      %b Privacy
+      %span.labelObjectTag
+        =@event.privacy_label
+    %p
+      %b Topics Title
+      =@event.topics_title
+    %p
+      %b Keynotes Title
+      =@event.keynotes_title
+    %p
+      %b Signup Panel
+      .adminRawText
+        =raw @event.signup_panel
+    %p
+      %b Can Register?
+      =boolean_YN(@event.can_register)
+    %p
+      %b Authentication Model
+      -@event.auth_models.each do |authModel|
+        %span.labelObjectTag
+          =authModel.name
+
+  - box 4, 'Event associations' do
+    .row
+      - box 12, 'Event structure', { 'Create a new hall' => new_event_hall_path(@event) }, 'inverse' do
+        - @halls.each do |hall|
+          %ul
+            %li
+              = link_to raw("#{fa_icon('home') if hall.main_hall?} #{hall.name}"), hall_path(hall)
+              = render partial: 'hall_structure', locals: { :children_halls => hall.root.descendants.arrange }

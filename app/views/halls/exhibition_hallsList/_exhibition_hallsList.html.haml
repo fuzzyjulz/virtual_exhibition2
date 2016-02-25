@@ -1,0 +1,14 @@
+.exhibitorHallList
+  .hallBorderBox
+    -if @hall.title
+      .title=@hall.title
+    -if @hall.description
+      .description=raw @hall.description
+    -allHalls = Hall.get_hall_by_type(hall.event.halls, :exhibitionHall, :exhibition_hall).order(:name)
+    
+    = render layout: '_shared/control/montage.haml', locals: {montageImages: allHalls} do |montageImage|
+      %a.hallListItem{href: hall_visit_path(montageImage)}
+        =paperclip_image_tag montageImage.thumbnail_image, alt: montageImage.name
+        .overlay
+          .description
+            =montageImage.name

@@ -1,0 +1,57 @@
+.container
+  %h1.page-header
+    Sign up
+  -if @current_event.event_image.present?
+    .row
+      .text-center
+        = paperclip_image_tag @current_event.event_image, alt: @current_event.name
+      %hr
+  .row
+    .tab-content
+      .tab-pane.active{:id => "signup"}
+        .container
+          .panel.panel-default.registrations-container
+            - if @event
+              .panel-heading
+                %h3.panel-title= @event.name
+            .panel-body
+              = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), defaults: { :input_html => { class: "form-control"} } ) do |f|
+                = f.error_notification
+                .row
+                  .col-xs-6.col-sm-6.col-md-6
+                    -if f.object.provider.present?
+                      %label
+                        Email
+                      .email
+                        = f.object.email
+
+                    -else
+                      = f.input :email, :required => true, :autofocus => true, :placeholder => "Email"
+                      
+                    - if f.object.password_required?
+                      = f.input :password, :required => true, :placeholder => "Password"
+                      = f.input :password_confirmation, :required => true, :placeholder => "Password Confirm"
+                    = f.input :position, :required => true, :autofocus => true, :placeholder => "Job Title"
+                    = f.input :company, :required => true, :autofocus => true, :placeholder => "Company Name"
+                    = f.input :terms, :required => true
+                    = raw "I have read and agree to the #{link_to('Terms & Conditions', '/privacy', :target => '_blank')}"
+                  .col-xs-6.col-sm-6.col-md-6
+                    = f.input :title, collection: [:Mr, :Mrs, :Miss, :Ms, :Dr], prompt: "Please select your title"
+                    = f.input :first_name, :required => true, :autofocus => true, :placeholder => "First name"
+                    = f.input :last_name, :required => true, :autofocus => true, :placeholder => "Last name"
+                    = f.input :state, collection: locations, :required => true, :autofocus => true, :placeholder => "Location"
+                    - if @industry_collection.present?
+                      = f.input :industry, collection: @industry_collection, :required => true, :autofocus => true, :label => "What industry sector do you work in?"
+                    - else
+                      = f.input :industry, :required => true, :autofocus => true, :label => "What industry sector do you work in?"
+                    - if @interested_topics_collection.present?
+                      = f.input :interested_topic, collection: @interested_topics_collection, :required => true, :autofocus => true, :label => "What topics are of most interest to you?", :input_html => { :multiple => true, class:"select optional chosen"}
+
+                    = f.input :mobile, :placeholder => "Mobile", :label => "Mobile (optional)"
+                    = f.input :origin, :as => :hidden, :input_html => { :value => params[:origin] } if params[:origin].present?
+                    %br
+                    = f.association :events, :as => :hidden, input_html: { :value => @event.id } if @event.present?
+                %br
+                = f.button :submit, "Sign up", :class => "btn btn-lg btn-primary btn-block"
+            .panel-footer
+              = render "devise/shared/links"

@@ -1,0 +1,202 @@
+body.controller-halls.action-visit.style-exhibition_hall {
+  #inner {
+    background: no-repeat center top fixed black;
+  }
+}
+#exhibitionHall {
+  width: 100%;
+  .exhibitionHallTitlePanel {
+    background: rgba(#333, .8);
+    .titlePane {
+      display: table;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 10px;
+      .title {
+        background: rgba(#000, .6);
+        @include border-radius("5px");
+        color: white;
+        text-align: center;
+        padding: 4px 50px;
+        display: inline-block;
+        letter-spacing: 2px;
+        font-size: 25px;
+      }
+      .navigationIcon {
+        display: inline-block;
+        padding: 0px 20px;
+        a {
+          color: rgba(white, .6);
+          @include transition("color .4s ease-in");
+          &:hover {
+            color: rgba(white, 1);
+          }
+          .fa {
+            font-size: 25px;
+          }
+        }
+      }
+    }
+    .description {
+      color: #0ad;
+      font-size: 20px;
+      text-align: center;
+      padding-bottom: 10px;
+      letter-spacing: 3px;
+      margin-bottom: 0px;
+      margin-top: 30px;
+    }
+  }
+  
+  #booths {
+    width: 80vw;
+    background: rgba(#000, .9);
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 30px;
+    min-height: 80vh;
+    $reflectionHeight: 40px;
+    .booth {
+      display: inline-block;
+      padding: 15px 35px;
+      vertical-align: top;
+      height: 160px*3/4 + $reflectionHeight + 15px*2;
+      a {
+        text-decoration: none;
+      }
+      .boothImagePane {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .boothImage {
+        opacity: .8;
+        background: white;
+        @include transition("opacity .3s ease-in");
+      }
+      .reflection {
+        position: absolute;
+        height: $reflectionHeight;
+        overflow: hidden;
+        background: white;
+        .reflectionImage {
+          transform: scaleY(-1);
+          -webkit-filter: blur(1px);
+        }
+      }
+      .reflectionFade {
+        position: absolute;
+        background: linear-gradient(rgba(#000, .7),rgba(#000, .75),rgba(#000, .85),rgba(#000, .90),rgba(#000, .95),black);
+        width: 160px;
+        height: $reflectionHeight;
+      }
+      .boothDescription {
+        display: inline-block;
+        width: 150px;
+        padding-left: 10px;
+        margin-top: -3px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.5);
+        @include transition("color .3s ease-in");
+      }
+      a:hover {
+        .boothImage {
+          opacity: 1;
+        }
+        .boothDescription {
+          color: rgba(255,255,255,.8);
+        }
+      }
+    }
+  }
+}
+/*
+#exhibitionHall{
+  width: 100%;
+  .exhibition_hall_title{
+    display: table;
+    margin: 0;
+    font-size: 38px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #F3F3F3;
+    margin-left: auto;
+    margin-right: auto;
+    @media screen and (max-width: 650px) {
+      font-size: 20px;
+    }
+    
+    .row {
+      .navigationIcon {
+        margin-left: 20px;
+        margin-right: 20px;
+        width:33px;
+        .next, .previous{
+          a{ color: #fff }
+        }
+      }
+      .navigationIcon {
+        display: inline-block;
+      }
+      .title {
+        font-size: 38px;
+        display: inline-block;
+        padding-left:100px;
+        padding-right:100px;
+        @media screen and (max-width: 650px) {
+          padding-left:30px;
+          padding-right:30px;
+        }
+      }
+      .fuzzy-background{ background-color: rgba(114, 114, 114, 0.5); }
+    }
+  }
+  
+  #booths{
+    margin-top: 160px;
+    text-align: center;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    .booth:hover .company-logo {
+      left: 20px;
+        img {
+          width:140px;
+        }
+    }
+    .booth{
+      width: 180px;
+      height: 190px;
+      display: inline-block;
+      text-align: center;
+      margin-top: 0px;
+      margin-right: 20px;
+      position: relative;
+      .info-centre{
+        top: 80px;
+        position: absolute;
+        img{
+          max-height: 125px;
+          width: 180px;
+        }
+      }
+      .company-logo{
+        img{
+          background: #fff;
+          width: 120px;
+          border: 5px #333333 solid;
+          border-radius: 5px;
+          @include transition("width .3s ease-in");
+        }
+        margin-bottom: 0px;
+        position: absolute;
+        left: 30px;
+        bottom: 75px;
+        @include transition("left .3s ease-in");
+      }
+    }
+  }
+}*/

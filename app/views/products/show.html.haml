@@ -1,0 +1,21 @@
+.row
+  - box 6, "Product details", {:Edit => edit_product_path(@product), :Back => products_path} do
+    %p
+      %b Name:
+      = @product.name
+    %p
+      %b Description:
+      .adminRawText
+        = raw @product.description
+    %p
+      %b Product url:
+      = @product.product_url
+    %p
+      %b Image:
+      = paperclip_image_tag @product.uploaded_file, width: "300px"
+    %p
+      %b Created at:
+      = @product.created_at
+    %p
+      %b Updated at:
+      = @product.updated_at

@@ -1,0 +1,17 @@
+-constraintType = :filled unless defined?(constraintType) and constraintType.present?
+-alignX = :center unless defined?(alignX) and alignX.present?
+-image_tag_method = (defined?(urlType) and urlType == :absolute) ? :absolute_paperclip_image_tag : :paperclip_image_tag
+
+-if constraintType == :fixed
+  -margin_left = (alignX == :left ? "initial" : "auto")
+  -margin_right = (alignX == :right ? "initial" : "auto")
+  .constrainer{style: "width: #{width}px; height: #{height}px; vertical-align: middle; display: table-cell;"}
+    -if image.present?
+      =send(image_tag_method, image, style: "max-width: #{width}px; max-height: #{height}px; margin-left: #{margin_left}; margin-right: #{margin_right}; display: table;", alt: alt_tag)
+    -else
+      =send(image_tag_method, image, noImage:"no_image_available.jpg", style: "max-width: #{width}px; max-height: #{height}px; margin-left: #{margin_left}; margin-right: #{margin_right}; display: table;", alt: alt_tag)
+-elsif constraintType == :filled 
+  .constrainer{style: "width: #{width}px; height: #{height}px; overflow: hidden;"}
+    -if image.present?
+      -image_dimensions = image.scaled_dimensions(width, height)
+      =send(image_tag_method, image, width: image_dimensions[:width], height: image_dimensions[:height], style: "margin-top: #{image_dimensions[:margin_top]}px; margin-left: #{image_dimensions[:margin_left]}px; ", alt: alt_tag)

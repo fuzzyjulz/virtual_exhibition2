@@ -1,0 +1,10 @@
+$('#booth_chat #chat-message').val('');
+$('#booth_rep_chat #chat-message').val('');
+$('#booth_chat .newChat').removeClass("newChat");
+$('#booth_rep_chat .newChat').removeClass("newChat");
+
+setTimeout(function(){
+$("#booth_chat .panel-body").animate({ scrollTop: $('#booth_chat .panel-body .chat').height() }, "slow");
+
+$("#booth_rep_chat .panel-body").animate({ scrollTop: $('#booth_rep_chat .panel-body .chat').height() }, "slow");
+}, 2000);

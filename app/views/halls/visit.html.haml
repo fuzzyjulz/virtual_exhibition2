@@ -1,0 +1,34 @@
+-if @hall.name.present?
+  -content_for :title, "#{@hall.name} - #{@hall.event.name}"
+-content_for :ga_title, "#{@hall.template.template_sub_type}: #{@hall.event.name} - #{@hall.name}"
+#hall
+  -templateSubType = @hall.template.template_sub_type.to_s.gsub(/ /,"_")
+  =render partial: "halls/#{templateSubType}/#{templateSubType}", locals: { :hall => @hall }
+      
+
+-if @hall.main_hall? and @hall.welcome_video_content
+  :javascript
+    function playMainHallVideo() {
+      $.cookie('main_hall_video#{@hall.id}', 'played', { expires: 7 });
+      openModalUrl("#{view_content_path(@hall.welcome_video_content, width: 500, height: 306)}", "", mainHallVidSize);
+    }
+
+    function mainHallVidSize(modal) {
+      var aspect = 306/500;
+      var width;
+      if ($(window).width() > 620) {
+        width = 600;
+      } else {
+        width = $(window).width()*.90;
+      }
+      var height = width*aspect;
+      
+      modalSetContentSize(width,height);
+      return [width,height];
+    }
+
+    $(function(){
+      //if($.cookie('main_hall_video#{@hall.id}') != 'played'){
+        //playMainHallVideo();
+      //}
+    });

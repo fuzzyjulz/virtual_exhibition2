@@ -1,0 +1,81 @@
+#previewPane
+  -if content.featured
+    .featuredRibbon
+      &nbsp;
+  .contentArea
+    .headingBlock
+      .headingContent
+        %h1.title
+          =content.name
+        .subheading
+          =content.short_desc
+    .contentItemArea
+      .contentArea
+        =yield :preview_contentItem
+        -if content.is_video?
+          .videoTimeSection
+            = content.video_duration
+    .textArea
+      .description
+        =raw content.description
+      .additional
+        =yield :preview_additionalInfo
+      -if defined? content.sponsor_booth and content.sponsor_booth
+        .sponsoredBy
+          .sponsoredByText
+            Sponsored By
+          .sponsoredByLogo{tooltip("Visit Sponsor", :bottom)}
+            =link_to paperclip_image_tag(content.sponsor_booth.thumbnail_image), 
+              sponsor_content_path(content), target: '_blank'
+  %br
+  #accordion.panel-group
+    .panel.panel-default
+      .panel-heading{"data-toggle" => "collapse", "data-parent" => "#accordion", href: "#commentsSection"}
+        .panel-title
+          .panelText
+            %a.videoComments
+              Video Comments
+            &nbsp;
+            =render partial: '_shared/control/disqus_comment_count', locals: {category: :content, action: "preview", id: content.id}
+      #commentsSection.panel-collapse.collapse
+        .panel-body
+          =render partial: '_shared/control/disqus', locals: {category: :content, action: "preview", id: content.id, title: content.name}
+  -similarSponsors = content.similar_sponsors
+  -if similarSponsors.present?
+    .otherSponsors
+      .sponsorsContent
+        -similarSponsors.each_pair do |tag, sponsors|
+          .tagSection
+            %h2.title.tagDescription
+              =tag.related_sponsors_text.present? ? tag.related_sponsors_text : "Who can help with #{tag.name}?"
+            -sponsors.each do |sponsor|
+              .sponsor
+                .company-logo
+                  =link_to paperclip_image_tag(sponsor.company_logo), booths_visit_path(sponsor)
+                .companyTagDesc
+                  =raw clensedText(sponsor.related_sponsor_tagline)
+
+:javascript
+  function videoSize() {
+    var aspect = 406/800;
+    var videoAspect = 300/450;
+    var width;
+    if ($(window).width() > 970) {
+      width = 900;
+      setVideoSize(450,450*videoAspect)
+    } else if ($(window).width() > 650) {
+      width = $(window).width()*.90;
+      setVideoSize(width*.4,width*.4*videoAspect)
+    } else {
+      width = $(window).width()*.90;
+      setVideoSize(width*.7,width*.7*videoAspect)
+    }
+    var height = width*aspect;
+    return [width,height];
+  }
+  function setVideoSize(width, height) {
+    $(".contentMediaDisplay > iframe").width(width).height(height);
+  }
+  videoSize();
+  $(window).resize(videoSize);
+  $("#previewPane").parent().css("background-color","transparent");

@@ -1,0 +1,44 @@
+-list_text = ""
+-navigation = {}
+.row
+  -if @hall
+    -list_text = " (showing all booths in #{@hall.name})"
+    -navigation["All Booths"] = event_booths_path(@hall.event)
+  - box 12, "List of booths available#{list_text}", navigation do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th Status
+          %th Name
+          %th Company Website
+          %th Booth owner
+          %th Hall
+      %tbody
+        - @booths.each do |booth|
+          %tr
+            %td
+              = link_to 'View', show_booth_path(booth)
+              |
+              = link_to 'Edit', edit_booth_path(booth)
+              |
+              = link_to 'Destroy', booth_path(booth), :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td
+              %nobr
+                -case booth.publish_status.to_sym
+                  -when :published
+                    = fa_icon 'eye'
+                  -when :draft
+                    = fa_icon 'eye-slash'
+                =booth.publish_status.capitalize
+            %td= booth.name
+            %td= booth.company_website
+            %td
+              -if booth.user
+                %a.labelObjectTag{href: user_path(booth.user)}
+                  = booth.user.name
+            %td
+              %a.labelObjectTag{href: hall_path(booth.hall)}
+                = booth.hall.name
+
+    = link_to 'New booth', new_path, :class => "btn btn-primary"

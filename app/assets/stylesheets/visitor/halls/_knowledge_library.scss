@@ -1,0 +1,404 @@
+body.controller-halls.action-visit.style-knowledge_knowledgeLibrary {
+  background: black;
+}
+
+.knowledgeHall {
+  width: 100%;
+  background: black;
+
+  .loading {
+    margin: 50px;
+    width: 100%;
+    text-align: center;
+  }
+  .featuredRibbon {
+    background: asset_url("featured_ribbon.png");
+    width: 148px;
+    height: 105px;
+    z-index: 100;
+    position:absolute;
+  }
+
+  .featuredVideos {
+    .featuredBanner {
+      background: #333;
+      overflow: hidden;
+      
+      #featured-content-carousel {
+        float: left;
+        width: 100%;
+        z-index: 99;
+        
+        .slider-container{
+          position: relative;
+          .carousel-inner{
+            @media (max-width: 1000px) {
+              height: 700px;
+            }
+          }
+          .carousel-control{
+            background-image: none;
+            width:50px;
+            margin-left: 50px;
+            margin-right: 50px;
+            @media (max-width: 620px) {
+              margin-left: 20px;
+              margin-right: 20px;
+            }
+            span{
+              left: 32%;
+              top: 40%;
+              @media (max-width: 620px) {
+                top: 23%;
+              }
+            }
+          }
+          .item {
+            .backgroundImage {
+              position: absolute;
+              z-index: -1;
+              -webkit-filter: blur(10px);
+              opacity: .4;
+            }
+          }
+        }
+      }
+      
+      .featuredContentItem {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        width: 800px;
+        height: 400px;
+        color: white;
+        @media (max-width: 1000px) {
+          width: 600px;
+        }
+        @media (max-width: 800px) {
+          margin-top: 60px;
+        }
+        @media (max-width: 620px) {
+          width: 400px;
+          height: 700px;
+        }
+        .title {
+          margin-top: 20px;
+          margin-bottom: 10px;
+          font-size: 30px;
+          text-transform: uppercase;
+          text-shadow: none;
+        }
+        .contentImage {
+          float: left;
+          @media (max-width: 1000px) {
+            float: inherit;
+            margin-right: auto;
+            margin-left: auto;
+            display: table;
+          }
+          margin-right: 25px;
+          .contentAction {
+            position: absolute;
+            width: 120px;
+            margin-top: 100px;
+            margin-left: 180px;
+            text-align: center;
+            color: white;
+            opacity: .8;
+            font-size: 50px;
+            padding-left: 10px;
+            color: white;
+            @include transition("background .3s ease-in");
+            @media (max-width: 620px) {
+              width: 80px;
+              margin-top: 40px;
+              font-size: 30px;
+              padding-left: 5px;
+              margin-left: 87px;
+            }
+          }
+          .contentImagePreview {
+            width: 480px;
+            text-align: center;
+            @media (max-width: 620px) {
+              width: 240px;
+            }
+            img {
+              width: inherit;
+              max-width: 480px;
+              @media (max-width: 620px) {
+                max-width: 240px;
+                height: 240px * (9.0 / 16.0);
+              }
+            }
+          }
+        }
+        
+        .contentImage:hover {
+          .contentAction {
+            background: #59f;
+          }
+        }
+        
+        .subtitle {
+          margin-bottom: 10px;
+          font-size: 25px;
+        }
+        .description {
+          font-size: 15px;
+        }
+        .watchButton {
+          width: 200px;
+          display: inline-block;
+        }
+      }
+    }
+    .featuredBanner {
+      height: 0px;
+      @include transition("height 1s ease-in");
+    }
+    .featuredBanner.active {
+      height: 400px;
+      @media (max-width: 1000px) {
+        height: 700px;
+      }
+    }
+  }
+  
+  .videoPreview {
+    @include transition("all 1s ease-in");
+    z-index: 101;
+    .featuredRibbon {
+      margin-top: -40px;
+      margin-left: -50px;
+      @media (max-width: 800px) {
+        margin-top: -25px;
+        margin-left: -25px;
+      }
+    }
+  }
+  
+  .knowledgeCenterNavigation {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    .knowledgeCenterNavItem {
+      color: white;
+      display: inline-block;
+      text-decoration: none;
+      margin-right: 20px;
+      margin-left: 20px;
+      
+      .item {
+        display: inline-block;
+        font-size: 25px;
+        border-bottom: 4px solid transparent;
+        text-transform: uppercase;
+        vertical-align: top;
+        margin: 0;
+        margin-right: 3px;
+        padding-top: 5px;
+        @include transition("border 1s ease-in");
+      }
+      .itemCount {
+        font-size: 12px;
+        display: inline-block;
+        top: 0px;
+        padding-top: 13px;
+        vertical-align: top;
+        color: #999
+      }
+    }
+    
+    .knowledgeCenterNavItem.active {
+      .item {
+        border-bottom: 4px solid #59f;
+      }
+    }
+  }
+  .knowledgeCenter {
+    margin-top: 10px;
+    .contentArea {
+      text-align: center;
+    }
+    .knowledgevideo {
+      display: inline-block;
+      margin:20px;
+      width: 320px;
+      height: 180px;
+      .contentThumbnail {
+        position: absolute;
+      }
+    }
+    .contentListTitle {
+      font-size: 20px;
+      text-transform: uppercase;
+      margin-left: auto;
+      margin-right: auto;
+      display: table;
+      color: white;
+      margin-top: 30px;
+      border-bottom: 3px solid #59f;
+    }
+    .contentArea.not-ie {
+      //For some reason IE doesn't like the transitions and it displays as a lag on the mouseovers. This applies it to only non IE browsers.
+      .contentItem {
+        .titleArea {
+          @include transition("background-color .3s ease-in");
+        }
+        .contentAction {
+          @include transition("opacity .3s ease-in");
+        }
+      }
+      
+    }
+    .contentItem {
+      .titleArea {
+        position: absolute;
+        width: 320px;
+        background: rgba(0,0,0,.5);
+        opacity: .8;
+        color: white;
+        height: 45px;
+        margin-top: 135px;
+        padding: 0 5px 0 5px;
+        .heading {
+          font-size: 16px;
+          margin: 3px;
+        }
+        .subheading {
+          font-size: 12px;
+          display: none;
+        }
+      }
+      .contentAction {
+        position: absolute;
+        width: 80px;
+        margin-top: 65px;
+        opacity: .0;
+        font-size: 35px;
+        margin-left: 120px;
+        color: white;
+        background: #59f;
+        
+      }
+      .videoTimeSection {
+        position: absolute;
+        margin-top: 158px;
+        width: 320px;
+        .timeDisplay {
+          margin-left: auto;
+          display: table;
+          color: white;
+          text-shadow: 1px 1px 1px #666;
+          margin-right: 3px;
+          font-size: 11px;
+          background: rgba(0,0,0,.4);
+          padding: 2px 5px;
+        }
+      }
+      .contentThumbnail {
+        .fa {
+          padding-top: 20px;
+          padding-bottom: 2;
+          width: 320px;
+          height: 180px;
+          text-align: center;
+          font-size: 150px;
+          text-shadow: 4px 4px 2px #666;
+          color: #fff;
+          background: black;
+        }
+      }
+    }
+    .contentItem:hover {
+      .titleArea {
+        background: rgba(0,0,0,.9);
+      }
+      .contentAction {
+        opacity: .8;
+      }
+    }
+  
+    .tagItem {
+      .titleArea {
+        position: absolute;
+        width: 320px;
+        height: 180px;
+        @include transition("background-color .3s ease-in");
+        .heading {
+          margin: 3px;
+          display: block;
+          position: absolute;
+          right: 6px;
+          bottom: 3px;
+          text-shadow: 0px 0px 4px #000;
+          color: white;
+          @include transition("color .3s ease-in, text-shadow .3s ease-in");
+        }
+      }
+      .contentThumbnail {
+        position: absolute;
+        .constrainer {
+          width: 320px;
+          height: 180px;
+          overflow: hidden;
+        }
+      }
+    }
+    .tagItem:hover .titleArea {
+      background: white;
+      opacity: .8;
+      .heading {
+        color: black;
+        text-shadow: none;
+      }
+    }
+    
+    .flagSection {
+      position: absolute;
+      margin-top: 153px;
+      width:320px;
+      .flags {
+        margin-right:auto;
+        display: table;
+        padding-left: 4px;
+        padding-right: 3px;
+        .commentsBubble {
+          padding-left: 3px;
+          padding-right: 3px;
+        }
+        .flag {
+          width: 20px;
+          height: 24px;
+          @include border_radius("50%");
+          display: inline-block;
+          vertical-align: middle;
+          .fa {
+            display: block;
+          }
+        }
+        .lockedContent {
+          padding-top: 3px;
+          color: black;
+          font-size: 16px;
+          @include text-stroke(".5px #ccc");
+        }
+        .featuredContent {
+          padding-top: 2px;
+          color: orange;
+          font-size: 15px;
+          @include text-stroke(".5px black");
+        }
+        .newContent {
+          padding-top: 2px;
+          width: 15px;
+          font-size: 17px;
+          color: goldenrod;
+          @include text-stroke(".5px black");
+        }
+      }
+    }
+  }
+}

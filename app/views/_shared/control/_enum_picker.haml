@@ -1,0 +1,12 @@
+=f.input field, collection: enum_type::LABELS, :input_html => {onchange: "onUpdateSelectedFields('#{field}', this.value);"}
+-enum_type::ALL_ITEMS.each do |enum_item|
+  .selectableFields{class: field, style: "display: none;", field => enum_item.id}
+    =yield enum_item.id.to_s
+.selectedFields{class: field}
+:javascript
+  if ("#{resource.send(field)}" != "") {
+    onUpdateSelectedFields("#{field}","#{resource.send(field)}");
+  }
+  function onUpdateSelectedFields(field, fieldValue) {
+    $(".selectedFields."+field).html($(".selectableFields."+field+"["+field+"='"+fieldValue+"']").html());
+  }

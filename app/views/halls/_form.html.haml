@@ -1,0 +1,24 @@
+= simple_form_for(@hall, :url => url, :html => { :class => "form-horizontal" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :title
+    = f.input :description, :input_html => { class: "cleditor" }
+    = f.input :publish_status, collection: PublishStatus::LABELS, :input_html => { class: 'chosen' }, include_blank: false
+    = simple_form_image_paperclip(f, :event_logo)
+    = simple_form_image_paperclip(f, :background_image)
+    = f.association :welcome_video_content, collection: @event.contents, input_html: {class: "chosen", 
+        data: {linked: "select", 
+               linked_parent_id: "hall_event_id",
+               linked_collection_path: event_contents_path(":event_id:")}}, include_blank: true
+    = f.association :template, prompt: "Choose a template", collection: get_templates, :input_html => { class: "chosen" }
+    = f.association :event, selected: @event.id, :input_html => { class: "chosen" }
+    .form-group
+      = f.label :parent_id, :label => "Parent Hall", :class => "col-lg-4 control-label"
+      .col-lg-8
+        = f.input :parent_id, collection: Hall.where(:event_id => @hall.event_id).order(:name), :label_method => :name, :value_method => :id, :label => false, include_blank: true, class: "form-control"
+    = simple_form_image_paperclip(f, :thumbnail_image)
+
+  .form-actions
+    = f.button :submit, :class => "btn btn-primary"

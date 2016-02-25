@@ -1,0 +1,81 @@
+-event = @hall.event
+-if event.event_welcome_text.present?
+  -content_for :description, no_html(event.event_welcome_text)
+#mainHall_v1
+  .intro.section
+    %h1.title
+      =event.event_welcome_heading
+    .eventSection
+      .eventLogo
+        = paperclip_image_tag event.get_event_logo, alt: event.name
+        
+      -if event.main_sponsor_logo.present?
+        .sponsorSection
+          .tagline
+            =event.sponsor_tagline
+          .sponsorLogo
+            -if event.main_sponsor_url
+              = link_to paperclip_image_tag(event.main_sponsor_logo), event.main_sponsor_url, :target => "_blank"
+            -else
+              = paperclip_image_tag(event.main_sponsor_logo)
+    .eventDescription
+      .description
+        =raw event.event_welcome_text
+      -if @hall.welcome_video_content.present?
+        %a.replayVideo.generalButton{href: "javascript: playMainHallVideo();"}
+          =fa_icon("video-camera")
+          Play Welcome Video
+  -halls = event.knowledge_halls
+  -if halls.size >= 1 and @current_event.live?
+    -knowledgeHall = halls[0]
+    .knowledgeCenter.section
+      %h2.title
+        -if knowledgeHallTags = knowledge_hall_tags_hall
+          Featured in the #{knowledgeHallTags.name}
+        -else
+          Featured in the #{knowledgeHall.name}
+      .featuredKCContent
+        -knowledge_center_featured_content(3).each do |content|
+          %a.featurevideo.contentItem{href: hall_view_content_path(knowledgeHall, content)}
+            .titleArea
+              .heading
+                =content.name
+              .subheading
+                =content.short_desc
+            .contentThumbnail
+              =render partial: "contents/thumbnail_content", locals: {content: content, width: 173, height: 100}
+            .contentAction
+              -if content.is_video?
+                = fa_icon "youtube-play"
+              -else
+                = fa_icon "search"
+      -if knowledgeHallTags = knowledge_hall_tags_hall
+        %a.browse.generalButton{href: hall_visit_path(knowledgeHallTags)}
+          Browse #{knowledgeHallTags.name}
+      -else
+        %a.browse.generalButton{href: hall_visit_path(knowledgeHall)}
+          Browse #{knowledgeHall.name}
+  -if event.published_booths.size > 0 and @current_event.live?
+    .boothsList.section
+      %h2.title
+        Discover what our Exhibitors have on offer
+      #video-carousel.carousel.slide.article-slide{"data-ride" => "carousel"}
+        .slider-container
+          .carousel-inner.cont-slider
+            -boothIndex = 0
+            -event.published_booths.includes(:company_logo).shuffle.each_slice(3) do |boothListItem|
+              .item{ :class => "#{boothIndex == 0 ? 'active' : '' }" }
+                .boothGroup
+                  -boothListItem.each do |booth|
+                    .imageFrame
+                      = link_to(image_tag(booth.company_logo.assets.url), booths_visit_path(booth)) if booth.company_logo
+                  -boothIndex += 1
+                
+          %a.left.carousel-control{"data-slide" => "prev", href: "#video-carousel"}
+            %span.glyphicon.glyphicon-chevron-left
+          %a.right.carousel-control{"data-slide" => "next", href: "#video-carousel"}
+            %span.glyphicon.glyphicon-chevron-right
+      -halls = event.booth_list_halls
+      -if (halls.size >= 1)
+        %a.browse.generalButton{href: hall_visit_path(halls[0])}
+          Browse #{halls[0].name}

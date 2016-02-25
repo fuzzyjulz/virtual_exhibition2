@@ -1,0 +1,104 @@
+.row
+  - box 7, "View Promotion", {'Edit' => edit_promotion_path(@promotion), 'Back' => booth_promotions_path(@promotion.booth)} do
+    %p
+      %b Open Date
+      =@promotion.open_date
+    %p
+      %b Closing Date
+      =@promotion.closed_date
+    %p
+      %b Name
+      =@promotion.name
+    %p
+      %b Promotion Image
+      =paperclip_image_tag @promotion.promotion_image
+    %p
+      %b Description
+      =@promotion.description
+    %p
+      %b Redemption Instructions
+      .adminRawText
+        =raw @promotion.redemption_instructions
+    %p
+      %b Booth
+      -if @promotion.booth
+        %a.labelObjectTag{href: show_booth_path(@promotion.booth)}
+          =@promotion.booth.name
+    %p
+      %b Promotion Type
+      -if @promotion.promotion_type
+        %span.labelObjectTag
+          =PromotionType[@promotion.promotion_type].label
+    -if @promotion.promotion_url.present? and PromotionType[@promotion.promotion_type].id == :external_site
+      %p
+        %b Promotion Url
+        =@promotion.promotion_url
+    -if @promotion.promotion_code.present?
+      %p
+        %b Override Promotion Code
+        =@promotion.promotion_code
+  -if PromotionType[@promotion.promotion_type].id == :std_cart_deal
+    - box 5, "Promotion Codes", {'List Promotion Codes' => promotion_promotion_codes_path(@promotion)} do
+      %p
+        %b Codes Used / Reserved / Total 
+        =@promotion.assigned_promotion_codes.size
+        ==/
+        =@promotion.reserved_promotion_codes.size
+        ==/
+        =@promotion.promotion_codes.size
+      %br
+      %ul.nav.nav-tabs.adminTabs
+        %li.active 
+          %a{data:{toggle:"tab"}, href:"#generateCodes"} Generate
+        %li
+          %a{data:{toggle:"tab"}, href:"#importCodes"} Import
+        %li
+          %a{data:{toggle:"tab"}, href:"#exportCodes"} Export
+        %li
+          %a{data:{toggle:"tab"}, href:"#deleteAllCodes"} Delete All
+      .tab-content
+        #generateCodes.active.tab-pane.fade.in
+          %br
+          =form_tag({action: :generate_codes, controller: :promotion_codes, promotion_id: @promotion.id}) do
+            %p
+              %b Code Template
+              %input{name: "promo_code_template",type: "text", value: "VCONF0000##"}
+              .explanation{style: "font-size: smaller"}
+                %p 0 - a padded ID digit
+                %p 9 - a n id digit
+                %p # - a random digit
+            %p
+              %b ID Range (inclusive)
+              %input{name:"id_start", type: "number", value: 1}
+              to
+              %input{name:"id_end", type: "number", value: 99}
+            %p
+              %input.btn.btn.btn-primary{type: "submit", value: "Generate Codes"}
+        #importCodes.tab-pane.fade
+          %br
+          %p
+            Only csv files are accepted. The CSV File should contain a list of the promo codes required in a list
+            seperated by newlines. eg:
+          %p
+            &nbsp;PROMO1
+            %br
+            &nbsp;PROMO2
+            %br
+            &nbsp;PROMO3
+          %br
+          =form_tag({action: :import_codes, controller: :promotion_codes, promotion_id: @promotion.id}, multipart: true) do
+            %p
+              %input{type: "file", name: "importFile"}
+            %p
+              %input.importCodes.btn.btn.btn-primary{type: "submit", value:"Import Codes"}
+        #exportCodes.tab-pane.fade
+          %br
+          %br
+            %p
+              = link_to 'Export Codes', export_promotion_path(), class: 'btn btn-primary'
+        #deleteAllCodes.tab-pane.fade
+          %br
+          %br
+            %p This will remove all codes which have not been used or reserved in a cart.
+            %p
+              = link_to 'Delete All Codes', destroy_all_promotion_codes_path(@promotion), class: 'btn btn-primary', method: "delete"

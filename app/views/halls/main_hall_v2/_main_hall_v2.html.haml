@@ -1,0 +1,108 @@
+-event = @hall.event
+-knowledge_hall = event.knowledge_hall
+-if event.event_welcome_text.present?
+  -content_for :description, no_html(event.event_welcome_text)
+#mainHall_v2
+  .mainBackground
+    .taglineSectionBoundary
+      .taglineSection
+        .taglineText
+          =raw event.main_tagline
+        %br
+        -if @hall.welcome_video_content.present?
+          %a.watchButton.generalButton.transparent{href: "javascript: playMainHallVideo();"}
+            =fa_icon("play-circle-o")
+            Watch Introduction
+        -if knowledge_hall.present? and @current_event.live?
+          %a.visitKnowledgeCenterButton.generalButton.transparent{href: hall_visit_path(knowledge_hall)}
+            VISIT NOW!
+    -if event.get_event_logo.present?
+      .eventLogo
+        = paperclip_image_tag event.get_event_logo, alt: event.name
+    .innerBackground
+      =paperclip_image_tag @hall.background_image
+  .mainHallTextArea
+    -topics = (knowledge_hall.present? ? knowledge_hall.topics.where(featured: true) : []) 
+    .eventInfo
+      %h1.title
+        =event.event_welcome_heading
+      .description
+        =raw event.event_welcome_text
+    -if topics.size > 0
+      .knowledgeCenterContent
+        %h2.title
+          -if @current_event.topics_title.present?
+            =@current_event.topics_title
+          -else
+            =Tag::TAG_TYPE[:topic]
+        .tagList
+          -topics.each do |tag|
+            -content_sym = "tag#{tag.id}".to_sym
+            -content_for content_sym do
+              .tag
+                .contentThumbnail{style: "position: absolute;"}
+                  =render partial: '/_shared/control/constrained_image', locals: {image: tag.thumbnail_image, width: 320, height: 320 * 9/16, alt_tag: tag.name}
+                .overlay
+                  .overlayInternal
+                    %h2.title
+                      =tag.name
+                    -if @current_event.live?
+                      .watchButton.generalButton.transparent
+                        =fa_icon("play-circle-o")
+                        Watch
+            -if @current_event.live?
+              %a{href: hall_visit_path(knowledge_hall, tag: tag.id)}
+                =yield content_sym
+            -else
+              =yield content_sym
+            
+    -if !@current_event.live? and @current_event.signup_panel.present?
+      .signUpPanel
+        .signUpPanelContent
+          =raw @current_event.signup_panel
+        .constrainingBG
+          .innerBackground
+            =paperclip_image_tag @hall.background_image
+    -keynotes = (knowledge_hall.present? ? knowledge_hall.keynotes.where(featured: true) : [])
+    -if keynotes.size > 0
+      .keynoteTags
+        %h2.title
+          -if @current_event.keynotes_title.present?
+            =@current_event.keynotes_title
+          -else
+            =Tag::TAG_TYPE[:keynote]
+        .keynoteTagList
+          -keynotes.each do |tag|
+            -content_sym = "tag#{tag.id}".to_sym
+            -content_for content_sym do
+              .tag.withDescription
+                .contentThumbnail{style: "position: absolute;"}
+                  -aspect = 3.0/4.0
+                  -width = 280
+                  =render partial: '/_shared/control/constrained_image', locals: {image: tag.thumbnail_image, width: width, height: width * aspect, alt_tag: tag.name}
+                .overlay
+                  .overlayInternal
+                    %h2.title
+                      =tag.name
+                    .description
+                      =raw clensedText(tag.description)
+                    -if @current_event.live?
+                      .watchButton.generalButton.transparent
+                        =fa_icon("play-circle-o")
+                        Watch
+            -if @current_event.live?
+              %a{href: hall_visit_path(knowledge_hall, tag: tag.id)}
+                =yield content_sym
+            -else
+              =yield content_sym
+             
+    .additionalContent
+      =raw event.additional_info
+:javascript
+  $(window).scroll(function(){
+    if( $(window).scrollTop() > $('nav.navbar').height() ) {
+      $('nav.navbar').addClass("solid");
+    } else {
+      $('nav.navbar').removeClass("solid");
+    }
+  });

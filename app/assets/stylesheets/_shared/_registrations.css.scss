@@ -1,0 +1,28 @@
+//Virtual Careers fair description text
+.event-details{
+  p, li{
+    color: #333;
+  }
+}
+
+.sign-in {
+  .eventHeading img {
+    max-width: 900px;
+    width: 100%;
+  }
+  .eventSponsor img {
+    width: 50%;
+    max-width: 250px;
+  }
+  .slogan {
+    margin-top: 20px;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: steelblue;
+  }
+}
+
+body.login {
+  padding-bottom: 0px;
+  margin-top: 20px;
+}

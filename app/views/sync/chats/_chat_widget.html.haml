@@ -1,0 +1,22 @@
+%li.clearfix.left{class: (chat.new == true ? "newChat" : "")}
+  %span.chat-img.pull-left
+    - from_user_avatar = chat.from_user.avatar_url if chat.from_user
+    %img.img-circle{src: from_user_avatar, width: 50}
+  .chat-body.clearfix
+    .header
+      %strong.primary-font 
+        -if can?(:_see_user, chat) 
+          = link_to(chat.from_user.name, user_path(chat.from_user), :target => "_blank") if chat.from_user
+        -else
+          = chat.from_user.name if chat.from_user
+      %small.text-muted.pull-right
+        %span.glyphicon.glyphicon-time
+        = "#{chat.created_at}"
+        -if !chat.new and can? :destroy, chat
+          = link_to 'Destroy', chat, :method => :delete, :remote => true, :data => { :confirm => 'Are you sure?' }, class: "delete_chat text-danger", :style => "font-size:12px;"
+    %p= chat.message
+-if chat.new
+  -booth = Booth.find(chat.chattable_id) if chat.chattable_type == "Booth"
+  :javascript
+    
+    $("#chat-messages .unread-msgs").html("#{Chat.unread_count(booth)}").addClass('label-danger').removeClass('label-success');

@@ -1,0 +1,179 @@
+#mainHall_v1 {
+  margin-left: auto;
+  margin-right: auto;
+  
+  
+  .intro {
+    .eventLogo img {
+      max-width: 208px;
+      max-height: 158px;
+    }
+    
+    .eventSection {
+      vertical-align: top;
+      display:table-cell;
+      padding-right:10px;
+      padding-top: 10px;
+      
+      .sponsorLogo img {
+        max-width: 200px;
+        max-height: 150px;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .eventSection {
+        display:table;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .sponsorSection {
+      background: white;
+      color: black;
+      font-style: italic;
+      margin-top: 3px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 4px;
+      display: table;
+      text-align: center;
+    }
+    .eventDescription {
+      vertical-align: top;
+      display:table-cell;
+      padding-top: 10px;
+      width: 100%;
+      .replayVideo .fa{
+        @include border-radius("50%");
+        background: white;
+        float:left;
+        font-size: 12px;
+        width: 20px;
+        height: 20px;
+        margin-top: 1px;
+        margin-left: 4px;
+        padding-top: 4px;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .eventDescription {
+        display:block;
+      }
+    }
+  }
+  .knowledgeCenter {
+    .featuredKCContent {
+      margin-top: 10px;
+      margin-left:auto;
+      margin-right:auto;
+      display:table;
+      text-align: left;
+      .contentItem {
+        @include transition("background-color .3s ease-in");
+        display: inline-table;
+        background: #bbb;
+        margin: 5px;
+        width: 173px;
+        height: 155px;
+        display: inline-block;
+        vertical-align: top;
+        color: white;
+        .titleArea {
+          padding: 5px;
+          padding-left: 10px;
+          float: left;
+          width: 100%;
+        }
+        .heading {
+          font-size: small;
+          line-height: 15px;
+        }
+        .subheading {
+          font-size: xx-small;
+          padding-top: 4px;
+        }
+        .contentAction {
+          position: absolute;
+          width: 173px;
+          margin-top: 90px;
+          text-align: center;
+          color: white;
+          text-shadow: 0px 0px 4px black;
+          opacity: .8;
+          font-size: 25px;
+          @include transition("color .3s ease-in, opacity .3s ease-in");
+        }
+        
+        .contentThumbnail {
+          position: absolute;
+          margin-top: 55px;
+        }
+      }
+      .contentItem:hover {
+        background: #c33;
+        text-decoration: none;
+        .contentAction {
+          color: red;
+          opacity: .8;
+        }
+      }
+    }
+  }
+  .boothsList {
+    .carousel-control {
+      @include border-radius("5px");
+      width: 50px;
+    }
+    .item {
+      background-color: #777;
+      @include border-radius("5px");
+      .boothGroup {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        .imageFrame {
+          display: inline-flex;
+          margin: 5px;
+          width: 135px;
+          height: 90px;
+          background: white;
+          vertical-align: middle;
+          a {
+            display: table;
+            margin: auto;
+            img {
+              max-width: 135px;
+              max-height: 90px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .section {
+    max-width: 600px;
+    margin: 20px;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(68,68,68,.8);
+    color: white;
+    font-size: small;
+    @include border-radius("5px");
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+    @include transition("background-color 1s ease-in");
+
+    @media screen and (max-width: 620px) {
+      width: 100%;
+      margin: 5px;
+      padding: 10px;
+      background: rgba(68,68,68,.45);
+    }
+  }
+  .generalButton {
+    @media screen and (max-width: 620px) {
+      background: #777;
+    }
+  }
+}

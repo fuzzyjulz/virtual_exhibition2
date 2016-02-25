@@ -1,0 +1,99 @@
+-auth_models = nil
+-auth_models = @current_event.auth_models if @current_event.present?
+-auth_models = auth_models.pluck(:code).map! {|model| model.to_sym} if auth_models.present?
+-auth_models = [:direct] if @current_event.nil?
+
+-canRegister = (@current_event.present? and @current_event.live? and @current_event.can_register?)
+-careersFair = false
+- case request.host
+  - when "virtualcareersfair.com.au", "www.virtualcareersfair.com.au"
+    -careersFair = true
+
+
+.container.sign-in
+  -if careersFair
+    .row
+      .col-md-12.text-center
+        .eventHeading= image_tag asset_url('vcf2014_logo.png')
+        %h3 BEGINS 24 FEBRUARY 2014
+    .row
+      .col-md-12.text-center
+        %p BROUGHT TO YOU BY
+        .eventSponsor= link_to image_tag(asset_url('lgjobs_logo.png')), 'http://lgjobs.com.au', :target => "_blank"
+        %br
+        %br
+  -elsif @current_event.present? and @current_event.event_image.present?
+    .row
+      .col-md-12.text-center
+        = paperclip_image_tag(@current_event.event_image, alt: @current_event.name)
+        %br
+        %br
+
+  %br
+  .row
+    -if auth_models.include?(:direct)
+      .col-md-4.col-md-offset-2
+        .panel.panel-primary
+          .panel-heading
+            %h3.panel-title
+              -if canRegister
+                Already registered?
+              -else
+                Sign in
+          .panel-body
+            .tab-content
+              .tab-pane.active{:id => "login"}
+                = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-signin'}) do |f|
+                  = f.input :email, :required => false, :autofocus => true, input_html: { class: "form-control"}, :placeholder => "Username", :label => false
+                  = f.input :password, :required => false, input_html: { class: "form-control" }, :placeholder => "Password", :label => false
+                  = f.input :remember_me, :as => :boolean, :label => false, :wrapper => :checkbox if devise_mapping.rememberable? 
+                  .row
+                    .col-md-8
+                      = render "devise/shared/links"
+                    .col-md-4
+                      = f.button :submit, "Sign in", :class => "btn btn-primary pull-right"
+    .col-md-3{class: auth_models.include?(:direct) ? "" : "col-md-offset-4"}
+      -if canRegister and auth_models.include?(:direct)
+        - if devise_mapping.registerable? && controller_name != 'registrations'
+          = link_to "REGISTER NOW", '/users/sign_up/'+get_event_id().to_s, :class => "btn btn-lg btn-primary btn-block"
+      %br
+      -if canRegister and ((!auth_models.include?(:direct) and auth_models.size > 0) or auth_models.size > 1) 
+        .panel.panel-default
+          .panel-heading
+            %h3.panel-title Sign in with
+          .panel-body
+            - if devise_mapping.omniauthable?
+              - resource_class.omniauth_providers.each do |provider|
+                - provider_name = provider.to_s
+                -if auth_models.include?(provider)
+                  - provider_name = 'google' if provider.to_s == 'google_oauth2'
+                  = link_to "#{provider_name.to_s.titleize}", 
+                  omniauth_authorize_path(resource_name, provider, state: form_authenticity_token), :class => "text-muted zocial #{provider_name} btn-block"
+  -if careersFair
+    .row
+      .col-md-12.text-center
+        .slogan
+          The Future of Talent Attraction
+        %br
+        %br
+    .row
+      .col-md-8.col-md-offset-2
+        .well.well-sm.event-details
+          %p 
+            The LGJobs Local Government Careers Fair will kick off this upcoming Monday February 24th. The first webinar presentation will commence at 2pm eastern daylight savings time. Please log on a few minutes prior and be ready for the commencement of the webinar to make sure you don’t miss out on any information.
+          %p Week 1 Agenda 
+          %p Monday 24th February 2pm EDST Presentation + 2.30pm EDST Q&A Session
+          %p A Career in Local Government: Australian Local Government Workforce and Employment Data
+          %ul
+            %li What is great about working in local government
+            %li Local government career opportunities
+            %li Local government workforce demographics
+          %p Associate Professor Roberta Ryan, Director, Australian Centre of Excellence for Local Government (ACELG) 
+          %p Q&A with Melissa Gibbs, Deputy Director, ACELG 
+          %p Wednesday 26th February 2pm EDST Presentation + 2.30pm EDST Q&A Session
+          %p Working at a rural council: Banana Shire Case Study
+          %ul
+            %li Career opportunities and benefits of working at a rural council
+            %li Employee case studies
+          %p Jenny Goulding, Human Resources Manager
+          %br

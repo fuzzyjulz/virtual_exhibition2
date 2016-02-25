@@ -1,0 +1,32 @@
+.row
+  - box 12, "Job Status" do
+    :javascript
+      #{render file: 'system/update_job_status', formats: :js if @job_run_status and @job_run_status.pct_complete < 100 and !@job_run_status.failed?}
+    - if @job_run_status
+      -if ["error", "failed"].include?(@job_run_status.status)
+        -alertClass = "alert-danger" 
+      -elsif @job_run_status.completed?
+        -alertClass = "alert-success" 
+      -else
+        -alertClass = "alert-info" 
+      .alert{class: alertClass}
+        %ul
+          %li= "Job status: #{@job_run_status.status}"
+          -if @job_run_status.message.present?
+            %li= "Message: #{@job_run_status.message}"
+          %li= "#{@job_run_status.pct_complete}% complete"
+          %li= "Time scheduled: #{@job_run_status.time}"
+    - if current_user.csv_file.present? and ((@job_run_status and @job_run_status.completed?) or current_user.has_role? :test_admin)
+      -if current_user.csv_file.assets.url
+        -if !@job_output_type.present?
+          -current_user.csv_file.content.each_line do |line|
+            %p
+              -line.split("*").each_with_index do |linetxt, index|
+                =linetxt if index % 2 == 0
+                -unless index % 2 == 0
+                  %b{style:"min-width: "+(index == 1 ? "80" : "0")+"px;"}
+                    =linetxt
+            -if line.blank?
+              %br
+        -if @job_output_type == :download_file or current_user.has_role? :test_admin
+          %p= link_to current_user.csv_file.assets_file_name, current_user.csv_file.assets.url, target: "_blank", class: "downloadFile"

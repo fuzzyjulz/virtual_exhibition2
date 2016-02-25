@@ -1,0 +1,5 @@
+= render partial: '_shared/control/send_events'
+$('#send-message #message').val('');
+$('body').modalmanager('loading');
+$.bootstrapGrowl("#{message}", {align: 'center', width: 'auto' });
+$('#information-modal').modal('hide');

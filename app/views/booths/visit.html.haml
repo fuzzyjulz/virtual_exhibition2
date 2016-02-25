@@ -1,0 +1,8 @@
+-content_for :ga_title, "Booth: #{@booth.location_name}"
+-if @booth.name.present?
+  -content_for :title, "#{@booth.name} - #{@booth.event.name}"
+-if @booth.top_message.present?
+  -content_for :description, no_html(@booth.top_message)
+-templateSubType = @booth.template.template_sub_type.to_s.gsub(/ /,"_")
+#booth{class: "#{templateSubType}" }
+  =render partial: "booths/#{templateSubType}/#{templateSubType}", locals: { booth: @booth }

@@ -1,0 +1,20 @@
+- box 6, "Select from list of available booths" do
+  %table.table.table-striped.table-bordered.table-hover.dataTable
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th Hall
+        %th Event
+        %th Actions
+    %tbody
+      - @booths.each do |booth|
+        %tr
+          %td= booth.id
+          %td= booth.name
+          %td= link_to booth.hall.name, hall_visit_path(booth.hall)
+          %td= booth.event.name
+          %td
+            = link_to 'Visitor view', booths_visit_path(booth)
+            = link_to 'View', show_booth_path(booth)
+            = link_to 'Booth rep view', booth_rep_path(booth)

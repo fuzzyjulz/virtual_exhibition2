@@ -1,0 +1,223 @@
+/* CUSTOMIZE THE NAVBAR
+-------------------------------------------------- */
+
+.login{
+  //registrations specific
+  .topNavigationMenu.navbar-wrapper {
+    position: fixed;
+    nav.navbar{
+      background: transparent;
+      border: none;
+      .navbar-header {
+        button.navbar-toggle {
+          background: white;
+        }
+      }
+      .navbar-collapse {
+        border:none;
+        .navbar-nav {
+          background: white;
+          @include border-radius("3px");
+          border: 1px solid #ccc;
+          li.active > a {
+            @include border-radius("3px");
+          }
+        }
+        .navbar-nav.pull-right{
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.topNavigationMenu.navbar-wrapper {
+  /* Special class on .container surrounding .navbar, used for positioning it into place. */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    /* Flip around the padding for proper display in narrow viewports */
+    .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .navbar {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+  
+.topNavigationMenu {
+  .navbar-ex1-collapse {
+    background: #333;
+  }
+  nav.navbar{
+    height: 53px;
+    position: fixed;
+    width: inherit;
+    border-top: 0px !important;
+    text-align:left;
+    .navbar-header {
+      .headerMenuText {
+        display: inline-block;
+        margin-top: 15px;
+        color: white;
+        margin-left: -10px;
+        @media screen and (min-width: 768px) {
+          display:none;
+        }
+        @media screen and (max-width: 340px) {
+          display:none;
+        }
+      }
+    }
+  }
+  .eventLogo {
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 2px;
+    img {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  .navbarButton {
+    a {
+      padding:0px;
+      margin: 8px;
+      margin-left: 0px;
+      margin-right: 0px;
+      font-size: 20px;
+      
+      div{
+        @include transition("background .3s ease-in");
+        @include border-radius("3px");
+        padding:8px;
+        color: #09b;
+        padding-left: 20px;
+        padding-right: 20px;
+      
+      }
+    }
+    a:hover div{
+      background-color: #555;
+    }
+  }
+  
+  .navbarButton.active a {
+    background-color: inherit;
+  }
+  .navbarButton.active a:hover {
+    background-color: inherit;
+  }
+  .navbarButton.active a {
+    div {
+      color: #0cf;
+    }
+  }
+  
+  
+  .navbar-nav > li{
+    float: left;
+    font-size: 18px;
+    a {
+      @include transition("color .2s ease-in");
+    }
+  }
+  
+  .nav > li > ul > a.dropdown-toggle {
+    display: none !important;
+  }
+  
+  .navbar-inverse .navbar-nav > .dropdown.navbarButton > a .caret {
+    border-top-color: white;
+    border-bottom-color: white;
+  }
+  
+  .userSection {
+    a {
+      padding:0px;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .userIcon{
+      display: table-cell;
+      vertical-align: middle;
+      height:52px;
+      img {
+        display: inline;
+        max-width: 60px;
+        max-height: 40px;
+        margin-right: 10px;
+        padding: 1px;
+      }
+    }
+    .noUserIcon {
+      display: table-cell;
+      padding-right: 7px;
+      padding-top:5px;
+      font-size: 25px;
+      max-width: 60px;
+      height:52px;
+      text-align: right;
+      vertical-align: middle;
+      span {
+        margin-top: -7px;
+      }
+    }
+    
+    .userDetailsSection {
+      display: table-cell;
+      vertical-align: middle;
+      white-space: nowrap;
+      max-width:170px;
+      height:52px;
+    }
+  }
+  .navbar-nav .open .dropdown-menu {
+    position: absolute;
+    float: left;
+    width: auto;
+    margin: 0;
+    margin-top: -4px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.172549) 0px 6px 12px 0px;
+    li {
+      a {
+        padding: 0px;
+        margin: 8px;
+        color:#333;
+      }
+      a:hover {
+        background: #eee;
+        color: #333;
+      }
+    }
+  }
+  .navbar-wrapper .navbar {
+    border-radius: 4px;
+  }
+
+  // Floats the nav options box to the left
+  .navbar-toggle {
+    float:left;
+  }
+  .userToolsSection.pull-right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0px;
+    .nav {
+      margin: 0px;
+      text-align:right;
+      min-width:200px;
+    }
+    .userSection > .dropdown-toggle {
+      background-color: transparent;
+    }
+  }
+}

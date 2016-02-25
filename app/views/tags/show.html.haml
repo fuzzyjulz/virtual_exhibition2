@@ -1,0 +1,32 @@
+.row
+  - box 7, "View Tag", {'Edit' => edit_tag_path(@tag), 'Back' => event_tags_path(@event)} do
+    %p
+      %b Name
+      =@tag.name
+    %p
+      %b Description
+      .adminRawText
+        =raw clensedText(@tag.description)
+    %p
+      %b Tag Type
+      %span.labelObjectTag=@tag.tag_type_label
+    %p
+      %b Thumbnail
+      =paperclip_image_tag @tag.thumbnail_image, {noImage:"no_image_available.jpg", style: "max-width:#{300}px; max-height: #{250}px;"}
+    %p
+      %b Featured content
+      =boolean_YN(@tag.featured)
+    %p
+      %b Related Sponsors Text
+      =@tag.related_sponsors_text
+    %p
+      %b Booths
+      -@tag.booths.each do |booth|
+        %a.labelObjectTag{href: show_booth_path(booth)}
+          =booth.name
+    %p
+      %b Content
+      -@tag.contents.each do |content|
+        %a.labelObjectTag{href: content_path(content)}
+          =content.name
+      

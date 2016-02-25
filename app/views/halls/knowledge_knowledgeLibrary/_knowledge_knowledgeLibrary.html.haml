@@ -1,0 +1,149 @@
+.knowledgeHall
+  .featuredVideos
+    .featuredBanner{class: (nav_type_contents == nav_type and !previewContent.present? ? "active" : "")}
+      #featured-content-carousel.carousel.slide.article-slide{"data-ride" => "carousel"}
+        .slider-container
+          .carousel-inner.cont-slider
+            -boothIndex = 0
+            -get_contents(:featured).each do |featuredContent|
+              -previewPath = preview_content_path(featuredContent, autoplay_resource: true)
+              -boothIndex += 1
+              .item{ :class => "#{boothIndex == 1 ? 'active' : '' }" }
+                .backgroundImage
+                  -aspect = 9.0/16.0
+                  -width = 1480
+                  =render partial: "contents/thumbnail_content", locals: {content: featuredContent, width: width, height: width * aspect}
+                .featuredRibbon
+                  &nbsp;
+                .featuredContentItem
+                  %h2.title
+                    =featuredContent.name
+                  %a.contentImage{href: previewPath}
+                    .contentAction
+                      -if featuredContent.is_video?
+                        = fa_icon "play"
+                      -else
+                        = fa_icon "search"
+                    -aspect = 9.0/16.0
+                    -width = 480
+                    .contentImagePreview
+                      =render partial: "contents/thumbnail_content", locals: {content: featuredContent, width: width, height: width * aspect}
+                  .subtitle
+                    =featuredContent.short_desc
+                  .description
+                    =raw featuredContent.description
+                  %a.watchButton.generalButton{href: previewPath}
+                    -if featuredContent.is_content_type?(:resource)
+                      Read More
+                    -else
+                      Watch Now
+          %a.left.carousel-control{"data-slide" => "prev", href: "#featured-content-carousel"}
+            %span.glyphicon.glyphicon-chevron-left
+          %a.right.carousel-control{"data-slide" => "next", href: "#featured-content-carousel"}
+            %span.glyphicon.glyphicon-chevron-right
+    .featuredVideoCarousel
+      
+  .videoPreview
+    -if previewContent.present?
+      =render partial: "contents/preview", locals: {content: previewContent}
+  .knowledgeCenterNavigation
+    -kc_nav_items.each do |navItem|
+      %a.knowledgeCenterNavItem{class: (navItem.id == nav_type ? "active" : ""), href: navItem.path}
+        %h2.item
+          =navItem.name
+        .itemCount
+          (#{navItem.content_count})
+  #loadingComponent{style: "display: none;"}
+    .loading
+      =image_tag "loader-black.gif"
+  .knowledgeCenter
+    =render partial:"halls/knowledge_hall_styles/knowledge_library_content", locals: {contents: get_contents(nav_type_contents)}
+:javascript
+  $(window).resize(function (event) {
+    var width = $(".featuredBanner").width() * 1.5;
+    var height = $(".featuredBanner").height() * 1.5;
+    var xoffset, yoffset;
+    var aspect = 9/16;
+    if (width * aspect > height) {
+      xoffset = (width - $(".featuredBanner").width()) / 2;
+      yoffset = (width * aspect - height) / 2;
+      height = width * aspect;
+    } else {
+      yoffset = (height - $(".featuredBanner").height()) / 2;
+      xoffset = (height / aspect - width) / 2;
+      width = height / aspect;
+    }
+    $(".backgroundImage, .backgroundImage img").width(width).height(height);
+    $(".backgroundImage").css('margin-left', -xoffset).css('margin-top', -yoffset);
+  });
+  $(window).resize();
+  //load the list of content in the lower nav pane 
+  $(".knowledgeCenterNavItem").click(function(event) {
+    event.preventDefault;
+    $(".knowledgeCenterNavigation .knowledgeCenterNavItem").removeClass("active");
+    $(this).addClass("active");
+    $(".knowledgeCenter").html($("#loadingComponent").html());
+    $.get(this.href, function (data) {
+      $(".knowledgeCenter").html(data);
+      addPreviewUrls();
+      $('body').scrollTo($(".knowledgeCenterNavigation"), 300);
+    });
+    return false;
+  });
+  
+  function kcInfiniteScrollFinished(){
+    $("#infscr-loading").fadeOut();
+    addPreviewUrls();
+  }
+  $(document).on("vc.scripts.shared.completed", function() {
+    $(document).on("vc.new_content_added", function() {
+      applyModalPopupClass();
+      $.event.trigger("vc.scripts.refreshTooltips");
+    });
+    addPreviewUrls();
+  });
+  $(document).on("vc.new_content_added", function() {
+    //Load preview content
+    $(".contentItem, .watchButton, .contentImage").not(".modal_popup").not(".load_content_click_applied").click(function(event) {
+      event.preventDefault;
+      loadContent(this.href);
+      return false;
+    });
+    $(".contentItem, .watchButton, .contentImage").not(".modal_popup").not(".load_content_click_applied").addClass("load_content_click_applied");
+    
+    $(".tagItem").not(".load_tag_click_applied").click(function(event) {
+      event.preventDefault;
+      loadTag(this.href)
+      return false;
+    });
+    $(".tagItem").not(".load_tag_click_applied").addClass("load_tag_click_applied");
+  });
+
+  function addPreviewUrls() {
+    $.event.trigger("vc.new_content_added");
+  }
+
+  function loadTag(url) {
+    $(".knowledgeCenter").html($("#loadingComponent").html());
+    $.get(url, function (data) {
+      $(".knowledgeCenter").html(data);
+      addPreviewUrls();
+    });
+  }
+  
+  function loadContent(url) {
+    $(".featuredBanner").removeClass("active");
+    $(".videoPreview").css("min-height","473px")
+    $(".videoPreview").html($("#loadingComponent").html());
+    url = url + (url.indexOf("?") < 0 ? "?" : "&") + "ajax=true";
+    $.get(url, function (data) {
+      DISQUS = null;
+      $(".videoPreview").html(data);
+      addPreviewUrls();
+      if ($('body').scrollTo != undefined) {
+        $('body').scrollTo("0px", 300);
+      }
+    });
+  }
+  
+  $(function() {addPreviewUrls();});

@@ -1,0 +1,63 @@
+.form-actions{
+  text-align: right;
+}
+
+//### labelObjectTag - Used in show screens to highlight an object link
+.labelObjectTag {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  line-height: 1;
+  color: white;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  background-color: #5bc0de;
+  margin-right: 5px;
+}
+a.labelObjectTag {
+  &:hover, &:focus {
+    text-decoration: none;
+    color: white;
+    background-color: #6df;
+  }
+}
+
+// Alignment of boxes in the admin screens
+.box{
+  img {
+    max-width: 70%;
+  }
+  .body p b{
+    min-width: 240px;
+    display: inline-block;
+  }
+}
+
+.adminRawText {
+  margin: 0 50px;
+  padding: 5px;
+  background: #ccc;
+  @include border-radius(5px);
+}
+
+.label.ui-button-danger {
+  font-weight: normal;
+}
+
+.adminTabs {
+  padding-left: 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.btn-primary.disabled, .btn-primary[disabled] {
+  background-color: #666;
+  border-color: #444;
+  color: #aaa;
+  &:hover, &:focus, &:active {
+    background-color: #666;
+    border-color: #444;
+    color: #aaa;
+  }
+}

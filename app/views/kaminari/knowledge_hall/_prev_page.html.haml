@@ -1,0 +1,3 @@
+%li{class: "prev navLink "+(current_page.first? ? "disabled" : "" )}
+  -url = url.split('?')[0] + "?page=#{current_page.to_i - 1}#{filter_params}"
+  = link_to fa_icon("caret-left"), url, :rel => 'prev', :remote => remote

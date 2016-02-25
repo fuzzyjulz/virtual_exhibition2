@@ -1,0 +1,241 @@
+/* Sign in
+  ------------------------------------------------------------------------*/
+.zocial.btn-block {
+  font-weight: inherit;
+  background-image: inherit;
+  text-shadow: inherit;
+  color: white;
+  text-decoration: none;
+}
+.zocial.btn-block:hover {
+  color: white;
+  text-decoration: none;
+}
+.sign-in{
+  background: asset_url("vcf_bkg.jpg");
+  label.checkbox {
+    display: inherit;
+  }
+  .well {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: #999;
+    @include box-shadow("rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset");
+  }
+}
+#signup {
+  .email {
+    padding:0px 0px 10px 10px;
+  }
+}
+.popupSignIn{
+  
+  label.checkbox {
+    display: inherit;
+  }
+  .form-group {
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+  .user_remember_me {
+    margin-top: 0px;
+  }
+  .signInButton {
+    margin-bottom: 3px !important;
+  }
+  .registrationInfoPanel {
+    color: grey;
+    margin: 0px 15px 14px 15px;
+    padding: 0px 0px 8px 20px;
+    @media (max-width: 450px) {
+      margin: 0px;
+      font-size: small;
+    }
+    
+    .heading {
+      font-size: 20px;
+      @media (max-width: 450px) {
+        font-size: 16px;
+      }
+    }
+    p{
+      margin: 0 0 4px;
+    }
+    .checkOptions {
+      white-space: nowrap;
+      padding-right: 20px;
+      @media (max-width: 450px) {
+        font-size: smaller;
+      }
+      .check {
+        display: inline-block;
+        color:#7e7;
+        vertical-align: top;
+      }
+      .item {
+        display: inline-block;
+        white-space: inherit;
+      }
+    }
+  }
+  .panel {
+    border: none;
+  }
+  .panel-primary {
+  }
+  .panel-body {
+    padding: 0px;
+    padding-top: 10px;
+    overflow: auto;
+  }
+  .leftpanel {
+    display: inline-block;
+    width: 250px;
+    vertical-align: top;
+  }
+  .rightpanel {
+    display: inline-block;
+    width: 350px;
+    vertical-align: top;
+    @media (max-width: 450px) {
+      width: inherit;
+    }
+  }
+  .signinLinks {
+    ul.list-unstyled > li{
+      font-size: small;
+      margin-bottom: 5px;
+    }
+  }
+  .terms {
+    font-size: smaller;
+  }
+  .registrationPanel {
+    .checkbox input[type="checkbox"] {
+      position: relative;
+      margin-left: 5px;
+    }
+    .registrationBtn {
+      margin-left: 10px;
+    }
+  }
+  .registerHeaderText {
+    @media (max-width: 450px) {
+      font-size: x-small;
+    }
+  }
+  input.form-control.valid {
+    background: rgba(0,255,0,.1);
+  }
+  input.form-control {
+    display: block !important;
+  }
+  label.error {
+    //display:none !important;
+    position: absolute;
+    font-size: 9px;
+    font-weight: normal;
+    margin-top: -35px;
+  }
+  label[for="user[terms]"] {
+    display:none !important;
+  }
+  .boolean.valid {
+    outline: 2px solid rgba(0,255,0,.1);
+    outline-offset: 1px;
+  }
+  .boolean.error {
+    outline: 2px solid rgba(255,130,130,.5);
+    outline-offset: 1px;
+  }
+  .error {
+    color: red;
+    background: rgba(255,130,130,.3);
+  }
+  .loginPanel {
+    margin-left: 20px;
+  }
+  .fullWidth {
+    width: 344px;
+    @media (max-width: 450px) {
+      width: 244px;
+      height: 30px;
+    }
+  }
+  .midWidth {
+    width: 250px;
+    @media (max-width: 450px) {
+      width: 200px;
+      height: 30px;
+    }
+  }
+  .halfWidth {
+    width: 170px;
+    @media (max-width: 450px) {
+      width: 120px;
+      height: 30px;
+    }
+  }
+  .tab-content > .tab-content {
+    padding: 0px 15px 0px 15px;
+  }
+  .nav.nav-tabs {
+    padding-left: 10px;
+    @media (max-width: 450px) {
+      height:inherit;
+    }
+    li {
+      height: 46px;
+      @media (max-width: 450px) {
+        height: inherit;
+      }
+      
+      a{
+        height: 46px;
+        background: #ddd;
+        color: white;
+        border: 1px solid #dddddd;
+        @media (max-width: 450px) {
+          padding: 5px 10px;
+          height:inherit;
+          font-size: small;
+        }
+        .notSmallScreen {
+          display: inline-block;
+        }
+      }
+      a:hover{
+        color:white;
+        background: #aaa;
+      }
+    }
+    li.active {
+      a{
+        background: #6ad;
+        &:focus {
+          color: white;
+        }
+        .linkedInLogo {
+          background: #069;
+        }
+        .facebookLogo {
+          background: #359;
+        }
+      }
+    }
+  }
+  .notSmallScreen {
+    @media (max-width: 450px) {
+      display:none !important;
+    }
+  }
+}
+
+.social-buttons{
+  img{ width: 40px; }
+}
+
+.typekit-badge {display:none !important;}
+#registrationFrame {
+  padding: 1px;
+}

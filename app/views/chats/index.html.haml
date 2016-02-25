@@ -1,0 +1,28 @@
+.row
+  - box 12, 'Listing chats' do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th From user
+          %th To user
+          %th Message
+          %th Resource Id
+          %th Resource
+
+      %tbody
+        - @chats.each do |chat|
+          %tr
+            %td
+              = link_to 'Show', chat
+              |
+              = link_to 'Edit', edit_chat_path(chat)
+              |
+              = link_to 'Destroy', chat, :method => :delete, :remote => true, :data => { :confirm => 'Are you sure?' }, class: "delete_chat"
+            %td= "#{chat.from_user.id} - #{chat.from_user.name}" if chat.from_user
+            %td= chat.to_user.name if chat.to_user
+            %td= chat.message
+            %td= chat.chattable_id
+            %td= chat.chattable_type
+    %br
+    = link_to 'New Chat', new_chat_path, class: 'btn btn-primary'

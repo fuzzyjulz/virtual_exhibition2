@@ -1,0 +1,13 @@
+/*
+ *= require ../../../../vendor/assets/lib/CLEditor1_4_3/jquery.cleditor
+ *= require ../../../../vendor/assets/lib/colorpicker/css/colorpicker
+ *= require ../../../../vendor/assets/lib/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue
+ *= require ../../../../vendor/assets/lib/datatables-responsive/dataTables.bootstrap
+ *= require ../../../../vendor/assets/lib/datatables-responsive/datatables.responsive
+ *= require ../../../../vendor/assets/lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css
+ *= require_tree ../../../../vendor/assets/stylesheets/admin/.
+ *= require_self
+ */
+@import '../_shared/mixins_css3';
+@import 'navsidebar';
+@import 'general';

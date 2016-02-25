@@ -1,0 +1,193 @@
+#previewPane{
+  padding: 40px 50px 50px 50px;
+  height: 100%;
+  
+  @media screen and (max-width: 800px) {
+    padding: 25px;
+  }
+  
+  .closeIcon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    .close {
+      text-shadow: 0 1px 0 #ccc;
+      color: #999;
+      opacity: 1;
+    }
+    .close:hover {
+      color: #ccc;
+    }
+  }
+  .contentArea {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    .headingBlock {
+      display: table-row;
+      .headingContent {
+        padding-bottom: 15px;
+        .title {
+          color: white;
+          text-shadow: none;
+        }
+        .subheading {
+          font-size: small;
+          color:white;
+        }
+      }
+    }
+    
+    .contentItemArea {
+      display: table-cell;
+      vertical-align: top;
+      .fa {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 500px;
+        height: 243px;
+        text-align: center;
+        font-size: 200px;
+        color: #fff;
+        background: transparent;
+        @media screen and (max-width: 720px) {
+          font-size: 100px;
+          height: 143px;
+        }
+      }
+      .videoTimeSection{
+        text-align: right;
+        font-size: smaller;
+        color: #aaa;
+      }
+    }
+    .textArea {
+      display: table-cell;
+      vertical-align: top;
+      padding-left: 80px;
+      color: white;
+      width: 370px;
+      @media screen and (max-width: 650px) {
+        display: table-footer-group
+      }
+      @media screen and (max-width: 800px) {
+        padding-left: 20px;
+      }
+
+      .description {
+        padding-top:10px;
+      }
+      .sponsoredBy {
+        .sponsoredByText {
+          text-transform: uppercase;
+          border: 1px solid #0cf;
+          background: #0ad;
+          display: inline-block;
+          font-size: xx-small;
+          padding: 2px;
+          margin-bottom: 4px;
+          text-align: center;
+          width: 104px;
+          @include border-radius("3px");
+        }
+        .sponsoredByLogo {
+          max-width:104px;
+          max-height:104px;
+          img {
+            max-width:104px;
+            max-height:104px;
+            @include transition("border .3s ease-in-out");
+            border: 2px solid transparent;
+          }
+          a:hover img {
+            border: 2px solid #0ad;
+          }
+        }
+      }
+    }
+  }
+  #accordion {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    @media screen and (max-width: 600px) {
+    width: 90%;
+    }
+    .panel {
+      border-color: #444;
+    }
+    .panel-heading {
+      background: #666;
+      border-color: #444;
+      cursor: pointer;
+      @include transition("background-color .3s ease-in-out");
+      .panel-title {
+        .panelText {
+          margin-left: auto;
+          display: table;
+          margin-right: auto;
+          white-space: nowrap;
+          a.videoComments {
+            color: white;
+          }
+        }
+      }
+    }
+    .panel-heading:hover {
+      background: #0ad
+    }
+  }
+  #disqus_thread {
+    padding: 10px;
+  }
+  .otherSponsors {
+    margin: 0 -50px;
+    background: #333;
+    text-align: center;
+    @media screen and (max-width: 800px) {
+      margin: 0 -25px;
+    }
+    .sponsorsContent {
+      margin-left: auto;
+      margin-right: auto;
+      display: table;
+      padding-bottom: 10px; 
+      .tagSection {
+        display: inline-block;
+        padding-top: 20px; 
+        .tagDescription {
+          padding-bottom: 5px;
+        }
+      }
+      .sponsor {
+        $logoWidth: 120px;
+        $descriptionWidth: 270px;
+        
+        width: $logoWidth + $descriptionWidth + 20px;
+        white-space: nowrap;
+        display: inline-block;
+        padding-bottom: 10px;
+        .companyTagDesc {
+          width: $descriptionWidth;
+          display: inline-block;
+          vertical-align: top;
+          color: white;
+          white-space: normal;
+          text-align: left;
+          padding-left: 5px;
+        }
+        .company-logo{
+          display: inline-block;
+          vertical-align: top;
+          border: 6px solid #fff;
+          border-radius: 4px;
+          background: white;
+          img{
+            max-width: $logoWidth;
+            max-height: 80px;
+          }
+        }
+      }
+    }
+  }
+}

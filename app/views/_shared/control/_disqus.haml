@@ -1,0 +1,16 @@
+-raise "All parameters are required" unless category.present? and action.present? and id.present? and title.present?
+#disqus_thread
+
+
+:javascript
+  var disqus_shortname = '#{Rails.configuration.disqus.shortname}';
+  var disqus_title = '#{safe_chars(@current_event.present? ? @current_event.name : Rails.configuration.virtual_conferences.default_site_name)}: #{safe_chars(title)}';
+  var disqus_url = '#{request.original_url.sub(/[\?\&]?ajax=true/, "")}';
+  var disqus_category_id = '#{Rails.configuration.disqus.category_id[category]}';
+  var disqus_identifier = '#{category}:#{action}:#{id}';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();

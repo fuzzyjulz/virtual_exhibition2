@@ -1,0 +1,23 @@
+.commentsBubble {
+  display: inline-block;
+  .fa {
+    font-size: 24px;
+    color: white;
+    position: relative;
+    top: 0;
+  }
+  .commentsHolder {
+    position: absolute;
+    font-size: 9px;
+    margin-top: 4px;
+    width: 20px;
+    text-align: center;
+    display: inline-block;
+    z-index: 1000;
+    .numberOfComments {
+      color: #666;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}

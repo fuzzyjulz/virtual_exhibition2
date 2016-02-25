@@ -1,0 +1,17 @@
+%p Hi #{@booth.name},
+%p A new deal has just been redeemed!  
+%br
+  
+%p Deal: #{@promotion_code.promotion.name}
+%p Deal Code: #{@promotion_code.code}
+%p Redeemed by: #{@user.name} - #{@user.email}
+%p Redeemed at: #{@promotion_code.assigned_at}
+%br
+%br
+%p An excel report of your redeemed deals can be provided on request. Please contact your CommStrat Account Manager.  
+%br
+%br
+%p Kind regards,  
+%p CommStrat Online Events Team  
+%p 
+  %a{href: "mailto: #{@event_producer_admin_email}"} #{@event_producer_admin_email}

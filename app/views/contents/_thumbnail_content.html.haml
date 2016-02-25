@@ -1,0 +1,26 @@
+.contentMediaThumbnail
+  -if content.valid_content?(:shallow)
+    -case content.content_type_code
+      -when :youtube_video, :vimeo_video, :wistia_video
+        -if content.video_thumbnail_url.present?
+          = image_tag content.video_thumbnail_url, :width => width, :height => height, alt: content.name
+        -else
+          .NoVideoLabel{:style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}"}
+            Video was not set.
+          
+      -when :slideshare
+        =paperclip_image_tag content.thumbnail_image, {noImage:"no_image_available.jpg", style: "width:#{width}px; height: #{height}px;", alt: content.name}
+          
+      -when :resource
+        -if content.thumbnail_image.present?
+          =paperclip_image_tag content.thumbnail_image, {noImage:"no_image_available.jpg", style: "width:#{width}px; height: #{height}px;", alt: content.name}
+        -else
+          =fa_icon("file-text-o", {class: "contentDownload", style: "width:#{width}px; height: #{height}px;"}) if content.resource_file.present? && !content.external_id.present?
+          =fa_icon("file-text-o", {class: "contentDownload", style: "width:#{width}px; height: #{height}px;"}) if content.external_id.present?
+          
+      -when :image
+        =paperclip_image_tag content.thumbnail_image, {noImage:"no_image_available.jpg", style: "width:#{width}px; height: #{height}px;", alt: content.name}
+  -else
+    .NoVideoLabel{:style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}"}
+      Content could not be loaded.
+        

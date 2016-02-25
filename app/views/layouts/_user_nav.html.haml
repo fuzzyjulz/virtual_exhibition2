@@ -1,0 +1,75 @@
+#top.topNavigationMenu
+  %nav.navbar.navbar-inverse.navbar-static-top.navbar-fixed-top
+    %header.navbar-header
+      -if @event.present? && @event.id.present? && @event.event_favicon.present?
+        %a.eventLogo{href: @event.event_url}
+          =paperclip_image_tag @event.event_favicon, alt: @event.name
+      %button{:class => "navbar-toggle", "data-toggle" => "collapse", "data-target" => ".navbar-ex1-collapse"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      .headerMenuText
+        Menu
+
+    .userToolsSection.pull-right
+      %ul.nav.navbar-nav
+        %li{:style => "padding:10px;"}
+          -if current_user and current_user.has_role?(:booth_rep)
+            .btn-group
+              %a#chat-messages.btn.btn-default.btn-sm{"data-placement" => "bottom", "title" => "Message", :href => "#", "data-toggle" => "tooltip"}
+                = fa_icon "comments"
+                %span.label.unread-msgs{class: (@unread_chats != 0 ? "label-danger" : "label-success")}
+                  = @unread_chats
+        -cart = my_cart(cookies)
+        -if cart and @event.present? and on_visitor_page?
+          %li{:style => "padding:10px;"}
+            .btn-group
+              %a#shoppingcart.btn.btn-default.btn-sm{tooltip("My Deals", :bottom, href: shopping_cart_path)}
+                = fa_icon "shopping-cart"
+                %span.label.unread-msgs.label-success
+                  = cart.shopping_cart_items.size
+        %li.userSection.dropdown
+          -if current_user
+            %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"} 
+              -if current_user.avatar_url.present?
+                .userIcon
+                  %img.media-object.img-thumbnail.user-img{:alt => "User Picture", :src => current_user.avatar_url}
+              -else
+                .noUserIcon
+                  %span.glyphicon.glyphicon-user
+              .userDetailsSection
+                -if current_user.name.size < 23
+                  = current_user.name
+                -else
+                  = current_user.first_name
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to "Update my profile", edit_user_registration_path
+                %li= link_to "Sign out", destroy_user_session_path, :method=>'delete'
+          -else
+            %a.modal_popup{sign_up_modal_hash} 
+              .noUserIcon
+                %span.glyphicon.glyphicon-user
+              .userDetailsSection
+                = "Not Logged In"
+
+
+    .collapse.navbar-collapse.navbar-ex1-collapse
+      %ul.nav.navbar-nav
+        -if current_user and (can?(:_admin, @current_event) or can? :_dashboard_menu, Event)
+          -if on_visitor_page?
+            .adminToolbar{style: "position: absolute;"}
+              .title
+                Admin Options
+              =render partial: "layouts/admin_toolbar"
+          -else
+            =render partial: "layouts/admin_toolbar"
+        -if @event.present? and params[:action] != 'new' and !(current_user and can?(:_admin, @current_event) and !on_visitor_page?)
+          %ul.nav.navbar-nav.visitorMenu
+            = render partial: '/layouts/user_nav_hall_button', locals: { halls: @event.main_halls}
+            -if @current_event.live?
+              = render partial: '/layouts/user_nav_hall_button', locals: { halls: @event.knowledge_hall_tag_hall} if @event.knowledge_hall_tag_hall.present?
+              = render partial: '/layouts/user_nav_hall_button', locals: { halls: @event.knowledge_halls} if @event.knowledge_hall_tag_hall.empty?
+              
+              = render partial: '/layouts/user_nav_hall_button', locals: { halls: @event.exhibition_halls, dropdown_title: "Exhibition Hall"}

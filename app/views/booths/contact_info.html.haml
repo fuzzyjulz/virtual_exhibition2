@@ -1,0 +1,22 @@
+.modal-header.bg-primary
+  Contact info
+  %button.close{ :type => 'button', 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+    &times;
+.modal-body
+  = raw @booth.contact_info
+  %hr
+  .alert.alert-info Your contact information will be included from your profile
+  = simple_form_for(@booth, url: booth_send_message_path, method: :post, html: { id: "send-message", :class => "form-horizontal" }, remote: true, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } }) do |f|
+    .form-group
+      %label.col-lg-4.control-label Message
+      .col-lg-8
+        %textarea#message.form-control{name: "user[message]", placeholder: "Type your message here..."}
+    %input{type: "hidden", name: "user[id]", value: "#{current_user.id}"}
+    .form-actions
+      %input.btn.btn-warning{:type => 'submit', :value => "Send"}
+      = f.error_notification
+
+:javascript
+  $('form#send-message').on('submit', function(){
+    $('body').modalmanager('loading');
+  });

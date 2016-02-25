@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: virtual_conferences
+  pool: 5
+  host: localhost
+  username: postgres
+  password: marcswebsite

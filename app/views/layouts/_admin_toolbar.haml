@@ -1,0 +1,48 @@
+-if current_user and can? :_dashboard_menu, Event
+  %li
+    %a{:href => root_path}
+      = fa_icon ApplicationController::ICONS[:dashboard]
+      Dashboard
+-if current_user and can?(:_admin, @current_event)
+  -if can?(:_super_admin, @current_event)
+    %li
+      %li.dropdown
+        %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"} 
+          = fa_icon ApplicationController::ICONS[:event]
+          Events
+          %b.caret
+        %ul.dropdown-menu
+          - Event.all.each do |event|
+            %li
+              = link_to event.name, event_path(event)
+  - if @event.present? && @event.id.present?
+    %li.dropdown
+      %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"} 
+        = fa_icon ApplicationController::ICONS[:hall]
+        Hall
+        %b.caret
+      %ul.dropdown-menu
+        - @event.halls.each do |hall|
+          %li
+            = link_to hall.name, hall_visit_path(hall)
+    -if can?(:_admin, @current_event)
+      %li
+        %a{:href => event_halls_path(@event)}
+          = fa_icon ApplicationController::ICONS[:hall]
+          Halls
+
+  - if @event.present? && @event.id.present?
+    %li.dropdown
+      %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"} 
+        = fa_icon ApplicationController::ICONS[:booth]
+        Booth
+        %b.caret
+      %ul.dropdown-menu
+        - @event.booths.each do |booth|
+          %li
+            = link_to booth.name, booths_visit_path(booth)
+  - if @hall.present? and @hall.id.present? and can?(:_admin, @current_event)
+    %li
+      %a{:href => hall_booths_path(@hall)} 
+        = fa_icon ApplicationController::ICONS[:booth]
+        Booths

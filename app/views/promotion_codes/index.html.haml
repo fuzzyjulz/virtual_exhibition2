@@ -1,0 +1,25 @@
+.row
+  - box 12, "Listing Promotions", {'Promotion' => promotion_path(@promotion)} do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th{width: "150px"} Actions
+          %th Code
+          %th Assigned To
+          %th Reserved Until
+      %tbody
+        = link_to 'New Promotion Code', new_promotion_promotion_code_path(@promotion), class: 'btn btn-primary'
+        - @promotion_codes.each do |promotion_code|
+          %tr
+            %td
+              = link_to 'View', promotion_code_path(promotion_code)
+              |
+              = link_to 'Edit', edit_promotion_code_path(promotion_code)
+              |
+              = link_to 'Delete', promotion_code, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= promotion_code.code
+            %td
+              -if promotion_code.assigned_to_user.present?
+                %a.labelObjectTag{href: user_path(promotion_code.assigned_to_user)}
+                  =promotion_code.assigned_to_user.name_and_email
+            %td= promotion_code.reserved_until

@@ -1,0 +1,12 @@
+<% if @event %>
+	<p>Thank you for registering for <%=@event%>. Please confirm your registration request by clicking on the link below:</p>
+<% else %>
+	<p>Thank you for registering. Please confirm your registration request by clicking on the link below:</p>
+<% end %>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
+
+<p>- Events Team</p>
+<p>If you experience any problems, please contact:<br />
+vconf@commstrat.com.au<br />
++61 3 8534 5007</p>

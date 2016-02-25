@@ -1,0 +1,23 @@
+.resourcesModal.modal-header.bg-primary
+  Resources
+  %button.close{ :type => 'button', 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+    &times;
+.resourcesModal.modal-body
+  .panel-group#accordion
+    - get_resources.each_with_index do |resource, key|
+      .panel.panel-default
+        .panel-heading{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{key}"}
+          %h4.panel-title
+            %a
+              = resource.name
+        .panel-collapse.collapse{ :id => "collapse#{key}" }
+          .panel-body
+            = resource.short_desc
+            %br
+            =raw resource.description
+          .panel-footer
+            =render partial: "contents/display_content", locals: {content: resource, width: 200, height: 200}
+:javascript
+  $('#accordion').on('hidden.bs.collapse', function () {
+    refreshModal();
+  });

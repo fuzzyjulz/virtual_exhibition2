@@ -1,0 +1,11 @@
+-autoplay_resource = true if defined? autoplay_resource and "#{autoplay_resource}" == "true"
+-content_for :ga_title, "Preview Content: #{content.name}"
+-content_for :preview_contentItem do
+  -if content.is_content_type?(:resource)
+    =render partial: "contents/thumbnail_content", locals: {content: content, width: 650, height: 400}
+  -else
+    =render partial: "contents/display_content", locals: {content: content, width: 650, height: 400, autoplay: true}
+-content_for :preview_additionalInfo do
+  %br
+  =render partial: "contents/display_content", locals: {content: content, width: 650, height: 400, autoplay: true, autoplay_resource: autoplay_resource} if content.is_content_type?(:resource)
+=render partial: '_shared/control/preview', locals: {content: content}

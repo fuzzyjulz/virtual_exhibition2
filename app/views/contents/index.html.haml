@@ -1,0 +1,44 @@
+.row
+  - box 12, "Listing Content" do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th Name
+          %th Content Type
+          %th Booths
+          %th Halls
+          %th Featured?
+          -if can?(:_admin, Content)
+            %th Owner
+          %th Order
+      %tbody
+        - @contents.each do |content|
+          %tr
+            %td
+              = link_to 'View', content
+              |
+              = link_to 'Edit', edit_content_path(content)
+              |
+              = link_to 'Delete', content, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= content.name
+            %td= content.content_type_obj.label
+            %td
+              - content.booths.each do |booth| 
+                %a.labelObjectTag{tooltip(booth.location_name, :top, href: show_booth_path(booth))}
+                  =booth.name
+            %td
+              - content.halls.each do |hall| 
+                %a.labelObjectTag{tooltip(hall.location_name, :top, href: hall_path(hall))}
+                  =hall.name
+            %td
+              =boolean_YN(content.featured)
+            -if can?(:_admin, content.event)
+              %td{style:"white-space: nowrap"}
+                -if content.owner_user
+                  %a.labelObjectTag{href: user_path(content.owner_user)}
+                    =content.owner_user.name
+            %td{style:"white-space: nowrap"}
+              =content.order_index
+
+    = link_to 'New Content', new_event_content_path(@event), class: 'btn btn-primary'

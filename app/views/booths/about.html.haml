@@ -1,0 +1,54 @@
+-tab="about"
+-if params[:tab] == "button1"
+  -tab="button1"
+
+.modal-header.bg-primary.boothAbout
+  View exhibitor info
+  %button.close{ :type => 'button', 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+    &times;
+.modal-body.boothAbout
+  %ul.nav.nav-tabs.m-bottom10
+    - if @booth.about_us
+      %li{class:("active" if tab=="about")}
+        %a{"data-toggle" => "tab", href: "#about-content"} About Us
+    - if @booth.button1_label.present?
+      %li{class:("active" if tab=="button1")}
+        %a{"data-toggle" => "tab", href: "#button1-content"} 
+          =@booth.button1_label
+    - if @booth.products.size > 0
+      %li
+        %a{"data-toggle" => "tab", href: "#products-content"} Products & Services
+  .tab-content.nav-sidebar-content
+    - if @booth.about_us
+      #about-content.tab-pane.fade.modal-overflow-scroll{class:("in active" if tab=="about")}
+        = raw @booth.about_us
+    - if @booth.button1_label.present?
+      #button1-content.tab-pane.fade.modal-overflow-scroll{class:("in active" if tab=="button1")}
+        =raw @booth.button1_content
+    - if @booth.products
+      #products-content.tab-pane.fade.modal-overflow-scroll
+        .container
+          %br
+          .row
+            .col-sm-2
+              %nav.nav-sidebar
+                %ul.nav.nav-tabs
+                  - @booth.products.each_with_index do |product, key|
+                    %li{:class => ("active" if key == 0)}
+                      %a{href: "#product-#{key}", "data-toggle" => "tab"}= product.name
+            .col-sm-8
+              .tab-content
+                - @booth.products.each_with_index do |product, key|
+                  .tab-pane.fade{:id => "product-#{key}", :class => ("in active" if key == 0)}
+                    .panel.panel-default
+                      .panel-body
+                        = image_tag(product.uploaded_file.assets.url, class: "img-rounded", style: "max-width: 200px;") if product.uploaded_file
+                        %p= raw product.description
+                      .panel-footer
+                        = link_to 'More info', product.product_url, target: '_blank' if !product.product_url.blank?
+
+:javascript
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    refreshModal();
+    resizeModal();
+  });

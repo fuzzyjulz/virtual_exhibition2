@@ -1,0 +1,36 @@
+.chat_widget{:title => "Booth chat - #{booth.name}", :style => "display:none;", id: chatWidgetId}
+  .panel
+    .panel-body
+      %ul.chat
+        = sync partial: 'chat_widget', collection: booth.chats.includes(:from_user, from_user: :uploaded_file).order(:created_at).limit(30)
+        = sync_new partial: 'chat_widget', resource: Chat.new, direction: :append, scope: "#{request.host}|Booth:#{booth.id}"
+    .panel-footer
+      = simple_form_for(booth, url: booth_chats_path(booth), method: :post, remote: true) do |f|
+        .input-group
+          %input#chat-message.form-control.input-sm{name: "chat[message]", placeholder: "Type your message here...", type: "text"}
+          %input{type: "hidden", name: "chat[from_user_id]", value: "#{current_user.id}"}
+          %input{type: "hidden", name: "chat[chattable_id]", value: "#{booth.id}"}
+          %input{type: "hidden", name: "chat[chattable_type]", value: "Booth"}
+          %span.input-group-btn
+            %button#btn-chat.btn.btn-warning.btn-sm{:type => 'submit'}
+              Send
+        = f.error_notification
+:javascript
+  function #{chatWidgetId}_open() {
+    $('##{chatWidgetId}').on("dialogresize", function(ev, ui){
+      $("##{chatWidgetId} .panel-body").height(ui.size.height-157);
+      $("##{chatWidgetId}").css('min-height',ui.size.height-60);
+      $("##{chatWidgetId}").css('min-width',$(".ui-dialog").width());
+    });
+    $('##{chatWidgetId}').show();
+    $('##{chatWidgetId}').dialog({
+      resizable: true,
+      height: 450,
+      width: 450,
+      modal: false,
+      minWidth: 400,
+      minHeight: 250
+    });
+    $('##{chatWidgetId}').trigger("dialogresize",[{size:{width: 450, height: 450}}]);
+    $("##{chatWidgetId} .panel-body").animate({ scrollTop: $('##{chatWidgetId} .panel-body .chat').height() }, "slow");
+  }

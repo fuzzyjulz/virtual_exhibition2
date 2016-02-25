@@ -1,0 +1,274 @@
+body.controller-halls.action-visit.style-main_hall_v2 {
+  background: black;
+  #inner {
+    background: inherit !important;
+  }
+  #wrap {
+    margin-top: 0;
+  }
+  .topNavigationMenu .navbar-ex1-collapse {
+    background: inherit !important;
+  }
+  nav.navbar {
+    background: rgba(#333, .6);
+    @include transition("background .5s ease-in; ");
+    .eventLogo {
+      display: none;
+    }
+  }
+  nav.navbar.solid {
+    background: rgba(#333, 1);
+  }
+}
+#mainHall_v2 {
+  width: 100%;
+  .title {
+    text-shadow: none;
+    padding-top: 40px;
+    margin-bottom: 20px
+  }
+  .watchButton {
+    display: inline-block;
+    .fa {
+      color: white;
+      font-size: 25px;
+      padding-right: 10px;
+      vertical-align: middle;
+    }
+  }
+  .eventLogo {
+    position: absolute;
+    z-index: 1;
+    margin-top: 60px;
+    margin-left: 10px;
+    img {
+      max-width: 208px;
+      max-height: 158px;
+    }
+  }
+  .mainBackground {
+    min-width: 100%;
+    .taglineSectionBoundary {
+      position: absolute;
+      display: table;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+      height: 500px;
+      .taglineSection {
+        vertical-align: middle;
+        display: table-cell;
+      }
+    }
+    .taglineText {
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .visitKnowledgeCenterButton {
+      display: inline-block;
+      width: 150px;
+      height: 38px;
+    }
+    .innerBackground {
+      display: inline-block;
+      position: relative;
+      right: -50%;
+      img {
+        min-width: 100vw;
+        height: 500px;
+        position: relative;
+        left: -50%;
+      }
+    }
+  }
+  .mainHallTextArea {
+    color: white;
+    .title {
+      text-transform: uppercase;
+      font-size: 28px;
+      color: #0ad;
+    }
+    .eventInfo {
+      width: 100%;
+      background: black;
+      padding-bottom: 50px;
+      @include center-align-block();
+      @media screen and (max-width: 1100px) {
+        width: 85vw
+      }
+      .title {
+        text-align: center;
+        width: 950px;
+        @include center-align-block()
+      }
+      .description {
+        margin-top: 10px;
+        width: 950px;
+        @include center-align-block()
+      }
+    }
+  }
+  .knowledgeCenterContent {
+    width: 100%;
+    background: #333;
+    .title {
+      text-align: center;
+    }
+  }
+  .keynoteTags {
+    background: black;
+    
+    .title {
+      text-align: center;
+    }
+  }
+  @mixin tagList($width, $height) {
+    text-align: left;
+    .tag {
+    
+      margin: 10px;
+      width: $width;
+      height: $height;
+      display: inline-block;
+      .overlay {
+        position: absolute;
+        width: $width;
+        height: $height;
+        overflow: hidden;
+        .overlayInternal {
+          height: $height;
+          color: white;
+          font-size: small;
+          background: rgba(#000, .6);
+          margin-top: $height - 45px;
+          padding-top: 5px;
+          @include transition("all .3s ease-in;");
+        }
+      }
+      .title {
+        color: white;
+        font-size: medium;
+        text-align: center;
+        margin: 0;
+        text-transform: inherit;
+        height: 45px;
+        margin: 0 0 5px -3px;
+        padding-top: 0;
+      }
+      .watchButton {
+        height: 37px;
+        margin-top: 0;
+      }
+    }
+    .watchButton {
+      width: $width;
+    }
+    .tag.withDescription {
+      $width: $width;
+      $height: $height;
+    
+      width: $width;
+      height: $height;
+      .overlay {
+        width: $width;
+        height: $height;
+        .overlayInternal {
+          height: $height;
+          margin-top: $height - 45px;
+        }
+      }
+      .description {
+        height: $height - 50px - 37px - 5px;
+        overflow: hidden;
+        padding: 0px 10px;
+      }
+    }
+    .tag:hover {
+      .overlayInternal {
+        margin-top: $height - 45px - 10px - 37px;
+        background: rgba(#000, .8);
+      }
+    }
+    .tag.withDescription:hover {
+      .overlayInternal {
+        margin-top: 0px;
+        background: rgba(#000, .6);
+      }
+    }
+  }
+  .tagList {
+    $width: 320px; 
+    @include tagList($width, $width * 9/16);
+    @include center-align-block();
+    text-align: center;
+    padding-bottom: 40px;
+    @media screen and (min-width: 1150px) {
+      width: 1150px
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+  .keynoteTagList {
+    @include tagList(280px, 210px);
+    text-align: center;
+    @include center-align-block();
+    @media screen and (min-width: 1150px) {
+      width: 1150px
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+  .signUpPanel {
+    height: 250px;
+    .signUpPanelContent {
+      position: absolute;
+      display: table;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+      height: 250px;
+      background: rgba(0,0,0,.4);
+      .title {
+        text-align: center;
+      }
+    }
+    .constrainingBG {
+      height: 250px;
+      overflow: hidden;
+      -webkit-filter: blur(3px);
+      .innerBackground {
+        display: inline-block;
+        position: relative;
+        right: -50%;
+        img {
+          min-width: 100vw;
+          position: relative;
+          left: -50%;
+        }
+      }
+    }
+  }
+  
+  .additionalContent {
+    background: black;
+    padding-left: 10px;
+    h1, h2, h3 {
+      text-transform: uppercase;
+      color: #0ad;
+      margin: 0;
+      padding: 20px 0 5px 0;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    h2 {
+      font-size: 24px;
+    }
+    h3 {
+      font-size: 20px;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+.row
+  - box 12, "View Booth", {'Promotions' => booth_promotions_path(@booth), 'Edit' => edit_booth_path(@booth), 'Back' => event_booths_path(@event), 'Visit' => booths_visit_path(@booth)} do
+    %p
+      %b Name
+      =@booth.name
+    %p
+      %b Tagline
+      =@booth.tagline
+    %p
+      %b Top Message
+      .adminRawText
+        =raw @booth.top_message
+    %p
+      %b Company Logo
+      =paperclip_image_tag @booth.company_logo, style: "max-height: 200px; max-width: 200px;"
+    %p
+      %b Company Website
+      =@booth.company_website
+    %p
+      %b Publish Status
+      .labelObjectTag
+        =PublishStatus[@booth.publish_status].label
+    %p
+      %b Owner
+      -if @booth.user.present?
+        %a.labelObjectTag{href: user_path(@booth.user)}
+          =@booth.user.name_and_email
+    %p
+      %b Hall
+      -if @booth.hall.present?
+        %a.labelObjectTag{href: hall_path(@booth.hall)}
+          =@booth.hall.name
+    %p
+      %b Template:
+      %a.labelObjectTag{href: template_path(@booth.template)}
+        = @booth.template.name
+    %p
+      %b Event:
+      %a.labelObjectTag{href: event_path(@booth.event)}
+        = @booth.event.name
+    %p
+      %b Contents:
+      -@booth.contents.each do |content|
+        %a.labelObjectTag{href: content_path(content)}
+          = content.name
+    %p
+      %b Tags:
+      -@booth.tags.each do |tag|
+        %a.labelObjectTag{href: tag_path(tag)}
+          = tag.name
+    %p
+      %b Thumbnail / Sponsor Image
+      =paperclip_image_tag @booth.thumbnail_image, style: "max-height: 200px; max-width: 200px;"
+    %p
+      %b Contact Info
+      .adminRawText
+        =raw @booth.contact_info
+    %p
+      %b About Us
+      .adminRawText
+        -if @booth.about_us_header_image.present?
+          =paperclip_image_tag @booth.about_us_header_image, style: "max-width: 100%; display:block;"
+        =raw @booth.about_us
+        -if @booth.about_us_footer_image.present?
+          =paperclip_image_tag @booth.about_us_footer_image, style: "max-width: 100%; display:block;"
+    %p
+      %b Custom Label: #{@booth.button1_label}
+      .adminRawText
+        =raw @booth.button1_content
+    %p
+      %b Ticker Message
+      .adminRawText
+        =raw @booth.ticker_message
+    %p
+      %b Booth List Message
+      .adminRawText
+        =raw @booth.booth_list_message
+    %p
+      %b Related Sponsor Tagline
+      .adminRawText
+        =raw @booth.related_sponsor_tagline
+    %p
+      %b Chat Display Mode
+      -if @booth.display_mode
+        Open
+      -else
+        Closed
+    -@booth.followus(:all).each do |followItem|
+      %p
+        %b="Follow Us #{followItem.name.to_s.titleize}"
+        =@booth.send(followItem.field)

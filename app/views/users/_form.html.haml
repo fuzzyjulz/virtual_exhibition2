@@ -1,0 +1,25 @@
+- @form_action = {action: "create_user"} if page_class == "users new" || page_class == "users create_user" 
+= simple_form_for(@user, url: @form_action, :html => { :class => "form-horizontal", :id => "inline-validate" }, :wrapper => "horizontal", defaults: { :input_html => { novalidate: false, class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :email, :required => true, :autofocus => true, :placeholder => "Email"
+    = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false, :placeholder => "Password", :input_html => { class: "password form-control" }
+    = f.input :password_confirmation, :required => false, :placeholder => "Confirmation", :input_html => { class: "confirm_password form-control" }
+    = f.input :title, collection: [ :Mr, :Mrs, :Miss, :Ms, :Dr ], prompt: "Please select your title"
+    = f.input :first_name, :placeholder => "First name"
+    = f.input :last_name, :placeholder => "Last name"
+    = f.input :position, :placeholder => "Position"
+    = f.input :work_phone, :placeholder => "Work Phone"
+    = f.input :mobile, :placeholder => "Mobile"
+    = f.input :company, :placeholder => "Company"
+    = f.input :state, collection: locations, :required => true, :autofocus => true, :label => "Location"
+    = f.input :industry, :required => true, :autofocus => true, :placeholder => "Industry"
+    = f.input :interested_topic, :required => true, :autofocus => true, :placeholder => "Interested Topics"
+    = f.association :roles, collection: available_roles, :input_html => { class: "chosen" }, :include_hidden => false
+    = f.association :booths, collection: available_booths, :input_html => { class: "chosen" }
+    = f.association :events, collection: available_events, :input_html => { class: "chosen" }
+    = simple_form_image_paperclip(f, :uploaded_file, label: 'Avatar')
+
+  .form-actions
+    = f.button :submit, :class => "btn btn-primary"

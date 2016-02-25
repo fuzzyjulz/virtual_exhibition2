@@ -1,0 +1,3 @@
+- topics = ["commstrat"]
+- @client.search("#media", :result_type => "recent").take(3).collect do |tweet|
+  = "#{tweet.user.screen_name}: #{tweet.text}"

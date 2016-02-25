@@ -1,0 +1,52 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: asset_url("bootstrap/glyphicons-halflings-regular.eot");
+  src: asset_url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), asset_url("bootstrap/glyphicons-halflings-regular.woff") format("woff"), asset_url("bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), asset_url("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
+
+
+  
+body {
+  color: #5a5a5a !important;
+  position: relative;
+  backface-visibility: visible !important;
+  margin-right: 0px;
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  @media (max-width: 767px) {
+    padding-top: 0px !important;
+  }
+}
+body.login {
+  padding-top: 60px;
+}
+
+header.head{
+  margin-top: 55px;
+}
+.outer {
+  .inner {
+    padding: 0px;
+    .row {
+      margin: 0px;
+    }
+    .row > .col-md-12 {
+      padding: 0px;
+    }
+  }
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type=text]{
+  height: 30px !important;
+}
+
+//Drop the top of the page down to fill the content area.
+#wrap.visitor-wrap-margin{
+  margin-top: 53px;
+}
+
+.page-header {
+  margin: 0px 0px 20px 0px;
+}

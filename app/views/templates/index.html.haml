@@ -1,0 +1,25 @@
+.row
+  - box 10, 'Listing templates' do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th Name
+          %th Template type
+          %th Image
+      %tbody
+        - @templates.each do |template|
+          %tr
+            %td
+              = link_to 'Show', template
+              |
+              = link_to 'Edit', edit_template_path(template)
+              |
+              = link_to 'Destroy', template, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= template.name
+            %td= template.template_type_label
+            %td
+              - if template.uploaded_file
+                %img{ :src => template.uploaded_file.assets.url, :width => "200px", :height => "100px" } 
+
+    = link_to 'New Template', new_template_path, :class => "btn btn-primary"

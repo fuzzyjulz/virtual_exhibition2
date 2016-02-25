@@ -1,0 +1,12 @@
+- if booth.user.nil?
+  .alert.alert-danger.booth_closed_message
+    Booth Chat Closed
+- elsif booth.user.status == 'Yes'
+  .alert.alert-success.booth_closed_message
+    Currently online
+- elsif booth.user.booth_closed_message == ''
+  .alert.alert-danger.booth_closed_message
+    Currently offline
+- else
+  .alert.alert-danger.booth_closed_message
+    = booth.user.booth_closed_message

@@ -1,0 +1,65 @@
+-# ###########  For users already logged into the system ##############
+!!! 5
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+  %head
+    = render partial: 'layouts/head'
+    = link_tag_gz :stylesheet, "shared", media: "all"
+    = link_tag_gz :stylesheet, "visitor", media: "all" if on_visitor_page? 
+    = link_tag_gz :stylesheet, "admin", media: "all" if !current_user.nil? and !on_visitor_page?
+    = render partial: 'layouts/google_analytics'
+    = render partial: 'layouts/javascript_libraries'
+  
+    = csrf_meta_tags
+  %body{:class => ("#{@hide_sidebar} controller-#{controller.controller_name} action-#{controller.action_name} #{defined?(controller.style) ? "style-#{controller.style}" : ""}")}
+    - if(browser.ie8? || browser.ie7?)
+      <div id="browser-alert">
+      <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+      </div>
+      <script>
+      $(function() {
+      $( "#browser-alert" ).dialog({ modal: true });
+      });
+      </script>
+    #wrap.visitor-wrap-margin
+      = render 'layouts/messages'
+      = render 'layouts/user_nav'
+      #left
+        -if params[:action] != 'visit' and !current_user.nil?
+          .media.user-media 
+            %a.user-link{:href => edit_user_registration_path}
+              - if current_user.avatar_url.present?
+                %img.media-object.img-thumbnail.user-img{:alt => "User Picture", :src => current_user.avatar_url, :style => "width:75px;height:75px"}
+              %span.label.label-danger.user-label
+                
+            .media-body
+              %h5.media-heading
+                = current_user.first_name
+              %ul.list-unstyled.user-info
+                %li= link_to current_user.position, edit_user_registration_path
+                %li 
+                  Last Access :
+                  %br
+                  %small
+                    #{fa_icon 'calendar'} #{current_user.last_sign_in_at}
+  
+        = render partial: 'layouts/side_bar_menu', locals: { menu_item: @sidebar_menu_item } unless @sidebar_menu_item.nil? or current_user.nil? or current_user.is_visitor?
+      #content
+        .outer
+          .inner#inner{style: defined?(background_image) ? "background-image: url('#{background_image}');" : ""}
+            = yield
+            = render partial: '_shared/control/modal_popup'
+    = render 'layouts/footer'
+    = render 'layouts/help_modal'
+    -if current_user.present? and @booth_rep_booth.present?
+      = render partial: 'booths/chat', locals: { booth: current_user.booths.first, chatWidgetId: "booth_rep_chat"}
+      :javascript
+        $(function(){
+          $('#chat-messages').on('click', function(){
+            booth_rep_chat_open();
+            $("#chat-messages .unread-msgs").html("0").removeClass('label-danger').addClass('label-success')
+            $.getScript("#{read_all_booth_user_chats_path}");
+          });
+        });
+    
+    /[if IE 9]
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>

@@ -1,0 +1,78 @@
+.row
+  - box 7, "View Content", {'Edit' => edit_content_path(@content), 'Back' => event_contents_path(@event)} do
+    -if !@content.valid_content?
+      .label.ui-button-danger{style: 'white-space: normal; display: inline-block;'}
+        Content is not valid, please resolve this. While invalid this content will not be shown in booths or the knowledge center.
+      %br
+      %br
+    %p
+      -if @content.flags.present?
+        -@content.flags.each do |flag|
+          %span.labelObjectTag
+            =flag
+    %br
+    %p
+      %b Name
+      =@content.name
+    %p 
+      %b Short Description
+      =@content.short_desc
+    %p
+      %b Description
+      %br
+      .adminRawText
+        =raw @content.description
+    %p
+      %b Tags
+      -@content.tags.each do |tag|
+        %a.labelObjectTag{href: tag_path(tag)}
+          =tag.name
+    
+    %br
+    %p
+      %b Owner
+      -if @content.owner_user
+        %a.labelObjectTag{href: user_path(@content.owner_user)}
+          =@content.owner_user.name_and_email
+    %br
+    %p
+      %b Privacy
+      %span.labelObjectTag
+        =@content.privacy_label
+    %p
+      %b Appear on booths
+      -@content.booths.each do |booth|
+        %a.labelObjectTag{tooltip(booth.location_name, :top, href: show_booth_path(booth))}
+          =booth.name
+    
+    %p
+      %b Appear in halls
+      -@content.halls.each do |hall|
+        %a.labelObjectTag{tooltip(hall.location_name, :top, href: hall_path(hall))}
+          =hall.name
+    
+    %br
+    %p
+      %b Content sponsor
+      -if @content.sponsor_booth
+        %a.labelObjectTag{tooltip(@content.sponsor_booth.location_name, :top, href: show_booth_path(@content.sponsor_booth))}
+          =@content.sponsor_booth.name 
+    %p
+      %b Featured content
+      =boolean_YN(@content.featured)
+    %p
+      %b Order
+      =@content.order_index
+      
+  - box 4, "Content" do
+    -if @content.video_duration.present?
+      %p.duration
+        %b
+          Duration:
+        =@content.video_duration
+    %p 
+      %b=@content.content_type
+    =render partial: "thumbnail_content.html.haml", locals: {content: @content, width: 300, height: 250}
+    %br
+    %br
+    =render partial: "display_content.html.haml", locals: {content: @content, width: 300, height: 250} 

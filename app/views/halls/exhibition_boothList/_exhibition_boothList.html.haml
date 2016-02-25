@@ -1,0 +1,12 @@
+#boothListHall
+  .booths.section
+    .title Exhibitor List
+
+    .listWindow
+      -boothsList = []
+
+      -@hall.event.published_booths.each_slice(4) do |boothListItem|
+        .boothGroup
+          -boothListItem.each do |booth|
+            .imageFrame
+              = link_to(image_tag(booth.company_logo.assets.url), booths_visit_path(booth), tooltip(booth.name, :top)) if booth.company_logo

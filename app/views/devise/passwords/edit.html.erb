@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Change your password</h2>
+  <div class="tab-content">
+    <div class="tab-pane active" id="change-password">
+      <%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, class: "login form-signin" }, defaults: { :input_html => { class: "form-control"} } ) do |f| %>
+        <%= f.error_notification %>
+
+        <%= f.input :reset_password_token, :as => :hidden %>
+        <%= f.full_error :reset_password_token %>
+
+        <div class="form-inputs">
+          <%= f.input :password, :label => "New password", :required => true, :autofocus => true %>
+          <%= f.input :password_confirmation, :label => "Confirm your new password", :required => true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Change my password", class: "btn btn-lg btn-primary btn-block" %>
+        </div>
+      <% end %>
+    </div>
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

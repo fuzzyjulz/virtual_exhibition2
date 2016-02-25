@@ -1,0 +1,31 @@
+.registrationPanel
+  :javascript
+    $("#login_#{provider.to_s}").validate({rules: {"user[password]": {minlength: 6},"user[password_confirmation]": {equalTo: "#login_#{provider.to_s} #user_password", minlength: 6}}});
+  = simple_form_for(resource, :as => resource_name, :url => (provider == :direct ? registration_path(resource_name) : social_register_path()), :html => {novalidate: false, :class => 'form-signin', :id => "login_#{provider.to_s}"}) do |f|
+    -if provider != :direct
+      %input{type:"hidden", name:"user[provider]", value: provider}
+    -if provider == :direct
+      %p
+        = f.input :first_name, :required => true, input_html: {style:"display: inline-block;", class: "form-control halfWidth" }, :placeholder => "First Name", :label => false
+        = f.input :last_name, :required => true, input_html: {style:"display: inline-block;", class: "form-control halfWidth" }, :placeholder => "Last Name", :label => false
+    -if provider == :direct
+      %p
+        = f.input :position, :required => true, input_html: {class: "form-control fullWidth" }, :placeholder => "Job Title", :label => false
+        = f.input :company, :required => true, input_html: {class: "form-control fullWidth" }, :placeholder => "Company", :label => false
+    -if provider == :direct
+      %p
+        = f.input :email, :autocomplete => "off", :required => true, :autofocus => true, input_html: {style:"display: inline-block;", class: "form-control fullWidth"}, :placeholder => "Email address", :label => false
+        %br
+        = f.input :password, :autocomplete => "off" , :required => true, input_html: {style:"display: inline-block;", class: "password form-control halfWidth" }, :placeholder => "Password", :label => false
+        = f.input :password_confirmation, :autocomplete => "off", :required => true, input_html: {style:"display: inline-block;", class: "confirm_password form-control halfWidth" }, :placeholder => "Confirm Password", :label => false
+    = f.input :terms, as:"hidden", input_html: {value: "1"}
+    .registrationBtn
+      -if provider == :direct
+        = f.button :submit, "Register", :class => "btn btn-primary signInButton"
+        %br
+        .terms
+          = raw "By registering you agree to the #{link_to('Terms & Conditions', '/privacy', :target => '_blank')}"
+      -else
+        .providerLink{style:"width: 220px; display: inline-block;"}
+          %a{onClick: "$('#login_#{provider.to_s}').submit();", type: "submit", value: "Free registration", :class => "text-muted zocial #{provider.to_s} btn-block"}
+            Register using #{provider.to_s.titleize}

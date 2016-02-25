@@ -1,0 +1,23 @@
+-if provider == :direct
+  .loginPanel
+    :javascript
+      $("#signin_#{provider.to_s}").validate();
+    = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {id: "signin_#{provider.to_s}",:class => 'form-signin'}) do |f|
+      %p
+        = f.input :email, :required => true, :autofocus => true, input_html: {class: "form-control midWidth"}, :placeholder => "Email address", :label => false
+        = f.input :password, :required => true, input_html: {class: "form-control midWidth" }, :placeholder => "Password", :label => false
+      %p
+        = f.button :submit, "Sign in", :class => "btn btn-primary signInButton"
+      -#= f.input :remember_me, :as => :boolean, :label => false, :wrapper => :checkbox if devise_mapping.rememberable? 
+      .row
+        .signinLinks
+          = render "devise/shared/links"
+-else
+  .providers{style: "padding-left: 10px;"}
+    - if devise_mapping.omniauthable?
+      - provider_name = provider.to_s
+      - provider_name = 'google' if provider.to_s == 'google_oauth2'
+      .providerLink{style:"width: 220px; display: inline-block;"}
+        = link_to "Sign in using "+provider_name.to_s.titleize, 
+          omniauth_authorize_path(resource_name, provider, state: form_authenticity_token), 
+          class: "text-muted zocial #{provider_name} btn-block"

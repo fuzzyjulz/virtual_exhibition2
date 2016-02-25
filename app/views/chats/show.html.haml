@@ -1,0 +1,10 @@
+- box 6, 'Show chat', {'Edit' => edit_chat_path(@chat), 'Back' => chats_path } do
+	%p
+		%b From user:
+		= @chat.from_user.name
+	%p
+		%b To user:
+		= @chat.to_user.name if @chat.to_user
+	%p
+		%b Message:
+		= @chat.message

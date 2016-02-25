@@ -1,0 +1,35 @@
+.row
+  - box 12, "Listing products" do
+    -if current_user.has_role?(:booth_rep)
+      %p
+        %strong Products are displayed under the heading of Products & Services, accessible by clicking on the 'i' icon from the Visitors view of the booth.
+      %br
+    %table.table.table-striped.table-bordered.table-hover.dataTable2
+      %thead
+        %tr
+          %th Actions
+          %th Name
+          %th Description
+          %th Image
+          %th Booths
+          
+      %tbody
+        - @products.each do |product|
+          %tr
+            %td
+              = link_to 'View', product
+              |
+              = link_to 'Edit', edit_product_path(product)
+              |
+              = link_to 'Delete', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= product.name
+            %td= "#{raw product.description[0..30]}"
+            %td= image_tag product.uploaded_file.assets.url, { style: "width: 80px;" } if product.uploaded_file
+            %td
+              - product.booths.each do |booth| 
+                %a.labelObjectTag{href: show_booth_path(booth)}
+                  = booth.name.to_s
+
+    %br
+
+    = link_to 'Add Product', new_product_path, class: "btn btn-primary" if can? :new, Product

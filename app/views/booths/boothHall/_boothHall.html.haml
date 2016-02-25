@@ -1,0 +1,139 @@
+#boothContainer
+  #backSection
+    = link_to "Back to Exhibition Hall", hall_visit_path(@hall)
+  #sponsorBanner
+    -if @prev_booth
+      #sponsorPrevious.sponsorNavBtn{tooltip(@prev_booth.name, :right)}
+        #arrow
+          = link_to fa_icon("arrow-left"), booths_visit_path(@prev_booth)
+    .innerBanner
+      #sponsorContent
+        #sponsorLogo
+          = paperclip_image_tag @booth.company_logo, class: 'company_logo', alt: @booth.name
+        #sponsorAbout
+          %h1#header
+            =@booth.name
+          #text
+            =raw @booth.top_message
+    -if @next_booth
+      #sponsorNext.sponsorNavBtn{tooltip(@next_booth.name, :left)}
+        #arrow
+          = link_to fa_icon("arrow-right"), booths_visit_path(@next_booth)
+  #contentArea
+    #leftPanel
+      - if @booth.about_us.present?
+        .content-btn{tooltip("View exhibitor info", :left)}
+          %a#about.modal_popup{ :href => booth_about_path(tab: "about"), modalSizeFunction: "aboutUsSize"}
+            .btn.textButton
+              About Us
+      -if get_resources.present?
+        #literatures.content-btn{tooltip("Download resources", :left)}
+          %a#literature.modal_popup{ :href => booth_literature_path, modalSizeFunction: "resourcesSize"}
+            .btn.textButton
+              Resources
+      -if @booth.button1_label.present?
+        .content-btn{tooltip(@booth.button1_label, :left)}
+          %a#about.modal_popup{ :href => booth_about_path(tab: "button1"), modalSizeFunction: "aboutUsSize"}
+            .btn.textButton
+              =@booth.button1_label
+    #videoContainer
+      -if @visualContent.empty?
+        #tv-advertisement-video
+          =image_tag "no_image_available.jpg", style: "height; 300px"
+      -else
+        #tv-advertisement-video
+          = render(layout: "_shared/control/content_control", locals: {contents: @visualContent}) do |section, content|
+            -case section 
+            -when :content
+              =render partial: "contents/display_content", locals: {content: content}
+            -when :thumbnail
+              =render partial: "contents/thumbnail_content", locals: {content: content, width: 47, height: 35}
+    #rightPanel
+      - if @booth.user and @booth.user.status == 'Yes'
+        .content-btn.booth-chat-btn{tooltip("Booth chat", :right)}
+          %a#booth-chat-btn{ current_user.present? ? {:href => "#"} : sign_up_modal_hash.merge({class:"modal_popup"})}
+            .btn.img
+              = fa_icon "comments-o"
+      .content-btn{tooltip("Leave My Details", :right)}
+        %a#leaveCard.modal_popup{ current_user.present? ? {:href => booth_leave_business_card_path, modalSizeFunction: "busCardSize"} : sign_up_modal_hash}
+          .btn.img
+            .businessCard
+              .userOuter
+                %span.glyphicon.glyphicon-user
+              %span.glyphicon.glyphicon-list
+      - if @booth.contact_info.present?
+        .content-btn{tooltip("Contact us", :right)}
+          %a#sendMessage.modal_popup{ current_user.present? ? {href: booth_contact_info_path, modalSizeFunction: "busCardSize"} : sign_up_modal_hash}
+            .btn.img
+              = fa_icon "envelope"
+  - if !@booth.ticker_message.nil? 
+    -tickerMessage = get_ticker_message_arr()
+    -if tickerMessage.size > 0
+      #tickerContentArea
+        %ul#js-news.js-hidden
+          - get_ticker_message_arr().each do |tickerMessage|  
+            %li.news-item
+              =raw tickerMessage
+
+= render partial: 'chat', locals: { booth: @booth, chatWidgetId: "booth_chat"} if current_user.present?
+
+-if current_user.present?
+  :javascript
+    $(function(){
+      $('.booth-chat-btn').on('click', function(){
+        booth_chat_open();
+      });
+    });
+  
+:javascript
+  function busCardSize(modal) {
+    var width;
+    if ($(window).width() < 470) {
+      width = 430;
+    } else if($(window).width() > 670) {
+      width = 650;
+    } else {
+      width = $(window).width()*.90;
+    }
+    var height = ($(window).height() * .90);
+    height = height > 530 ? 530 : height;
+    
+    return [width,height];
+  }
+  function aboutUsSize(modal) {
+    var width;
+    if ($(window).width() > 820) {
+      width = 800;
+    } else {
+      width = $(window).width()*.90;
+    }
+    var height = $(window).height() * .90;
+    
+    
+    $(".modal-overflow-scroll").height(height-80-$(".nav-tabs").height())
+    
+    return [width,height];
+  }
+  function resourcesSize(modal) {
+    var width;
+    if ($(window).width() > 620) {
+      width = 600;
+    } else {
+      width = $(window).width()*.90;
+    }
+    var height = $(window).height() * .90;
+    
+    return [width,height];
+  }
+  function addTicker() {
+    if ($('#js-news').not(".tickerApplied").size() > 0) {
+      $('#js-news').ticker({titleText: ''});
+      $('#js-news').addClass("tickerApplied");
+    }
+  }
+  
+  if ($('#js-news').ticker != undefined) {
+    addTicker();
+  }
+  
+  $(document).on("vc.scripts.visitor.completed", addTicker);

@@ -1,0 +1,6 @@
+events,roles,email,password, confirmed_at ,first_name , last_name
+Wierd event,admin,Julz.West+1@gmail.com,password,2013-10-29 23:55:27,Julian, West1
+First Event,,julz.west+import2@gmail.com,password1,2013-10-29 23:55:27,Julian2,
+,,julz.west+import3@gmail.com,password2,2013-10-29 23:55:27,Julian3
+Second Event,,julz.west+import4@gmail.com,password4,2013-10-29 23:55:27,Julian4,West4
+First Event,,julz.west+import5@gmail.com,password1,2013-10-29 23:55:27,Julian2,West

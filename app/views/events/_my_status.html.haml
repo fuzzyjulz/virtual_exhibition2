@@ -1,0 +1,17 @@
+- box 12, "Booth Chat", nil, "inverse" do
+  = simple_form_for(current_user, :html => { :class => "form-horizontal", onsubmit: "return validateChange()"}, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" }, :remote => true } ) do |f|
+    = f.error_notification
+    = f.input :status, collection: ["Yes", "No"], default: "No", as: :radio_buttons, :label => "Available for a chat?"
+    =# f.input :booth_closed_message, :selected => (current_user.booth_closed_message == 'Yes' ? 'Yes' : 'No'), :label => "Current 'Booth Closed for Chat' message", :input_html => { style: "height:100px;" }
+    
+    .form-actions
+      =# link_to "View booth chat", "#", class: "btn btn-success"
+      = f.button :submit, "Save changes", class: "btn btn-primary"
+:javascript
+  function validateChange() {
+    if ($("#uniform-user_status_yes .checked").size() #{current_user.status == "Yes" ? " > " : " == "} 0 ) {
+      alert("You must change the available for booth chat indicator.");
+      return false;
+    }
+    return true;
+  }

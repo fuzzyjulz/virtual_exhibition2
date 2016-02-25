@@ -1,0 +1,16 @@
+- if !flash.empty?
+  .container
+    - flash.each do |name, msg|
+      - if msg.is_a?(String)
+        -messageType=""
+        -case name
+        -when "error"
+          -messageType = "danger"
+        -when "success"
+          -messageType = "success"
+        -else
+          -messageType = "info"
+        :javascript
+          
+          $.bootstrapGrowl('#{msg.gsub(/'/,"\\\\'")}', { type: '#{messageType}', 
+                           align: 'center', width: 'auto', delay: #{name == "error" ? 20000 : 4000}});

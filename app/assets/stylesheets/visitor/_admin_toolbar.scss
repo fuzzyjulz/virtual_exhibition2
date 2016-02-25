@@ -1,0 +1,47 @@
+.adminToolbar {
+  position: absolute;
+  top: 52px;
+  background: rgba(#333,.8);
+  left: 0px;
+  padding: 10px;
+  border: 1px solid black;
+  opacity: 1;
+  @include border-radius("0 0 5px 0");
+  @include transition("left 1s ease-out, opacity 1s ease-in");
+  
+  
+  &.fadeout {
+    left: -150px;
+    opacity: 0;
+  }
+  
+  .title {
+    font-size: 15px
+  }
+  
+  li, li > a{
+    color: #9d9d9d;
+    font-size: 14px;
+    margin: 4px 0;
+  }
+  li > a {
+    &:hover, &:focus {
+      color: #eee;
+      text-decoration: none;
+    }
+  }
+  .open > a {
+    background: transparent;
+    &:hover, &:focus {
+      background: transparent;
+    }
+  }
+  .dropdown.open .dropdown-menu {
+    background: #666;
+    li a {
+      font-size: 12px;
+      margin: 4px 12px;
+      color: #ccc;
+    }
+  }
+}

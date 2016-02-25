@@ -1,0 +1,15 @@
+.content_control{class: (contents.size == 1 ? "noThumbnails": "")}
+  .carousel.slide.article-slide{"data-ride" => "carousel", "data-interval" => "false"}
+    .slider-container
+      -# Wrapper for slides
+      .carousel-inner.cont-slider
+        - contents.each_with_index do |content, index|
+          .item{ :class => "#{index == 0 ? 'active' : '' }" }
+            =yield [:content, content]
+
+    -# Indicators
+    -if contents.size > 1
+      .carousel-indicators
+        - contents.each_with_index do |content, index|
+          .itemThumbnail{ :class => "#{index == 0 ? 'active' : '' }", "data-slide-to" => index, "data-target" => ".content_control .carousel"}
+            =yield [:thumbnail, content]

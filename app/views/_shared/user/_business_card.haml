@@ -1,0 +1,34 @@
+-# This template is used for the email AND the leave business card section and MUST have it's formatting 
+  done on each element individually or it may not render properly. It also restricts it to plain images and
+  so no font-awesome or glyphs
+  
+  
+#businessCard{style:"margin:20px; margin-left: auto; margin-right: auto; border: 3px solid #999; padding: 20px; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius: 10px; display:table;"}
+  %table
+    %tr
+      -if (!defined? @event.event_url) and user.avatar.present?
+        %td.profileImage{style:"display: inline-block; height: 145px; width: 140px;"}
+          -if user.avatar_url.starts_with?("/") and defined? @event.event_url
+            = image_tag @event.event_url+user.avatar_url, style: "display: block; max-width:100%; max-height:100%;"
+          -else
+            = image_tag user.avatar_url, style: "display: block; max-width:100%; max-height:100%;"
+      -else
+        %td.profileImage{style:"display: inline-block; height: 145px; width: 140px;"}
+          -if (defined? @event.event_url)
+            = image_tag @event.event_url+asset_url("profile_img.gif"), style: "display: block; max-width:100%; max-height:100%;"
+          -else
+            = image_tag asset_url("profile_img.gif"), style: "display: block; max-width:100%; max-height:100%;"
+      %td.details{style: "display: inline-block; margin-left:20px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;"}
+        .name{style:"font-weight: bold; font-size: large;"}
+          =user.name
+        .position{style:"font-style: italic;"}
+          =user.position
+        .company{style: "padding-bottom: 10px;"}
+          =user.company
+        .state
+          =user.state_name
+        .email
+          =user.email
+        -if user.mobile.present?
+          .mobile
+            =user.mobile

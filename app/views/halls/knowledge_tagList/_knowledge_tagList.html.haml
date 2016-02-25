@@ -1,0 +1,19 @@
+.knowledgeHallTagList
+  -knowlegdeHall = @hall.event.knowledge_halls[0]
+  -if knowlegdeHall
+    .tagBorderBox
+      -if @hall.title
+        %h1.title=@hall.title
+      -if @hall.description
+        .description=raw @hall.description
+      
+      = render layout: '_shared/control/montage.haml', locals: {montageImages: knowledge_center_featured_tags()} do |tag|
+        %a.tagListItem{href: hall_visit_path(knowlegdeHall, tag: tag.id)}
+          =paperclip_image_tag tag.thumbnail_image, alt: tag.name
+          .overlay
+            %h2.description
+              =tag.name
+          
+      .controls
+        %a.browse.generalButton{href: hall_visit_path(knowlegdeHall)}
+          View all content

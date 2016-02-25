@@ -1,0 +1,23 @@
+= simple_form_for(@tag, url: url, :html => { :class => "form-horizontal", :id => "inline-validate" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+    = f.input :description, :input_html => { style: "height:100px" }
+    = f.input :tag_type, collection: Tag.tag_type_labels, :input_html => {class: "chosen"}
+    =simple_form_image_paperclip(f, :thumbnail_image)
+    = f.input :featured, label: "Featured tag"
+    = f.input :related_sponsors_text
+    = f.association :contents, collection: get_contents, :input_html => {class: "chosen" , 
+        data: {linked: "select", 
+               linked_parent_id: "tag_event_id",
+               linked_collection_path: event_contents_path(":event_id:")}}
+    = f.association :booths, collection: get_booths, :input_html => {class: "chosen" , 
+        data: {linked: "select", 
+               linked_parent_id: "tag_event_id",
+               linked_collection_path: event_booths_path(":event_id:")}}
+    = f.association :event, collection: get_events, :input_html => {class: "chosen" }
+    
+  .form-actions
+    = f.button :submit, :class => "btn btn-primary"
+  .blankArea{style:"height: 200px"}
+    &nbsp;

@@ -1,0 +1,18 @@
+-isActive = halls[0].present? && (@hall.present? && @hall.template.template_type == halls[0].template.template_type) or (@content.present? and @content.halls.select {|hall| hall.template.template_type == halls[0].template.template_type}.size > 0)
+-if halls.size > 1
+  %li.dropdown.navbarButton{class:("active" if isActive)}
+    %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"} 
+      .navbarButtonText
+        =halls[0].template.name unless defined? dropdown_title
+        =dropdown_title if defined? dropdown_title
+        %b.caret
+      %ul.dropdown-menu
+        -halls.each do |hall|
+          %li
+            = link_to hall.name, hall_visit_path(hall)
+-elsif halls.size == 1
+  -hall = halls[0]
+  %li.navbarButton{class:("active" if isActive)}
+    %a.navbarLink{href: hall_visit_path(hall)}
+      .navbarButtonText
+        =hall.name

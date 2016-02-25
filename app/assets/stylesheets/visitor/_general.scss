@@ -1,0 +1,102 @@
+#wrap {
+  background: inherit;
+}
+.outer {
+  background: inherit;
+}
+.inner {
+  background: inherit;
+}
+//A standard button to be used around the system
+.generalButton {
+  @include border-radius("3px");
+  @include transition("background .3s ease-in");
+  background: #999;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-size: larger;
+  padding: 6px;
+  color: white;
+  border: none;
+  .fa {
+    @include transition("color .3s ease-in");
+    color: #999;
+  }
+  &.transparent {
+    background: rgba(#666, .8);
+  }
+  &:hover, &:focus {
+    background: #0AD;
+    text-decoration: none;
+    color: white;
+    .fa {
+      color: #0AD;
+    }
+  }
+  &.actionButton {
+    background: #f66;
+    &:hover, &:focus {
+      background: #f00;
+    }
+  }
+  &.disabled {
+    &:hover, &:focus {
+      background: #999;
+      color: white;
+      .fa {
+        color: #999;
+      }
+    }
+  }
+}
+//### contentDownloadButton - used across multiple pages for the resource icon
+contentDownload .fa {
+  color: white;
+  background: #999;
+  font-size: 30px;
+  width: 44px;
+  height: 40px;
+  text-align: center;
+}
+
+a.contentDownloadButton .fa {
+  color: white;
+  background: #999;
+  font-size: 30px;
+  width: 44px;
+  height: 40px;
+  text-align: center;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  @include border-radius("3px");
+  @include transition("background-color .4s ease-in");
+}
+a.contentDownloadButton:hover .fa {
+  background: #0AD;
+}
+
+/* Marketing section on the footer of the page */
+.marketing {
+  padding-left: 15px;
+  padding-right: 15px;
+  .col-lg-4 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-weight: normal;
+  }
+  .col-lg-4 p {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.title{
+  font-size: 20px;
+  font-weight: inherit;
+  text-align: left;
+  text-shadow: 1px 1px 1px #444;
+  margin: 0;
+}

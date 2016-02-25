@@ -1,0 +1,23 @@
+# Pusher
+common: &common
+  adapter_javascript_url: "http://js.pusher.com/2.0/pusher.min.js" 
+  app_id: "61523"
+  api_key: "6d91b65838a7ed97c0b3"
+  auth_token: "99686259c9a47b6e30e8"
+  adapter: "Pusher"
+  async: true
+
+development:
+  <<: *common
+
+staging:
+  <<: *common
+
+production:
+  <<: *common
+
+vctest:
+  <<: *common
+
+test:
+  <<: *common

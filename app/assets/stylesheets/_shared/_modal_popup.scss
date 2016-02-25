@@ -1,0 +1,8 @@
+#information-modal {
+  //margin-left: 0px !important;
+  margin-top: 0px !important;
+  
+  @media (max-width: 979px) {
+    top: 50%
+  }
+}

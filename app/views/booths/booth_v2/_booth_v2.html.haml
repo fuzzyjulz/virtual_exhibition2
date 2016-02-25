@@ -1,0 +1,174 @@
+.titlePanel
+  .titlePane
+    %h1.title
+      = @booth.name
+  %h2.description
+    = @booth.tagline
+#boothContainer
+  #sponsorBanner
+    .innerBanner
+      #sponsorContent
+        #logoPanel
+          #sponsorLogo
+            -aspect = 3.0/4.0
+            =render partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: @booth.company_logo, alignX: :left, width: 250, height: 250 * aspect, alt_tag: booth.name}
+        -promotion = @booth.live_promotion
+        -if promotion.present?
+          #promotionContainer
+            .content
+              -case PromotionType[promotion.promotion_type]
+              -when PromotionType.external_site
+                =link_to(render(partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: promotion.promotion_image, width: 336, height: 280, alt_tag: promotion.name}), promotion.promotion_url, target: "_blank")
+              -when PromotionType.std_cart_deal
+                =render(partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: promotion.promotion_image, width: 336, height: 280, alt_tag: promotion.name})
+                -promo_code = promotion.reserved_promotion_code(my_cart(cookies))
+                -free_codes = promotion.free_promotion_codes.size
+                -if current_user.present? and promotion.user_assigned_promotion_code(current_user).present?
+                  .cartMessage
+                    .tickMark=fa_icon("check") 
+                    You have already redeemed 
+                    %a{href: shopping_cart_path} this deal
+                -elsif promotion.reserved_promotion_code(my_cart(cookies)).present?
+                  .cartMessage
+                    .tickMark=fa_icon("check") 
+                    This deal has been added to your 
+                    %a{href: shopping_cart_path} cart
+                -elsif free_codes > 0
+                  %a.generalButton.actionButton{href: booth_add_promotion_to_cart_path(@booth)}
+                    Add deal to my cart!
+                  -free_pct = 1.0 * free_codes / promotion.promotion_codes.size
+                  -if free_pct > 0.80
+                  -elsif free_pct > 0.5
+                    .stockLevel
+                      Deals going fast!
+                  -elsif free_pct > 0.35
+                    .stockLevel
+                      More than 50% redeemed
+                  -else
+                    .stockLevel.alert
+                      Limited deals left!
+                -else
+                  .cartMessage
+                    Sorry, No more deals left.
+    .iconGroup
+      -@booth.followus.each do |followItem|
+        %a{href: send(followItem.path), target: "_blank"}
+          = fa_icon followItem.fontawesome_img
+      -if @booth.company_website.present?
+        %a{tooltip("Open our website", :bottom, href: booth_record_company_website_path, target: "_blank")}
+          = fa_icon "home"
+      %a.modal_popup{ tooltip("Contact Us", :bottom, current_user.present? ? {href: booth_leave_business_card_path, modalSizeFunction: "busCardSize"} : sign_up_modal_hash)}
+        = fa_icon "envelope"
+    #sponsorAbout
+      #text
+        =raw @booth.top_message
+      -if @booth.about_us.present?
+        %a.readMore.collapsed{"data-toggle" => "collapse", href: "#aboutUs"} Read more...
+  #aboutUs.collapse
+    %h2.header
+      About us
+    -if @booth.about_us_header_image.present?
+      =paperclip_image_tag @booth.about_us_header_image, class: "aboutUsBanner"
+    =raw @booth.about_us
+    -if @booth.about_us_footer_image.present?
+      =paperclip_image_tag @booth.about_us_footer_image, class: "aboutUsBanner"
+    %br
+    %p
+      %a.hideAboutUs{"data-toggle" => "collapse", href: "#aboutUs"} Hide
+  #contentArea
+    -aspect = 9.0/16.0
+    #videoContainer
+      .content
+        -if @visualContent.empty?
+          #tv-advertisement-video
+            =image_tag "no_image_available.jpg", style: "height; 300px"
+        -else
+          #tv-advertisement-video
+            = render(layout: "_shared/control/content_control", locals: {contents: @visualContent}) do |section, content|
+              -case section 
+              -when :content
+                .content
+                  =render partial: "contents/display_content", locals: {content: content}
+                  .contentHeader
+                    %h2.subheader
+                      =content.name
+                  .contentDescription
+                    -if content.description.present?
+                      =raw content.description
+              -when :thumbnail
+                =render partial: "contents/thumbnail_content", locals: {content: content, width: 120, height: (120 * aspect).round}
+%br
+#boothContainer
+  #contentFooter
+    .header
+      Other sponsors in the #{@booth.hall.name.titleize}
+    .interBoothNav
+      #sponsorPrevious.sponsorNavBtn
+        #arrow
+          = link_to fa_icon("arrow-left"), "javascript: sponsor('prev');"
+      #otherBooths
+        .coverflow
+          -selectedBoothIndex = 0
+          -aspect = 3.0/4.0
+          -@booth.hall.published_booths.includes(:company_logo).order(:name).each_with_index do |booth, index|
+            .boothHolder 
+              %a{href: booths_visit_path(booth)}
+                -selectedBoothIndex = index if booth == @booth
+                .boothLogo
+                  =render partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: booth.company_logo, width: 160, height: 160 * aspect, alt_tag: booth.name}
+                .boothText
+                  =booth.name
+        :javascript
+          function setupCoverflow() {
+            $('.coverflow').coverflow();
+            $('.coverflow').coverflow( 'select', #{selectedBoothIndex} );
+          }
+          if ($('.coverflow' ).coverflow != undefined) {
+            setupCoverflow();
+          } else {
+            $(document).on("vc.scripts.visitor.completed", setupCoverflow);
+          }
+          
+          $('.coverflow a').click( function(e) {
+            if (!$(this).parent().hasClass("ui-state-active")) {
+              e.preventDefault();
+              return true;
+            }
+            return true;
+          });
+      #sponsorNext.sponsorNavBtn
+        #arrow
+          = link_to fa_icon("arrow-right"), "javascript: sponsor('next');"
+
+:javascript
+  function sponsor(nextPrev) {
+    $('.coverflow' ).coverflow( nextPrev );
+  }
+  function busCardSize(modal) {
+    var width;
+    if ($(window).width() < 470) {
+      width = 430;
+    } else if($(window).width() > 670) {
+      width = 650;
+    } else {
+      width = $(window).width()*.90;
+    }
+    var height = ($(window).height() * .90);
+    height = height > 530 ? 530 : height;
+    
+    return [width,height];
+  }
+  function aboutUsSize(modal) {
+    var width;
+    if ($(window).width() > 820) {
+      width = 800;
+    } else {
+      width = $(window).width()*.90;
+    }
+    var height = $(window).height() * .90;
+    
+    
+    $(".modal-overflow-scroll").height(height-80-$(".nav-tabs").height())
+    
+    return [width,height];
+  }

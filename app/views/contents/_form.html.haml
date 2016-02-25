@@ -1,0 +1,64 @@
+= simple_form_for(@content, url: url, :html => { :class => "form-horizontal", :id => "inline-validate" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+    = f.input :short_desc
+    =render(layout: "_shared/control/enum_picker", locals: {enum_type: ContentType, field: :content_type, f: f}) do |type|
+      -case type
+      -when :youtube_video.to_s
+        =f.input :external_id, label: "Youtube Id"
+        =simple_form_image_paperclip(f, :thumbnail_image, label: "Override thumbnail")
+      -when :vimeo_video.to_s
+        =f.input :external_id, label: "Vimeo Id"
+        =simple_form_image_paperclip(f, :thumbnail_image, label: "Override thumbnail")
+      -when :wistia_video.to_s
+        =f.input :external_id, label: "Wistia Id"
+        =simple_form_image_paperclip(f, :thumbnail_image, label: "Override thumbnail")
+      -when :slideshare.to_s
+        =f.input :external_id, label: "Slideshare Id"
+        =simple_form_image_paperclip(f, :thumbnail_image)
+      -when :resource.to_s
+        =f.input :external_id, label: "Resource URL"
+        =simple_form_image_paperclip(f, :thumbnail_image)
+        .form-group
+          = f.label :resource_file, :class => 'col-lg-4 control-label'
+          .col-lg-8
+            = f.file_field :resource_file, name: 'content[resource_file_attributes][assets]'
+      -when :image.to_s
+        =simple_form_image_paperclip(f, :thumbnail_image, label: "Image")
+
+
+    = f.input :description, input_html: {style: "height: 150px", class: "cleditor" }
+    = f.association :tags, collection: available_tags, :input_html => { class: "chosen" , 
+        data: {linked: "select", 
+               linked_parent_id: "content_event_id",
+               linked_collection_path: event_tags_path(":event_id:")}} if can? :manage, Tag
+    %br
+    %br
+    
+    = f.association :owner_user, collection: available_users, :input_html => { class: "chosen" }, label_method: :name_and_email
+    = f.input :privacy, collection: Privacy::LABELS
+    = f.association :booths, label: "Appear on booths", collection: available_booths, :input_html => { class: "chosen" , 
+        data: {linked: "select", 
+               linked_parent_id: "content_event_id",
+               linked_collection_path: event_booths_path(":event_id:")}}
+
+    = f.association :halls, label: "Appear in halls", collection: available_halls, :input_html => { class: "chosen" , 
+        data: {linked: "select", 
+               linked_parent_id: "content_event_id",
+               linked_collection_path: event_halls_path(":event_id:", hall_type:"knowledgeLibraryHall", sub_hall_type: "knowledge_knowledgeLibrary")}} if can? :assign_to_knowledge_center, @content
+    %br
+    %br
+
+    = f.association :sponsor_booth, collection: available_booths, :input_html => { class: "chosen", 
+        data: {linked: "select", 
+               linked_parent_id: "content_event_id",
+               linked_collection_path: event_booths_path(":event_id:")}}, label: "Content sponsor" if can? :sponsor, @content
+    = f.input :featured, label: "Featured content"  if can? :feature, @content
+    = f.association :event, label: "Event", collection: available_events, input_html: {class: "chosen", disabled: (!can? :edit, Content)}
+    = f.input :order_index, label: "Order"
+    
+  .form-actions
+    = f.button :submit, :class => "btn btn-primary"
+  .blankArea{style:"height: 200px"}
+    &nbsp;

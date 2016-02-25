@@ -1,0 +1,45 @@
+-if @event.get_event_logo.present?
+  =render(partial: '/_shared/control/constrained_image', locals: {urlType: :absolute, constraintType: :fixed, image: @event.event_favicon, alignX: :left, width: 64, height: 64, alt_tag: @event.name})
+%p Hi #{@user.first_name},
+%p Here are the codes for each of the deals you redeemed at the #{@event.name}.  
+%p You may visit the event as many times as you like to redeem other deals on offer, however each deal is limited to one per customer.  
+%br
+-@promotion_codes.each do |promo_code|
+  -aspect = 3.0/4.0
+  -booth = promo_code.promotion.booth
+  %table{style: "border: 1px solid black; border-radius: 3px;"}
+    %tr
+      -if @event.event_url.present? and booth.company_logo.url.present?
+        -image_dimensions = booth.company_logo.scaled_dimensions(150, 150*aspect)
+        
+        %td{rowspan: 4, style: "vertical-align: top;"}
+          =image_tag(booth.company_logo.absolute_url(@event.event_url), width: image_dimensions[:width], height: image_dimensions[:height], alt_tag: booth.name)
+      %td
+        %strong Company: 
+        #{booth.name}
+    %tr
+      %td
+        %strong Deal:
+        #{promo_code.promotion.name}
+    %tr
+      %td
+        %strong Deal Code:
+        #{promo_code.code}
+    %tr
+      %td
+        %p
+          %strong Redemption Instructions: 
+        .instructions{style: "padding-left: 20px;"}=raw promo_code.promotion.redemption_instructions
+  %br
+  %p Kind regards,  
+  %p CommStrat Online Events Team  
+  %p 
+    %a{href: "mailto: #{@event_producer_admin_email}"} #{@event_producer_admin_email}
+  %br
+  %br
+%hr
+.explanation{style:"font-size:xx-small;font-family:verdana;color:#666"}
+  You are receiving this email because you redeemed one or more deals at the 
+  %a{href: @event.event_url}=@event.name
+  
+  

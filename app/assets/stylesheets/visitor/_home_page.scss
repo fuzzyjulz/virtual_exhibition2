@@ -1,0 +1,15 @@
+/* Home Page
+-------------------------------------------*/
+
+img.featured-small{
+  width: 140px;
+  height: 140px;
+}
+
+
+.panel-body .btn:not(.btn-block) { margin-bottom:10px; }
+
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img{
+  height: 100% !important;
+}

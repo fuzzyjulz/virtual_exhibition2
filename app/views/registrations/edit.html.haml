@@ -1,0 +1,35 @@
+.row
+  - box 6, "Edit User" do
+    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-horizontal", :multipart => true, :id => "inline-validate" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+      = f.error_notification
+      = f.input :email, :required => true, :autofocus => true, :placeholder => "Email"
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        %p
+          Currently waiting confirmation for: 
+          = resource.unconfirmed_email
+      = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false, :placeholder => "Password", :input_html => { class: "form-control password_check", :id => "password" }
+      = f.input :password_confirmation, :required => false, :placeholder => "Confirmation", :input_html => { class: "form-control confirm_password_check" }
+      - if f.object.encrypted_password.present?
+        = f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true, :placeholder => "Current Password", :input_html => { class: "form-control required" }
+      = f.input :title, collection: [ :Mr, :Mrs, :Miss, :Ms, :Dr ], prompt: "Please select your title"
+      = f.input :first_name, :placeholder => "First name", :input_html => { class: "form-control required" }
+      = f.input :last_name, :placeholder => "Last name" , :input_html => { class: "form-control required" }
+      = f.input :position, :placeholder => "Position"
+      = f.input :work_phone, :placeholder => "Work Phone"
+      = f.input :mobile, :placeholder => "Mobile"
+      = f.input :company, :placeholder => "Company"
+      = f.input :state, collection: locations, :required => true, :autofocus => true, :label => "Location"
+      = f.input :industry, :required => true, :autofocus => true, :placeholder => "Industry"
+
+      = simple_form_image_paperclip(f, :uploaded_file, label: "Avatar")
+      
+      .form-actions
+        = f.button :submit, "Update", :class => "btn btn-primary"
+      
+        %h3
+          Cancel my account
+
+        %p
+          -#= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete
+          %br
+          = link_to "Back", :back

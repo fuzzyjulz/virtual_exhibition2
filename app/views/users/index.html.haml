@@ -1,0 +1,42 @@
+.row
+  - box 12, "Reports" do
+    .row
+      - box 4, "Exports", nil, "inverse" do
+        = simple_form_for(User.new, :url => "/users/export_users_to_csv_by_event", :method => :post, :html => { :class => "form-horizontal", :id => "inline-validate" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } }, remote: true ) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :event_ids, collection: Event.all, :required => true, :autofocus => true, :placeholder => "Events", :name => "users[event_ids]", :label => "Event"
+          .form-actions
+            = f.button :submit, :class => "btn btn-primary", :value => "Export"
+            = link_to "Export All", user_export_users_to_csv_path, :remote => true
+      - box 4, "Previously exported file", nil do
+        - if @job_run_status
+          .alert.alert-info
+            %ul
+              %li= "Job status: #{@job_run_status.status} #{' ('+@job_run_status.message+')' if @job_run_status.message}"
+              %li= "#{@job_run_status.pct_complete}% complete"
+              %li= "Time exported: #{@job_run_status.time}"
+        - if current_user.csv_file.present?
+          %ul
+            %li
+              %p= link_to current_user.csv_file.assets_file_name, current_user.csv_file.assets.url, :target => "_blank"
+
+  - box 12, "List users" do
+    %table.table.table-bordered.table-striped.table-condensed.table-hover#dataTableUsers{ "data-source" => users_url(format: "json") }
+      %thead
+        %tr
+          %th Actions
+          %th.no-sort Role
+          %th.no-sort Events
+          %th Email
+          %th.no-sort Booths
+          %th First name
+          %th Last name
+          %th Position
+          %th Work phone
+          %th Company
+          %th Sign in count
+          %th Current sign in at
+          %th Confirmed at
+          %th Created at
+      %tbody

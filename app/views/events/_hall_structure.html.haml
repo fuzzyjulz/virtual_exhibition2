@@ -1,0 +1,9 @@
+%ul
+  - children_halls.each do |child_hall, child|
+    %li
+      = raw "#{link_to_unless_current(child_hall.name, hall_path(child_hall))} (#{child_hall.template.template_type})"
+      - if child_hall.booths
+        %ul
+          - child_hall.booths.each do |booth|
+            %li= link_to booth.name, show_booth_path(booth)
+      = render partial: 'hall_structure', :locals => { children_halls: child } if child.present?

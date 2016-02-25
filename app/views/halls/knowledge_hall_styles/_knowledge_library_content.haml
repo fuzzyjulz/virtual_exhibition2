@@ -1,0 +1,37 @@
+.contentListTitle
+  =content_title
+#paginator.paginationControls{style: "display: none;"}
+  =paginate contents, theme: "knowledge_hall"
+.contentArea{class: ("not-ie" if !client_is_ie?)}
+  - if contents.present?
+    - contents.each do |content|
+      -if content.kind_of? Content
+        =render partial:"halls/knowledge_hall_styles/knowledge_library_content_item", locals: {content: content}
+      -elsif content.kind_of? Tag
+        =render partial:"halls/knowledge_hall_styles/knowledge_library_tag_item", locals: {tag: content}
+:javascript
+  
+  function addInfiniteScroll() {
+    $('body').scroll();
+    $(".knowledgeCenter .contentArea").infinitescroll({
+        navSelector: "ul.pagination", // selector for the paged navigation (it will be hidden)
+        nextSelector: "ul.pagination a[rel='next']", // selector for the NEXT link (to page 2)
+        itemSelector: ".contentArea .knowledgevideo" // selector for all items you'll retrieve
+        ,loading: {
+          msgText: "<em>Loading more exciting content...</em>"
+          ,img: "#{asset_url('loader-black.gif')}"
+          ,finishedMsg: "<em>More content coming soon.</em>"
+          ,finished: function() {
+              kcInfiniteScrollFinished();
+          }
+        }
+    });
+  }
+
+  if ($(".knowledgeCenter .contentArea").infinitescroll != undefined) {
+    addInfiniteScroll();
+  }
+    
+  $(document).on("vc.scripts.visitor.completed", function() {
+    addInfiniteScroll();
+  });

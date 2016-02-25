@@ -1,0 +1,9 @@
+.commentsBubble
+  .commentsHolder
+    .numberOfComments{tooltip("Comments", :bottom,"data-disqus-identifier" => "#{category}:#{action}:#{id}")}
+  =fa_icon("comments")
+
+-if !defined?(@disqus_count)
+  -@disqus_count = true
+  :javascript
+    applyDiscusCommentCount("#{Rails.configuration.disqus.shortname}");

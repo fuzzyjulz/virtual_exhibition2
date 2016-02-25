@@ -1,0 +1,15 @@
+//= require admin/images
+//= require ../../../vendor/assets/lib/datatables-responsive/lodash.min.js
+//= require ../../../vendor/assets/lib/datatables/jquery.dataTables
+//= require ../../../vendor/assets/lib/datatables-responsive/dataTables.bootstrap
+//= require ../../../vendor/assets/lib/datatables/jquery.dataTables.columnFilter
+//= require ../../../vendor/assets/lib/datatables-responsive/datatables.responsive
+//= require ../../../vendor/assets/lib/CLEditor1_4_3/jquery.cleditor.min
+//= require ../../../vendor/assets/lib/bootstrap-datetimepicker/moment.min
+//= require ../../../vendor/assets/lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min
+//= require ../../../vendor/assets/lib/fullcalendar-1.6.2/fullcalendar/fullcalendar.min
+//= require ../../../vendor/assets/lib/jasny/js/jasny-bootstrap.min
+//= require admin/validations
+//= require admin/linked-select
+//= require admin/general-coffee-async.js
+//= require admin/general-async.js

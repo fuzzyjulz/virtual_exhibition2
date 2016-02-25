@@ -1,0 +1,3 @@
+.row
+  -box 12, "Edit booth", {:List => hall_booths_path(@booth.hall), :View => show_booth_path(@booth), :Visit => booths_visit_path(@booth)} do
+    = render partial:'form', locals: {url: booth_path(@booth)}

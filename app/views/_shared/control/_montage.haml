@@ -1,0 +1,30 @@
+-if montageImages.present?
+  #am-container.am-container.montageContainer
+    -montageImages.each do |montageImage|
+      =yield montageImage
+:javascript
+  $(".montageContainer").css("display", "none");
+  $(document).on("vc.scripts.visitor.completed", function() {
+    var $container = $('#am-container'),
+      $imgs = $container.find('img').hide(),
+      totalImgs = $imgs.length,
+      cnt = 0;
+    
+    $container.css("display", "inline-block");
+    
+    $imgs.each(function(i) {
+      var $img  = $(this);
+      $('<img/>').load(function() {
+        ++cnt;
+        if( cnt === totalImgs ) {
+          $imgs.show();
+          $container.montage({
+            fixedHeight: 200,
+            fillLastRow: true,
+            margin: 5,
+            minw: 150
+          });
+        }
+      }).attr('src',$img.attr('src'));
+    });
+  });

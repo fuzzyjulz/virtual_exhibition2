@@ -1,0 +1,49 @@
+-# ###########  For anonymous users ##############
+!!! 5
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+  %head
+    = render partial: 'layouts/head'
+    
+    = link_tag_gz :stylesheet, "shared", media: "all"
+    = render partial: 'layouts/google_analytics'
+    = render partial: 'layouts/javascript_libraries'
+  
+    = csrf_meta_tags
+  
+  %body{:class => "login"}
+    = render 'layouts/messages'
+    = render 'layouts/navigation'
+    = yield
+    .container
+      .row
+        .col-md-12
+          %br
+          .well#about{:style => "display:none;"}
+            %h2.page-header About Us
+            %p Experience and performance excellence are two of the key factors that make CommStrat a leader in the media industry, particularly in the conference and events sector.
+            %p Specialist conference organisers and coordinators at CommStrat’s Hallmark Conferences + Events Division have been developing and staging conferences for nearly 50 years, and are now using that expertise to stage successful webinars.
+            %p Webinars, or internet conferencing, takes advantage of Internet technology to make conferences a reality for participants no matter where they are based – in the heart of a central business district or in remote areas.
+            %p Webinars allow real-time communication from a sender to many receivers. Applications for web conferencing include presentations, lectures, training events and meetings from any computer.
+            %p Hallmark Conferences + Events’ webinars include content from live webcasts, booths, discussion forums and chats. 
+            The focus on webinars builds on the reputation of Hallmark Conferences + Events in staging highly successful conferences in major venues right around Australia on topics including digital technology, social media, customer service, sustainability, best practice, HR essentials, road construction and bridge and building construction and maintenance in local government, the public sector and the private sector.
+            %p Hallmark Conferences + Events is a professional conference organiser and exhibition manager with an experienced team who can take an event from concept to completion anywhere in Australia. 
+            %p It handles all aspects including: 
+            %ul
+              %li creation of original conferences and exhibitions; 
+              %li origination of conference themes and speakers; 
+              %li liaising with the conference committee; 
+              %li registration of delegates; 
+              %li production of AV material and conference notes; 
+              %li marketing of the conference, and 
+              %li full financial reporting and reconciliation.
+            %p Make sure you take advantage of the experience and performance excellence of Hallmark Conferences + Exhibitions to ensure the success of your next webinar or venued conference. 
+  
+      :javascript
+        $(function(){
+          $('#about-btn').on('click', function(){
+            href = $(this).attr('href');
+            $(href).show();
+            $('body').scrollTo($(href), 800);
+          });
+        });
+    = render 'layouts/footer'

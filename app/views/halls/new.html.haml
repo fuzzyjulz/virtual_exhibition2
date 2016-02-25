@@ -1,0 +1,3 @@
+.row
+	- box 6, "Create a new hall", { 'Back' => event_halls_path } do
+		= render partial: 'form', locals: {url: event_halls_path(@event)}

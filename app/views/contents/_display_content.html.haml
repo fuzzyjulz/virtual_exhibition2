@@ -1,0 +1,57 @@
+.contentMediaDisplay
+  -if content.valid_content?(:shallow)
+    -case content.content_type_code
+      -when :youtube_video
+        -params = []
+        -params << "wmode=opaque"
+        -params << "playsinline=1"
+        -params << "showinfo=0"
+        -params << "autohide=1"
+        -params << "autoplay=1" if (defined? autoplay) && autoplay == true
+        -params << "rel=0"
+        -params << "controls=0&showinfo=0" if (defined? quiet) && quiet == true
+        %iframe{src:"//www.youtube.com/embed/#{content.external_id}?#{params.join("&")}", :style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}"}
+            
+      -when :vimeo_video
+        -params = []
+        -params << "byline=0"
+        -params << "portrait=0"
+        -params << "title=0"
+        -params << "badge=0"
+        -params << "autoplay=1" if (defined? autoplay) && autoplay == true
+        %iframe{src:"//player.vimeo.com/video/#{content.external_id}?#{params.join("&")}", :style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}", webkitallowfullscreen: true, mozallowfullscreen: true, allowfullscreen: true}
+            
+      -when :wistia_video
+        -params = []
+        -params << "controlsVisibleOnLoad=false"
+        -params <<"autoPlay=true" if (defined? autoplay) && autoplay == true
+        %iframe{src:"//fast.wistia.net/embed/iframe/#{content.external_id}?#{params.join("&")}", :style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}"}
+  
+      -when :slideshare
+        -if content.external_id
+          %iframe{ :src => "//www.slideshare.net/slideshow/embed_code/#{content.external_id}?rel=0", :style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}" }
+        -else
+          Presentation was not set.
+          
+      -when :resource
+        
+        -if content.resource_file && content.resource_file.assets.present? && !content.external_id.present?
+          =link_to fa_icon("file-text-o"), content.resource_file.assets.url,
+            {class: "contentDownloadButton"}.merge(tooltip("Download File", :bottom, target: "_blank"))
+          -if (defined? autoplay_resource) && autoplay_resource == true
+            :javascript
+              window.open("#{content.resource_file.assets.url}");
+        -elsif content.external_id.present?
+          =link_to fa_icon("link"), content.external_id,
+            {class: "contentDownloadButton"}.merge(tooltip("Open Link", :bottom, target: "_blank"))
+          -if (defined? autoplay_resource) && autoplay_resource == true
+            :javascript
+              window.open("#{content.external_id}");
+        -else
+          No resources set.
+          
+      -when :image
+        =paperclip_image_tag content.thumbnail_image, noImage:"no_image_available.jpg", style: "#{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}", alt: content.name
+  -else
+    .NoVideoLabel{:style => " border:0px; #{"width:#{width}px;" if defined? width} #{"height:#{height}px;" if defined? height}"}
+      Content could not be loaded.

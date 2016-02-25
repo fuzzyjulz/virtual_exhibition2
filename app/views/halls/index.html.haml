@@ -1,0 +1,27 @@
+.row
+  - box 12, "Listing Halls" do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th Name
+          %th Template
+          %th Hall type
+      %tbody
+        - @halls.each do |hall|
+          %tr
+            %td
+              = link_to 'Show', hall_path(hall)
+              |
+              = link_to 'Edit', edit_hall_path(hall)
+              |
+              = link_to 'Destroy', hall_path(hall), :method => :delete, :data => { :confirm => 'Are you sure?' }
+              |
+              = link_to 'Visit', hall_visit_path(hall)
+            %td= hall.name
+            %td= "#{hall.template.name} (Id: #{hall.template_id})" if hall.template
+            %td= hall.template.template_sub_type_label
+
+    %br
+
+    = link_to 'New Hall', new_event_hall_path, :class => "btn btn-primary"

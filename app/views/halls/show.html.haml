@@ -1,0 +1,55 @@
+.row
+  - box 6, "Show hall", { 'Edit' => edit_hall_path(@hall), 'Back' => event_halls_path(@event), 'Visit' => hall_visit_path(@hall) } do
+
+    %p
+      %b Name:
+      = @hall.name
+    %p
+      %b Title:
+      = @hall.title
+    %p
+      %b Description:
+      .adminRawText
+        =raw @hall.description
+    %p
+      %b Publish Status:
+      %span.labelObjectTag
+        = PublishStatus[@hall.publish_status].label
+    %p
+      %b Thumbnail:
+      =paperclip_image_tag @hall.thumbnail_image, {noImage:"no_image_available.jpg", style: "max-width:#{300}px; max-height: #{250}px;"}
+    %p
+      %b Background Image:
+      = paperclip_image_tag @hall.background_image
+    %p
+      %b Template:
+      %a.labelObjectTag{href: template_path(@hall.template)}
+        = @hall.template.name
+    %p{style: "vertical-align: text-top"}
+      %b Welcome video:
+      -welcomeVideo = @hall.welcome_video_content
+      -if welcomeVideo
+        %br
+        %b
+          =render partial: "contents/display_content", locals: {content: welcomeVideo, width: 200, height: 175}
+      -else
+        None
+
+    %p
+      %b Event:
+      -if @hall.event
+        %a.labelObjectTag{href: event_path(@hall.event)}
+          = @hall.event.name
+
+    %p
+      %b Event Logo:
+      = paperclip_image_tag @hall.event_logo
+
+  - box 6, "Hall settings", { 'Create Booth' => new_hall_booth_path(@hall) }, "inverse" do
+    %br
+    = image_tag @hall.template.uploaded_file.assets.url, width: '100%', class: 'booth_background' if @hall.template and @hall.template.uploaded_file
+
+  - box 6, "Booths" do
+    -@hall.booths.each do |booth|
+      %a.labelObjectTag{href: show_booth_path(booth)}
+        = booth.name

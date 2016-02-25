@@ -1,0 +1,3 @@
+.row
+	- box 6, "New Content", {'Back' => event_contents_path(@event)} do
+		= render :partial => 'form', locals: {url: event_contents_path(@event)}

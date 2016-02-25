@@ -1,0 +1,27 @@
+.navbar-wrapper.topNavigationMenu
+	.container
+		%nav.navbar.navbar-default.navbar-static-top{:role => "navigation"}
+			.navbar-header
+				%button{:type => "button", "data-toggle" => "collapse", "data-target" => ".navbar-collapse", :class => "navbar-toggle"}
+					%span.icon-bar
+					%span.icon-bar
+					%span.icon-bar
+			.navbar-collapse.collapse
+				%ul.nav.navbar-nav
+					%li.active
+						%a{:href => "/"} #{fa_icon 'home'} Home
+					%li
+						%a#about-btn{:href => "#about"} About
+					%li
+						%a{:href => "mailto:vconf@commstrat.com.au?Subject=Enquire%20about%20Virtual%20Careers%20Fair"} Contact
+				%ul.nav.navbar-nav.pull-right
+					- if user_signed_in?
+						%li.dropdown
+							.btn-group
+								%a{:class => "btn btn-default navbar-btn", :href => "#"}
+									= fa_icon "user", text: "User"
+								%a{:href => "#", "data-toggle" => "dropdown", :class => "btn btn-default dropdown-toggle navbar-btn"}
+									%span{:class => "fa fa-caret-down"}
+								%ul.dropdown-menu
+									%li= link_to 'Edit account', edit_user_registration_path
+									%li= link_to raw("#{fa_icon 'sign-in'} Logout"), destroy_user_session_path, :method=>'delete'

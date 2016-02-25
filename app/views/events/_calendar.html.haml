@@ -1,0 +1,63 @@
+- box 6, "Event calendar", nil, 'inverse' do
+  .row#fullCalendar
+    #calendar.col-lg-12
+
+:javascript
+  $(document).on("vc.scripts.admin.completed", function() {
+    var calendar, d, date, m, y;
+
+    date = new Date();
+    d = date.getDate();
+    m = date.getMonth();
+    y = date.getFullYear();
+
+    calendar = $("#calendar").fullCalendar({
+      header: {
+        left: "prev,today,next,",
+        center: "title",
+        right: "month,agendaWeek,agendaDay"
+      },
+      selectable: false,
+      selectHelper: true,
+      select: function(start, end, allDay) {
+        var title;
+        title = prompt("Event Title:");
+        if (title) {
+          calendar.fullCalendar("renderEvent", {
+            title: title,
+            start: start,
+            end: end,
+            allDay: allDay
+          }, true);
+        }
+        return calendar.fullCalendar("unselect");
+      },
+      editable: false,
+      events: function(start, end, callback){
+        $.ajax({
+            url: '/events/#{current_user ? "all_events" : "all_events_public"}',
+            dataType: 'json',
+            data: {
+                // our hypothetical feed requires UNIX timestamps
+                start: Math.round(start.getTime() / 1000),
+                end: Math.round(end.getTime() / 1000)
+            },
+            success: function(doc) {
+                var events = [];
+                $(doc.events).each(function() {
+                    events.push({
+                        title: $(this).attr('name'),
+                        start: $(this).attr('start'), // will be parsed
+                        end: $(this).attr('finish'),
+                        className: "label label-info",
+                        allDay: false,
+                        url: $(this).attr('event_url') == null ? '/events/' + $(this).attr('id') : $(this).attr('event_url')
+                    });
+                });
+                callback(events);
+            }
+        });
+      }
+    });
+
+  });

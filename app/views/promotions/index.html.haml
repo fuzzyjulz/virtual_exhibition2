@@ -1,0 +1,41 @@
+.row
+  - box 12, "Listing Promotions" do
+    %table.table.table-striped.table-bordered.table-hover.dataTable
+      %thead
+        %tr
+          %th Actions
+          %th Name
+          %th Booth
+          -if can?(:_admin, Content)
+            %th Owner
+          %th Used/Reserved/Total
+      %tbody
+        - @promotions.each do |promotion|
+          %tr
+            %td
+              = link_to 'View', promotion
+              |
+              = link_to 'Edit', edit_promotion_path(promotion)
+              |
+              = link_to 'Delete', promotion, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= promotion.name
+            %td
+              %a.labelObjectTag{tooltip(promotion.booth.location_name, :top, href: show_booth_path(promotion.booth))}
+                =promotion.booth.name
+            -if can?(:_admin, promotion.event)
+              %td{style:"white-space: nowrap"}
+                -if promotion.booth.user
+                  %a.labelObjectTag{href: user_path(promotion.booth.user)}
+                    =promotion.booth.user.name
+            %td
+              -if PromotionType[promotion.promotion_type].id == :std_cart_deal
+                =promotion.assigned_promotion_codes.size
+                ==/
+                =promotion.reserved_promotion_codes.size
+                ==/
+                =promotion.promotion_codes.size
+              -else
+                ==-
+    = link_to 'New Promotion', new_promotion_path(), class: 'btn btn-primary'
+    = link_to 'Export Promotions', export_promotion_path(), class: 'btn btn-primary'
+    

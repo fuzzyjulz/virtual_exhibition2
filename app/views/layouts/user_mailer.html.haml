@@ -1,0 +1,44 @@
+!!!
+%html{xmlns: "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{content: "width=device-width", name: "viewport"}/
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title CommStrat Virtual Exhibition
+    %style
+      :sass
+        @import 'app/assets/stylesheets/visitor/mail/user_mailer'
+      
+  %body{bgcolor: "#f6f6f6"}
+    / body
+    %table.body-wrap
+      %tr
+        %td
+        %td.container{bgcolor: "#FFFFFF"}
+          / content
+          .content
+            %table
+              %tr
+                %td{style:"font-family: Helvetica Neue, Helvetica, Arial, sans-serif;"}
+                  = yield
+          / /content
+        %td
+    / /body
+    / footer
+    %table.footer-wrap
+      %tr
+        %td
+        %td.container
+          / content
+          .content
+            %table
+              %tr
+                -if @unsubscribeable
+                  %td{align: "center"}
+                    %p
+                      Don't like these annoying emails?
+                      = succeed "." do
+                        %a{href: "#"}
+                          %unsubscribe Unsubscribe
+          / /content
+        %td
+    / /footer

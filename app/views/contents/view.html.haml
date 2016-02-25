@@ -1,0 +1,2 @@
+-content_for :ga_title, "View Content: #{@content.name}"
+=render partial: "display_content", locals: {content: @content, width: params[:width].to_i, height: params[:height].to_i, quiet: true, autoplay: true}

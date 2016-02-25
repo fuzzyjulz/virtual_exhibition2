@@ -1,0 +1,73 @@
+#shoppingCart
+  .panel.panel-default
+    -sc_size = @shopping_cart.shopping_cart_items.size
+    .panel-heading
+      %h1.panel-title.title Deals in Your Cart (#{sc_size})
+    .panel-body
+      -if sc_size > 0
+        %table.cart_table
+          %tr.headerRow
+            %th Booth
+            %th
+            %th Deal
+          -@shopping_cart.shopping_cart_items.each do |item|
+            -promotion = item.item.promotion
+            %tr
+              -booth = promotion.booth
+              %td
+                -aspect = 3.0/4.0
+                =link_to render(partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: booth.company_logo, alignX: :left, width: 75, height: 75 *aspect, alt_tag: booth.name}),
+                  booths_visit_path(booth)
+              %td=booth.name
+              %td=promotion.name
+              %td
+                .removeBtn=link_to fa_icon("remove"), remove_shopping_cart_item_path(item), tooltip("Remove", :right)
+            -if promotion.description
+              %tr
+                %td
+                %td{colspan: 2}=promotion.description
+        -if current_user
+          %a.redeem.generalButton.actionButton{href: redeem_shopping_cart_path()}
+            Redeem all deals
+        -else
+          %a.redeem.generalButton.actionButton.modal_popup{sign_up_modal_hash(popup_type: :deals)}
+            Redeem all deals
+      -else
+        %p Your cart is empty
+        %br
+        %p Click on a category below to find deals:
+        -@event.exhibition_halls.each do |exhibition_hall|
+          =link_to "#{exhibition_hall.name}", hall_visit_path(exhibition_hall), class: "generalButton"
+  %br
+  -if current_user.present?
+    -promo_codes = current_user.assigned_promotion_codes
+    -if promo_codes.size > 0
+      .panel.panel-default
+        .panel-heading
+          %h1.panel-title.title Previously Redeemed Deals
+        .panel-body
+          %table.cart_table
+            %tr.headerRow
+              %th Booth
+              %th
+              %th Deal
+              %th Deal Code
+            -promo_codes.each do |promo_code|
+              %tr
+                -booth = promo_code.promotion.booth
+                %td
+                  -aspect = 3.0/4.0
+                  =link_to render(partial: '/_shared/control/constrained_image', locals: {urlType: :absolute, constraintType: :fixed, image: booth.company_logo, alignX: :left, width: 75, height: 75 *aspect, alt_tag: booth.name}),
+                    booths_visit_path(booth)
+                %td=booth.name
+                %td=promo_code.promotion.name
+                %td
+                  .promoCode=promo_code.code
+              -redemption_instructions = promo_code.promotion.redemption_instructions
+              -if redemption_instructions.present?
+                %tr
+                  %td{colspan: 4}
+                    %p Redemption instructions:
+                    .instructions{style: "padding-left: 20px;"}=raw redemption_instructions
+              %tr
+                %td &nbsp;

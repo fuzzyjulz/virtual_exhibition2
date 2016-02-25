@@ -1,0 +1,94 @@
+-auth_models = nil
+-auth_models = @current_event.auth_models if @current_event.present?
+-auth_models = auth_models.pluck(:code).map! {|model| model.to_sym} if auth_models.present?
+-auth_models = [:direct] if @current_event.nil?
+-canRegister = (@current_event.present? and @current_event.live? and @current_event.can_register?)
+
+.popupSignIn
+  .panel.panel-primary
+    .panel-heading
+      %h3.panel-title 
+        -if @popup_type == :deals
+          Sign in or sign up to redeem your deals
+        -else
+          Free Registration
+        %button.close{ :type => 'button', 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+          &times;
+    .panel-body
+      .tab-content
+        -if @current_event.nil?
+          %p
+            It appears that this event hasn't been fully setup. Please contact the administrators of this site.
+        -else
+          .registrationInfoPanel
+            -if @popup_type == :deals
+              .heading
+                To redeem the deals in your cart, please provide us with the following information
+            -else
+              .heading
+                Thanks for visiting the #{@current_event.name}.
+              -if canRegister
+                To get full access, please register or sign in.
+                -options = ["It's FREE to register", 
+                            "Registration only takes a few seconds", 
+                            "We 100% guarantee that your information will not be shared without your consent."]
+                -options.each do |option|
+                  .checkOptions
+                    .check
+                      = fa_icon "check"
+                    .item
+                      =raw option
+              -else
+                To get full access, please sign in.
+          %ul.nav.nav-tabs{role:"tablist"}
+            %li{class: (@active_tab == :sign_in ? "active" : "")}
+              %a{href:"#existing", role:"tab", "data-toggle"=>"tab"}
+                Registered visitors
+            -if canRegister
+              %li{class: (@active_tab == :register ? "active" : "")}
+                %a{href:"#new", role:"tab", "data-toggle"=>"tab"}
+                  New visitors
+                  .notSmallScreen
+                    ="- register now!"
+          .tab-content
+            #existing.tab-pane{class: (@active_tab == :sign_in ? "active" : "")}
+              %br
+              %strong
+              Sign in using the account you registered with
+              %br
+              .leftpanel
+                -auth_models.each do |authModel|
+                  -if authModel != :direct
+                    %br
+                    = render partial: "sign_in_form", locals: {provider: authModel}
+              .rightpanel
+                
+                = render partial: "sign_in_form", locals: {provider: :direct}
+            -if canRegister
+              #new.tab-pane{class: (@active_tab == :register ? "active" : "")}
+                %br.notSmallScreen
+                .registerHeaderText
+                  %strong
+                    Register with your social media account, or create a new account with us.
+                  %p
+                    We recommend registering with your social media account - its quick and easy, and one less password to remember!
+                .leftpanel
+                  -auth_models.each do |authModel|
+                    -if authModel != :direct
+                      %br.notSmallScreen
+                      = render partial: "registration_form", locals: {provider: authModel}
+                  %p
+                    %a{tooltip("Using your social media login is the quickest way to register!<br><br>We will only store your:<br>First name, Surname<br>Email address<br>Job title<br>Company<br><br>And that's it!", :bottom, "data-html"=>"true")}
+                      What information am I sharing?
+                .rightpanel
+                  -if auth_models.include?(:direct)
+                    %strong
+                      Register with a new account
+                    = render partial: "registration_form", locals: {provider: :direct}
+:javascript
+  $.event.trigger("vc.scripts.refreshTooltips");
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    refreshModal();
+    resizeModal();
+  });
+  

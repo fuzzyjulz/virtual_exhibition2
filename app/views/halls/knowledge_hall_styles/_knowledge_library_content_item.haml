@@ -1,0 +1,50 @@
+-if current_user.nil? and content.flags.include?(:locked) and !content.flags.include?(:featured)
+  %a.knowledgevideo.contentItem.modal_popup{sign_up_modal_hash.merge({contentId: content.id, class: "#{content.content_type_code}"})}
+    .contentThumbnail
+      =render partial: "contents/thumbnail_content", locals: {content: content, width: 320, height: 180}
+    .titleArea
+      %h3.heading
+        =content.name
+      .subheading
+        =content.short_desc
+    .contentAction
+      -if content.is_video?
+        = fa_icon "play"
+      -else
+        = fa_icon "search"
+    -if content.is_video?
+      .videoTimeSection
+        .timeDisplay
+          = content.video_duration
+    .flagSection
+      .flags
+        =render partial: '_shared/control/disqus_comment_count', locals: {category: :content, action: "preview", id: content.id}
+        .lockedContent.flag{tooltip("Logged in users only", :bottom)}
+          = fa_icon "lock"
+-else
+  %a.knowledgevideo.contentItem{href: preview_content_path(content), class: "#{content.content_type_code}"}
+    .contentThumbnail
+      =render partial: "contents/thumbnail_content", locals: {content: content, width: 320, height: 180}
+    .titleArea
+      %h3.heading
+        =content.name
+      .subheading
+        =content.short_desc
+    .contentAction
+      -if content.is_video?
+        = fa_icon "play"
+      -else
+        = fa_icon "search"
+    -if content.is_video?
+      .videoTimeSection
+        .timeDisplay
+          = content.video_duration
+    .flagSection
+      .flags
+        =render partial: '_shared/control/disqus_comment_count', locals: {category: :content, action: "preview", id: content.id}
+        -if content.flags.include?(:featured)
+          .featuredContent.flag{tooltip("Featured", :bottom)}
+            = fa_icon "star"
+        -if content.flags.include?(:new)
+          .newContent.flag{tooltip("New", :bottom)}
+            = fa_icon "bolt"

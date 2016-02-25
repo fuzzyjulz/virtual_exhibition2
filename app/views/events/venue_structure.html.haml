@@ -1,0 +1,7 @@
+.row
+  - box 4, "Event Structure" do
+    - @halls.each do |hall|
+      %ul
+        %li
+          = link_to "#{fa_icon 'home'} Main Hall", hall_path(hall)
+          = render partial: 'hall_structure', locals: { :children_halls => hall.root.descendants.arrange } if hall.root.descendants.present?

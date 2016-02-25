@@ -1,0 +1,26 @@
+#left
+  %ul#menu.collapse
+    %li.nav-header
+      Menu 
+    %li.nav-divider
+      -menu_item.each do |item|
+        -top_menu_args = item[0]
+        -data_target = item[1]
+        -sub_menu_args = item[2]
+        -expanded = item[3]
+        -icon = item[4]
+        -icon ||= "angle-left"
+        %li{class: "#{'active' if expanded}"}
+          %a.accordion-toggle{href: "#", "data-present" => "#menu", "data-toggle" => "collapse", "data-target" => "##{data_target}"}
+            %i{class:"fa fa-#{top_menu_args[1]}"}
+            =raw top_menu_args[0]
+            %span.pull-right
+              %i.fa.fa-angle-left
+          %ul{class: (expanded == true ? 'collapse in' : 'collapse'), id: data_target}
+            -sub_menu_args.each do |menu_args|
+              -link = menu_args[0]
+              -label = menu_args[1]
+              %li{class: "#{"active" if link.ends_with? request.path}"}
+                %a{href: link}
+                  %i.fa.fa-angle-right
+                  =label

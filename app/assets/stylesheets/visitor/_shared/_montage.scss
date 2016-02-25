@@ -1,0 +1,13 @@
+.montageContainer {
+  display: inline-block;
+  .am-wrapper {
+    display: inline-block;
+    position: relative;
+    float:left;
+    overflow:hidden;
+    img {
+      outline:none;
+      position: absolute;
+    }
+  }
+}

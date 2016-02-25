@@ -1,0 +1,24 @@
+/* DATA TABLES
+-------------------------------------------------- */
+.datatables-menu{
+  .dataTables_info{
+    padding-top: 0px !important;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .dataTables_length{
+    display: inline-block;
+    label{ float: none !important; }
+  }
+}
+
+.dataTable3{
+  th{
+    color: #666;
+    font-size: 18px;
+  }
+  tr{ background: #fff; }
+  td{
+    a{ font-weight: bold; }
+  }
+}

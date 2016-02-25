@@ -1,0 +1,3 @@
+.row
+	- box 6, "New Tag", {'Back' => event_tags_path(@event)} do
+		= render :partial => 'form', locals: {url: event_tags_path(@event)}

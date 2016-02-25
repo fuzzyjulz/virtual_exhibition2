@@ -1,0 +1,62 @@
+body.controller-halls.action-visit.style-exhibition_hallsList {
+  background: #555;
+  #inner {
+    background: inherit !important;
+  }
+}
+
+.exhibitorHallList {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+  .hallBorderBox {
+    .title {
+      padding-left:25px;
+    }
+    .description {
+      text-align: left;
+      padding-left:25px;
+    }
+    background: rgba(102,102,102,.4);
+    //background: rgba(68,68,68,.4);
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    padding-left: 10px;
+    padding-right: 5px;
+    color: white;
+    @include border-radius("5px");
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+  
+  .montageContainer {
+    width: 100%;
+  }
+  .hallListItem {
+    .description {
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      color: white;
+      font-weight: bold;
+      font-size: larger;
+      text-shadow: 0px 0px 4px #000;
+      @include transition("color .3s ease-in, text-shadow .3s ease-in");
+    }
+    .overlay {
+      @include transition("background-color .3s ease-in");
+      position: absolute;
+    }
+    .overlay:hover {
+      background: #fff;
+      opacity: .8;
+    }
+    .overlay:hover .description {
+      color: black;
+      text-shadow: none;//0px 0px 4px #fff;
+    }
+  }
+}

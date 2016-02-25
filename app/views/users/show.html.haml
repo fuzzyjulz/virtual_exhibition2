@@ -1,0 +1,87 @@
+.row
+  - box 6, "User details", {'Edit' => edit_user_path(@user), 'Back' => users_path} do
+    -if @current_user.has_role?(:admin)
+      %p
+        %b Id:
+        = @user.id
+    -if @user == @current_user or @current_user.has_role?(:admin)
+      %p
+        %b Sign in count:
+        = @user.sign_in_count
+      %p
+        %b Current sign in at:
+        = @user.current_sign_in_at
+      %p
+        %b Last sign in at:
+        = @user.last_sign_in_at
+      %p
+        %b Current sign in IP:
+        = @user.current_sign_in_ip
+      %p
+        %b Last sign in IP:
+        = @user.last_sign_in_ip
+    -if can? :show_basic_info, @user
+      %p
+        %b Confirmed at:
+        = @user.confirmed_at
+      %p
+        %b Confirmation sent at:
+        = @user.confirmation_sent_at
+    -if true
+      %p
+        %b Title:
+        = @user.title
+      %p
+        %b First name:
+        = @user.first_name
+      %p
+        %b Last name:
+        = @user.last_name
+    -if can? :show_basic_info, @user
+      %p
+        %b Position:
+        = @user.position
+      %p
+        %b Work phone:
+        = @user.work_phone
+      %p
+        %b Email:
+        = @user.email
+      %p
+        %b Company:
+        = @user.company
+    -if @user.events.exists?
+      %p
+        %b Events:
+        - @user.events.each do |event| 
+          -if can? :update, event
+            %a.labelObjectTag{href: event_path(event)}
+              = event.name.to_s
+          -else 
+            %a.labelObjectTag{href: event.event_url}
+              = event.name.to_s
+    -if @user.booths.exists?
+      %p
+        %b Booths:
+        - @user.booths.each do |booth|
+          -if can? :update, booth
+            %a.labelObjectTag{href: show_booth_path(booth)}
+              = booth.name.to_s
+          -else 
+            %a.labelObjectTag{href: booth_path(booth)}
+              = booth.name.to_s
+    -if true
+      %p
+        %b Industry:
+        = @user.industry
+      %p
+        %b Topics:
+        = @user.interested_topic
+    -if @user == @current_user or @current_user.has_role?(:admin)
+      %p
+        %b Created at:
+        = @user.created_at
+    -if true
+      %p
+        %b Avatar:
+        = image_tag @user.avatar_url

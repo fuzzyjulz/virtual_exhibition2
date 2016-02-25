@@ -1,0 +1,44 @@
+%h2.tk-ff-meta-web-pro Welcome to the world of virtual events!
+%p
+  -if current_user.events.present?
+    %strong= "Event Name:"
+    = "#{current_user.events.first.name},"
+    = "#{current_user.events.first.start.strftime("%d %B %Y")} - #{current_user.events.first.finish.strftime("%d %B %Y")}"
+%p
+  %strong Exhibitor:
+  = current_user.company
+.row
+  .col-md-6
+    -if @booths.present?
+      .row
+        - box 12, "Manage Booth", nil, "inverse" do
+          %p To add to or alter the contents of your booth, use the links below:
+          %ul.list-inline
+            %li 
+              %a{ :href => show_booth_path(@booths.first) } Core Booth Setup
+              |
+            %li
+              %a{ :href => products_path } Products
+              |
+            %li
+              %a{ :href => event_contents_path(@booths.first.event) } Content
+  
+          = link_to 'Preview Booth', booths_visit_path(@booths.first), :class => "btn btn-success", 'data-toggle' => 'tooltip', 'data-placement' => 'right', 'title' => 'View as Visitor'
+  
+        = render partial: "my_status", locals: { current_user: current_user }
+
+  .col-md-6
+    .row
+      - box 12, "Locations", nil, "inverse" do
+        #locations.text-center
+          - if current_user.booths.present?
+            %ul.list-inline
+              %li
+                %h3 Main Hall
+                = link_to(paperclip_image_tag(current_user.booths.first.hall.parent.template.uploaded_file, class: "img-circle", :style => "width:350px;"), hall_visit_path(current_user.booths.first.hall.parent))
+              %li
+                %h3 Exhibition Hall
+                = link_to(paperclip_image_tag(current_user.booths.first.hall.template.uploaded_file, class: "img-circle", :style => "width:350px;"), hall_visit_path(current_user.booths.first.hall))
+              %li
+                %h3 Booth
+                = link_to(paperclip_image_tag(current_user.booths.first.template.uploaded_file, class: "img-circle", :style => "width:350px;"), booths_visit_path(current_user.booths.first))

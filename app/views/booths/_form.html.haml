@@ -1,0 +1,30 @@
+= simple_form_for(@booth, :url => url, :html => { :class => "form-horizontal" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+    = f.input :tagline
+    = f.input :top_message, input_html: { class: "cleditor" }
+    = simple_form_image_paperclip(f, :company_logo)
+    = f.input :company_website
+    = f.input :publish_status, collection: PublishStatus::LABELS, :input_html => { class: 'chosen' }, include_blank: false
+    = can?(:change_ownership, @booth) ? f.association(:user, collection: User.admins_and_reps, label_method: :name_and_email, prompt: "Choose a user", :input_html => { class: "chosen" }) : f.hidden_field(:user_id, value: current_user.id)
+    = f.association :hall, collection: @event.exhibition_halls, prompt: "Choose a hall", :input_html => { class: 'chosen' }
+    = f.association :template, collection: @templates, prompt: "Choose a template", :input_html => { class: 'chosen' }
+    = f.association :event, collection: [@event], prompt: "Choose an event", :input_html => { class: 'chosen' }
+    = f.association :contents, :input_html => { class: "chosen" }
+    = f.association :tags, :input_html => { class: "chosen" }, label: "Related Tags"
+    = simple_form_image_paperclip(f, :thumbnail_image, label: "Thumbnail / Sponsor Image")
+    = f.input :contact_info, :input_html => { class: "cleditor" }
+    = f.input :about_us, :input_html => { class: "cleditor" }
+    = simple_form_image_paperclip(f, :about_us_header_image, label: "About Us Header Image")
+    = simple_form_image_paperclip(f, :about_us_footer_image, label: "About Us Footer Image")
+    = f.input :button1_label, label: "Custom Button Label"
+    = f.input :button1_content, input_html: { class: "cleditor" }, label: "Custom Button Content"
+    = f.input :ticker_message,:input_html => {class: "cleditor"}
+    = f.input :booth_list_message, :input_html => { style: "height:100px" }
+    = f.input :related_sponsor_tagline, :input_html => { style: "height:100px" }
+    = f.input :display_mode, collection: [["Information Kiosk window is closed upon entry", "false"], ["Information Kiosk window is open upon entry", "true"]], as: :radio_buttons, input_html: { class: "radio" }
+    -@booth.followus(:all).each do |followItem|
+      = f.input followItem.field
+  .form-actions
+    = f.button :submit, :class => "btn btn-primary"

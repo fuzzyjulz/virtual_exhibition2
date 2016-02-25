@@ -1,0 +1,84 @@
+@import 'animated';
+/* Carousel base class */
+@mixin content-control(){
+  .content_control {
+    .carousel {
+      .carousel-inner {
+      }
+      .carousel-indicators {
+        position: inherit;
+        bottom: inherit;
+        left: 0;
+        z-index: 15;
+        width: inherit;
+        margin-left: 0px;
+        padding-left: 0;
+        text-align: left;
+        .itemThumbnail {
+          cursor: pointer;
+          display: inline-block;
+          margin: 10px 10px 0px 0px;
+          border: 3px solid #999;
+          background: black;
+          @include transition ("border-color .3s ease-in");
+          img {
+            opacity: .6;
+            @include transition ("opacity .3s ease-in");
+          }
+          &.active {
+            width: inherit;
+            height: inherit;
+            border-color: #0ad;
+            img {
+              opacity: 1;
+            }
+          }
+          &:hover {
+            border-color: #0ad - #044;
+            img {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin content-control-right() {
+  .content_control {
+    .carousel {
+      .slider-container {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .carousel-indicators {
+        display: inline-block;
+        margin: 0px 0 0 10px;
+        
+        vertical-align: top;
+        .itemThumbnail{
+          display: block;
+        }
+      }
+    }
+  }
+}
+@mixin content-control-content-size($normalWidth, $noThumbnailWidth, $aspect) {
+  .content_control {
+    .contentMediaDisplay > *, .content{
+      width: $normalWidth;
+    }
+    .contentMediaDisplay > *{
+      height: $normalWidth * $aspect;
+    }
+  }
+  .content_control.noThumbnails {
+    .contentMediaDisplay > *, .content{
+      width: $noThumbnailWidth;
+    }
+    .contentMediaDisplay > *{
+      height: $noThumbnailWidth * $aspect;
+    }
+  }
+}

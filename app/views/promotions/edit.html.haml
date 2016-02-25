@@ -1,0 +1,3 @@
+.row
+	- box 6, "Edit Promotion", {'View' => promotion_path(@promotion), 'Back' => event_promotions_path(@event)} do
+		= render :partial => 'form', locals: {url: promotion_path(@promotion)}

@@ -1,0 +1,15 @@
+= simple_form_for(@template, :html => { :class => "form-horizontal" }, :wrapper => "horizontal", defaults: { :input_html => { class: "form-control"}, label_html: { class: "col-lg-4" } } ) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :template_type, collection: get_template_types(), prompt: "Select a template type"
+    = f.input :template_sub_type, collection: get_template_sub_types(@template.template_type), prompt: "Select a template sub type", 
+      input_html: {data: {linked: "select", 
+                          linked_parent_id: "template_template_type",
+                          linked_collection_path: template_sub_types_path(":template_type:")}}, include_blank: false
+    = simple_form_image_paperclip(f, :uploaded_file, label: 'Template Image')
+    = simple_form_image_paperclip(f, :thumbnail_image)
+  
+  .form-actions
+    = f.button :submit, class: "btn btn-primary"

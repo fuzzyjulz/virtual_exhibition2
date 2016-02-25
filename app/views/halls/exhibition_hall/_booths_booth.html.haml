@@ -1,0 +1,18 @@
+.booth{"booth-id" => booth.id}
+  -#.info-centre
+  -#  = link_to image_tag(booth.template.thumbnail_image.assets.url, alt: booth.name), booths_visit_path(booth) if booth.template.thumbnail_image.present?
+  -if true or booth.company_logo.present?
+    %a.company-logo{href: booths_visit_path(booth)}
+      -aspect = 3.0/4.0
+      .boothImagePane
+        .boothImage
+          =render partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: booth.company_logo, width: 160, height: 160 * aspect, alt_tag: booth.name}
+        .reflection
+          .reflectionImage
+            =render partial: '/_shared/control/constrained_image', locals: {constraintType: :fixed, image: booth.company_logo, width: 160, height: 160 * aspect, alt_tag: booth.name}
+        .reflectionFade
+          .fadeText
+          &nbsp;
+      .boothDescription
+        =raw clensedText(booth.booth_list_message)
+        
